@@ -2,6 +2,10 @@
 
 This module contains the [standalone (vanilla) script](#vanilla), a [Vue component](#vue), and a [React component](#react).
 
+## TODO
+
+- [ ] use storybook instead of index.html (and vite)...? (would make playing with components better)
+
 # Vanilla
 
 ```js
