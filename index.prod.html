@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tabpanelwidget@0.0.5/dist/tabpanelwidget.min.css">
+  </head>
+  <body>
+    <h1>Examples</h1>
+
+    <div>
+      <h2>Vanilla</h2>
+
+      <div id="vanilla" class="tpw-widget"> <h3 class="tpw-selected">Options</h3> <p>Options</p> <h3>Semantic</h3> <p>Lorem</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Accessible</h3> <p>Ipsum</p> <p>Nulla a facilisis sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a est aliquet nisl consequat blandit. Aliquam consequat faucibus nisi eget molestie.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Responsive</h3> <p>Dolor</p> <p>Sed vel euismod lectus, in viverra massa. Sed ullamcorper, elit ac aliquam sollicitudin, eros lacus volutpat ipsum, eget elementum sapien enim vel erat. Nunc vel ante ac purus accumsan dapibus. Ut vitae eros efficitur, auctor libero ut, porta lacus.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/tabpanelwidget@0.0.5/dist/tabpanelwidget.min.js"></script>
+      <script>Tabpanelwidget.install(document.querySelector("#vanilla"))</script>
+    </div>
+
+    <div>
+      <h2>Vue</h2>
+
+      <div id="vue">
+        <tabpanelwidget mode="tabpanel" :tabs="['first', 'second', 'third', 'fourth']" :selected-tab-idx="2">
+          <template #panel-0>first panel content</template>
+          <template #tab-1>override tab 1 heading</template>
+          <template #panel-1>second panel content</template>
+          <template #panel-2>third panel content</template>
+          <template #panel-3>fourth panel content</template>
+        </tabpanelwidget>
+      </div>
+
+      <script type="module">
+        import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js"
+        import VueTabpanelwidget from "https://cdn.jsdelivr.net/npm/tabpanelwidget@0.0.5/dist/esm/tabpanelwidget.vue.js"
+        Vue.component("tabpanelwidget", VueTabpanelwidget)
+        new Vue({el: "#vue"})
+      </script>
+    </div>
+
+    <div>
+      <h2>React</h2>
+
+      <div id="react">
+      </div>
+
+      <script type="module">
+        import React from "https://cdn.jsdelivr.net/npm/@esm-bundle/react@16.13.1/esm/react.production.min.js"
+        import ReactDOM from "https://cdn.jsdelivr.net/npm/@esm-bundle/react-dom@16.13.1/esm/react-dom.production.min.js"
+        //import Tabpanelwidget from "./src/tabpanelwidget.react.jsx"
+        //ReactDOM.render(React.createElement(Tabpanelwidget), document.querySelector("#react"))
+      </script>
+    </div>
+  </body>
+</html>
