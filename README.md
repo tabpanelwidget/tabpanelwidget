@@ -8,10 +8,10 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## Different ways to use Tabpanelwidget
 
-### Standalone (Vanilla)
+### Vanilla
 
 ```js
-import { Tabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
+import * as Tabpanelwidget from "@tabpanelwidget/tabpanelwidget"
 
 const el = document.querySelector('#my-element')
 const uninstall = Tabpanelwidget.install(el)
@@ -25,7 +25,7 @@ uninstall()
 
 ```js
 <script>
-import { VueTabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
+import VueTabpanelwidget from "@tabpanelwidget/tabpanelwidget"
 
 Vue.use(VueTabpanelwidget)
 // or Vue.component("Tabpanelwidget", VueTabpanelwidget)
@@ -41,7 +41,7 @@ Vue.use(VueTabpanelwidget)
 ### React
 
 ```jsx
-import { ReactTabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
+import ReactTabpanelwidget from "@tabpanelwidget/tabpanelwidget"
 
 <ReactTabpanelwidget prop1={} prop2={}>
 	<!-- TODO -->
