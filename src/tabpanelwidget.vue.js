@@ -328,7 +328,7 @@ const install = function(Vue) {
 // XXX do something similar for react
 // eslint-disable-next-line no-redeclare
 /* global window, global */
-if ("false" === process.env.ES_BUILD) {
+if (process.env.ES_BUILD === "true") {
   let GlobalVue = null
   if (typeof window !== "undefined") {
     GlobalVue = window.Vue

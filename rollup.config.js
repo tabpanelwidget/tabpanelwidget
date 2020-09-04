@@ -1,6 +1,7 @@
 import babel from "rollup-plugin-babel"
 import jsx from "rollup-plugin-jsx"
 import { terser } from "rollup-plugin-terser"
+import replace from "@rollup/plugin-replace"
 
 const configureBabel = () => {
   return babel({
@@ -24,6 +25,12 @@ const configureTerser = () => {
   })
 }
 
+const configureReplace = (esbuild) => {
+  return replace({
+    "process.env.ES_BUILD": ""+esbuild,
+  })
+}
+
 const builds = []
 
 builds.push({
@@ -33,9 +40,10 @@ builds.push({
     file: "dist/tabpanelwidget.min.js",
     format: "iife",
     exports: "named",
-    name: 'Tabpanelwidget',
+    name: "Tabpanelwidget",
   },
   plugins: [
+    configureReplace(false),
     configureBabel(),
     configureTerser(),
   ],
@@ -48,9 +56,10 @@ builds.push({
     file: "dist/tabpanelwidget.vue.min.js",
     format: "iife",
     exports: "named",
-    name: 'Tabpanelwidget',
+    name: "Tabpanelwidget",
   },
   plugins: [
+    configureReplace(false),
     configureBabel(),
     configureTerser(),
   ],
@@ -63,9 +72,10 @@ builds.push({
     file: "dist/tabpanelwidget.react.min.js",
     format: "iife",
     exports: "named",
-    name: 'Tabpanelwidget',
+    name: "Tabpanelwidget",
   },
   plugins: [
+    configureReplace(false),
     configureBabel(),
     configureJsx(),
     configureTerser(),
@@ -80,6 +90,7 @@ builds.push({
     exports: "named",
   },
   plugins: [
+    configureReplace(true),
     configureBabel(),
   ],
 })
@@ -92,6 +103,7 @@ builds.push({
     exports: "named",
   },
   plugins: [
+    configureReplace(true),
     configureBabel(),
   ],
 })
@@ -104,11 +116,10 @@ builds.push({
     exports: "named",
   },
   plugins: [
+    configureReplace(true),
     configureBabel(),
     configureJsx(),
   ],
 })
-
-// scss gets copied
 
 export default builds
