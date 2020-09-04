@@ -6,7 +6,9 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 - [ ] use storybook instead of index.html (and vite)...? (would make playing with components better)
 
-# Vanilla
+## Different ways to use Tabpanelwidget
+
+### Standalone (Vanilla)
 
 ```js
 import { Tabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
@@ -19,7 +21,7 @@ const uninstall = Tabpanelwidget.install(el)
 uninstall()
 ```
 
-# Vue
+### Vue
 
 ```js
 <script>
@@ -36,7 +38,7 @@ Vue.use(VueTabpanelwidget)
 </Tabpanelwidget>
 ```
 
-# React
+### React
 
 ```jsx
 import { ReactTabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
@@ -44,4 +46,32 @@ import { ReactTabpanelwidget } from "@tabpanelwidget/tabpanelwidget"
 <ReactTabpanelwidget prop1={} prop2={}>
 	<!-- TODO -->
 </ReactTabpanelwidget>
+```
+
+## Development
+
+Install dependencies and then opens index.html with vite (hot reload, etc.)
+
+```bash
+% npm install
+% npm run dev
+```
+
+Various build scripts, for example:
+
+```bash
+% npm run build:css
+% npm run build:js
+```
+
+To release new version of npm package:
+
+```bash
+% npx release-it
+```
+
+To check things post release (open index.html without vite),
+
+```bash
+% open index.html
 ```

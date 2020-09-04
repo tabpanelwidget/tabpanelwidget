@@ -1,5 +1,3 @@
-let localId = 0 // only used if no window
-
 const debounced = function(fn, ms) {
   let timeout
   return function(...args) {
@@ -31,12 +29,8 @@ export function install(orig, automatic = false) {
 
   widget.classList.add("tpw-widget")
   widget.classList.add("tpw-js")
-  let id
-  if (typeof window === "undefined") {
-    id = localId++
-  } else {
-    id = window.tpwId++
-  }
+  if (!window.tpwId) window.tpwId = 0
+  const id = window.tpwId++
 
   const forceAccordion = orig.classList.contains("tpw-accordion")
   const forceTabpanel = orig.classList.contains("tpw-tabpanel")

@@ -5,7 +5,6 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Examples</title>
-    <script type="module">import "./src/tabpanelwidget.scss"</script>
   </head>
   <body>
     <h1>Examples</h1>
@@ -13,13 +12,7 @@
     <div>
       <h2>Vanilla</h2>
 
-      <div class="tpw-widget"> <h3 class="tpw-selected">Options</h3> <p>Options</p> <h3>Semantic</h3> <p>Lorem</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Accessible</h3> <p>Ipsum</p> <p>Nulla a facilisis sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a est aliquet nisl consequat blandit. Aliquam consequat faucibus nisi eget molestie.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Responsive</h3> <p>Dolor</p> <p>Sed vel euismod lectus, in viverra massa. Sed ullamcorper, elit ac aliquam sollicitudin, eros lacus volutpat ipsum, eget elementum sapien enim vel erat. Nunc vel ante ac purus accumsan dapibus. Ut vitae eros efficitur, auctor libero ut, porta lacus.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> </div>
-
-      <script type="module">
-        import * as Tabpanelwidget from "./src/tabpanelwidget.js"
-        // XXX make sure this wouldn't run after the stuff underneath runs
-        Tabpanelwidget.autoinstall()
-      </script>
+      <div id="vanilla" class="tpw-widget"> <h3 class="tpw-selected">Options</h3> <p>Options</p> <h3>Semantic</h3> <p>Lorem</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Accessible</h3> <p>Ipsum</p> <p>Nulla a facilisis sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a est aliquet nisl consequat blandit. Aliquam consequat faucibus nisi eget molestie.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Responsive</h3> <p>Dolor</p> <p>Sed vel euismod lectus, in viverra massa. Sed ullamcorper, elit ac aliquam sollicitudin, eros lacus volutpat ipsum, eget elementum sapien enim vel erat. Nunc vel ante ac purus accumsan dapibus. Ut vitae eros efficitur, auctor libero ut, porta lacus.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> </div>
     </div>
 
     <div>
@@ -34,13 +27,6 @@
           <template #panel-3>fourth panel content</template>
         </tabpanelwidget>
       </div>
-
-      <script type="module">
-        import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js"
-        import VueTabpanelwidget from "./src/tabpanelwidget.vue.js"
-        Vue.component("tabpanelwidget", VueTabpanelwidget)
-        new Vue({el: "#vue"})
-      </script>
     </div>
 
     <div>
@@ -48,13 +34,43 @@
 
       <div id="react">
       </div>
-
-      <script type="module">
-        import React from "https://cdn.jsdelivr.net/npm/@esm-bundle/react@16.13.1/esm/react.production.min.js"
-        import ReactDOM from "https://cdn.jsdelivr.net/npm/@esm-bundle/react-dom@16.13.1/esm/react-dom.production.min.js"
-        //import Tabpanelwidget from "./src/tabpanelwidget.react.jsx"
-        //ReactDOM.render(React.createElement(Tabpanelwidget), document.querySelector("#react"))
-      </script>
     </div>
+
+    <script type="module">
+      // XXX conditionally import dev or prod vue? or always prod for this
+      import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js"
+      import React from "https://cdn.jsdelivr.net/npm/@esm-bundle/react@16.13.1/esm/react.production.min.js"
+      // import ReactDOM from "https://cdn.jsdelivr.net/npm/@esm-bundle/react-dom@16.13.1/esm/react-dom.production.min.js"
+
+      function installVanilla(Tabpanelwidget) {
+        Tabpanelwidget.install(document.querySelector("#vanilla"))
+      }
+
+      // set to latest version here (or just remove version suffix but care cache)
+      const prodPrefix = "https://cdn.jsdelivr.net/npm/tabpanelwidget@0.0.5"
+      const isDev = typeof process !== "undefined"
+      if (isDev) {
+        import("./src/tabpanelwidget.scss")
+        import("./src/tabpanelwidget.js").then(installVanilla)
+      } else {
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        link.href = `${prodPrefix}/dist/tabpanelwidget.min.css`
+        document.head.appendChild(link)
+        // include iife version of vanilla script
+        const script = document.createElement("script")
+        script.src = `${prodPrefix}/dist/tabpanelwidget.min.js`
+        script.onload = () => {
+          installVanilla(window.Tabpanelwidget)
+        }
+        document.head.appendChild(script)
+      }
+      import(isDev ? "./src/tabpanelwidget.vue.js" : `${prodPrefix}/dist/esm/tabpanelwidget.vue.js`).then(({default: VueTabpanelwidget}) => {
+        Vue.component("tabpanelwidget", VueTabpanelwidget)
+        new Vue({el: "#vue"})
+      })
+      // XXX ReactDOM.render(React.createElement(Tabpanelwidget), document.querySelector("#react"))
+    </script>
   </body>
 </html>
