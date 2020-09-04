@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "npm run clean && npm run build:css && npm run build:js",
     "clean": "rm -rf dist",
-    "build:css": "node-sass src/tabpanelwidget.scss dist/tabpanelwidget.css && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
+    "build:css": "node-sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --output-style compressed && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "prepare": "npm run build"
   },
