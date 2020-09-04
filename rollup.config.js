@@ -1,5 +1,6 @@
 import babel from "rollup-plugin-babel"
 import jsx from "rollup-plugin-jsx"
+import { terser } from "rollup-plugin-terser"
 
 const configureBabel = () => {
   return babel({
@@ -8,37 +9,106 @@ const configureBabel = () => {
   })
 }
 
-// TODO esm, iife, etc.
-export default [
-  {
-    input: "src/tabpanelwidget.js",
+const configureJsx = () => {
+  return jsx({
+    factory: "React.createElement",
+    include: "*.jsx",
+  })
+}
+
+const configureTerser = () => {
+  return terser({
     output: {
-      file: "dist/tabpanelwidget.js",
+      ecma: 5,
     },
-    plugins: [
-      configureBabel(),
-    ],
+  })
+}
+
+const builds = []
+
+builds.push({
+  input: "src/tabpanelwidget.js",
+  output: {
+    compact: true,
+    file: "dist/tabpanelwidget.min.js",
+    format: "iife",
+    exports: "named",
+    name: 'Tabpanelwidget',
   },
-  {
-    input: "src/tabpanelwidget.vue.js",
-    output: {
-      file: "dist/tabpanelwidget.vue.js",
-    },
-    plugins: [
-      configureBabel(),
-    ],
+  plugins: [
+    configureBabel(),
+    configureTerser(),
+  ],
+})
+
+builds.push({
+  input: "src/tabpanelwidget.vue.js",
+  output: {
+    compact: true,
+    file: "dist/tabpanelwidget.vue.min.js",
+    format: "iife",
+    exports: "named",
+    name: 'Tabpanelwidget',
   },
-  {
-    input: "src/tabpanelwidget.react.jsx",
-    output: {
-      file: "dist/tabpanelwidget.react.js",
-    },
-    plugins: [
-      configureBabel(),
-      jsx({
-        factory: "React.createElement",
-        include: "*.jsx",
-      }),
-    ],
+  plugins: [
+    configureBabel(),
+    configureTerser(),
+  ],
+})
+
+builds.push({
+  input: "src/tabpanelwidget.react.jsx",
+  output: {
+    compact: true,
+    file: "dist/tabpanelwidget.react.min.js",
+    format: "iife",
+    exports: "named",
+    name: 'Tabpanelwidget',
   },
-]
+  plugins: [
+    configureBabel(),
+    configureJsx(),
+    configureTerser(),
+  ],
+})
+
+builds.push({
+  input: "src/tabpanelwidget.js",
+  output: {
+    file: "dist/esm/tabpanelwidget.js",
+    format: "esm",
+    exports: "named",
+  },
+  plugins: [
+    configureBabel(),
+  ],
+})
+
+builds.push({
+  input: "src/tabpanelwidget.vue.js",
+  output: {
+    file: "dist/esm/tabpanelwidget.vue.js",
+    format: "esm",
+    exports: "named",
+  },
+  plugins: [
+    configureBabel(),
+  ],
+})
+
+builds.push({
+  input: "src/tabpanelwidget.react.jsx",
+  output: {
+    file: "dist/esm/tabpanelwidget.react.js",
+    format: "esm",
+    exports: "named",
+  },
+  plugins: [
+    configureBabel(),
+    configureJsx(),
+  ],
+})
+
+// scss gets copied
+
+export default builds
