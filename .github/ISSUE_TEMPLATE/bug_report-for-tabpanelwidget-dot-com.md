@@ -1,6 +1,6 @@
 ---
 name: Bug report for tabpanelwidget.com
-about: Create a report to help us improve
+about: Create a report to help us improve the website
 title: "[WEBSITE]"
 labels: ''
 assignees: thierryk
