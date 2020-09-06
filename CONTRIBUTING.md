@@ -4,7 +4,7 @@ Want to contribute to TabPanelWidget? Awesome! There are many ways you can contr
 
 ## Opening issues
 
-[Open an issue](https://github.com/tabpanelwidget/tabpanelwidget/issues/new?template=bug-report.md) to report bugs or to propose new features (for issues related to the [web site](https://tabpanelwidget.com), please use [this template](https://github.com/tabpanelwidget/tabpanelwidget/issues/new?template=bug-report-for-tabpanelwidget-com.md)):
+[Open an issue](https://github.com/tabpanelwidget/tabpanelwidget/issues/new?template=bug_report.md) to report bugs or to propose new features (for issues related to the [website](https://tabpanelwidget.com), please use [this template](https://github.com/tabpanelwidget/tabpanelwidget/issues/new?template=bug_report-for-tabpanelwidget-dot-com.md)):
 
    * Reporting bugs: describe the bug as clearly as you can, including steps to reproduce, what happened and what you were expecting to happen. Also include browser version, OS and other related software's (npm, Node.js, etc) versions when applicable.
 
