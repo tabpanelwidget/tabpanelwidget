@@ -1,9 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve the Widget
-title: ''
-labels: ''
-assignees: ''
+title: '[WIDGET]'
+labels: 'widget'
+assignees: 'tjk'
 
 ---
 
