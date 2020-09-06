@@ -8,6 +8,13 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## Different ways to use Tabpanelwidget
 
+   * [Vanilla](#vanilla)
+   * [Vue](#vue)
+   * [React](#react)
+   * [Angular](#angular)
+   * [Ember](#ember)
+   * ["Old School"](#old-school)
+   
 ### Vanilla
 
 ```js
@@ -47,6 +54,18 @@ import ReactTabpanelwidget from "@tabpanelwidget/tabpanelwidget"
 	<!-- TODO -->
 </ReactTabpanelwidget>
 ```
+
+### Angular
+
+Coming soon!
+
+### Ember
+
+Coming soon!
+
+### Old School
+
+Coming soon!
 
 ## Development
 
