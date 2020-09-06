@@ -2,7 +2,7 @@
 name: Bug report for tabpanelwidget.com
 about: Create a report to help us improve the website
 title: "[WEBSITE]"
-labels: ''
+labels: 'website'
 assignees: thierryk
 
 ---
