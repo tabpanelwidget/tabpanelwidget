@@ -12,7 +12,7 @@ Want to contribute to TabPanelWidget? Awesome! There are many ways you can contr
 
 ## Proposing pull requests
 
-Pull requests are very welcome. Note that if you are going to propose drastic changes, be sure to open an issue for discussion first, to make sure that your PR will be accepted before you spend effort coding it.
+Pull requests (we have a [template](pull_request_template.md)) are very welcome. Note that if you are going to propose drastic changes, be sure to open an issue for discussion first, to make sure that your PR will be accepted before you spend effort coding it.
 
 Fork the [TabPanelWidget](https://github.com/tabpanelwidget/tabpanelwidget) repository, clone it locally and create a branch for your proposed bug fix or new feature. Avoid working directly on the master branch.
 
