@@ -85,7 +85,7 @@ builds.push({
 builds.push({
   input: "src/tabpanelwidget.js",
   output: {
-    file: "dist/esm/tabpanelwidget.js",
+    file: "dist/tabpanelwidget.mjs",
     format: "esm",
     exports: "named",
   },
@@ -98,7 +98,7 @@ builds.push({
 builds.push({
   input: "src/tabpanelwidget.vue.js",
   output: {
-    file: "dist/esm/tabpanelwidget.vue.js",
+    file: "dist/tabpanelwidget.vue.mjs",
     format: "esm",
     exports: "named",
   },
@@ -111,7 +111,7 @@ builds.push({
 builds.push({
   input: "src/tabpanelwidget.react.jsx",
   output: {
-    file: "dist/esm/tabpanelwidget.react.js",
+    file: "dist/tabpanelwidget.react.mjs",
     format: "esm",
     exports: "named",
   },

@@ -2,7 +2,14 @@
   "name": "tabpanelwidget",
   "version": "0.0.6",
   "description": "",
-  "module": "dist/esm/tabpanelwidget.js",
+  "main": "dist/tabpanelwidget.mjs",
+  "exports": {
+    ".": "./dist/tabpanelwidget.mjs",
+    "./tabpanelwidget.scss": "./dist/tabpanelwidget.scss",
+    "./tabpanelwidget.min.css": "./dist/tabpanelwidget.min.css",
+    "./react": "./dist/tabpanelwidget.react.mjs",
+    "./vue": "./dist/tabpanelwidget.vue.mjs"
+  },
   "files": [
     "dist/*"
   ],
