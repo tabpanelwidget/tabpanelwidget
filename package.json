@@ -1,12 +1,10 @@
 {
   "name": "tabpanelwidget",
-  "version": "0.0.7",
+  "version": "0.0.6",
   "description": "",
   "main": "dist/tabpanelwidget.mjs",
   "exports": {
     ".": "./dist/tabpanelwidget.mjs",
-    "./tabpanelwidget.scss": "./dist/tabpanelwidget.scss",
-    "./tabpanelwidget.min.css": "./dist/tabpanelwidget.min.css",
     "./react": "./dist/tabpanelwidget.react.mjs",
     "./vue": "./dist/tabpanelwidget.vue.mjs"
   },
@@ -15,10 +13,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run clean && npm run build:css && npm run build:js",
+    "build": "npm run clean && npm run build:css && npm run build:js && npm run build:zip",
     "clean": "rm -rf dist",
     "build:css": "node-sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --output-style compressed && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
+    "build:zip": "cd dist && zip -r release.zip *.js *.mjs *.css *.scss",
     "prepare": "npm run build"
   },
   "dependencies": {},

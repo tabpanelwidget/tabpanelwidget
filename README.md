@@ -5,6 +5,7 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 ## TODO
 
 - [ ] use storybook instead of index.html (and vite)...? (would make playing with components better)
+- [ ] for "old school" aka tabpanelwidget.min.js -- we should set window.tpw
 
 ## Different ways to use Tabpanelwidget
 
@@ -14,7 +15,7 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
    * [Angular](#angular)
    * [Ember](#ember)
    * ["Old School"](#old-school)
-   
+
 ### Vanilla
 
 ```js
