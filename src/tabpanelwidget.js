@@ -18,9 +18,6 @@ export function install(orig, automatic = false) {
     if (parent && !parent.classList.contains("tpw-js")) return noop // recursion will handle us
   }
 
-  const origVisibility = orig.style.visibility
-  orig.style.visibility = "hidden"
-
   const widget = document.createElement("div")
   for (let i = 0; i < orig.attributes.length; i++) {
     const attr = orig.attributes.item(i)
@@ -106,7 +103,6 @@ export function install(orig, automatic = false) {
         shim.setAttribute("hidden", "")
       }
     }
-    widget.style.visibility = "visible"
   }
 
   let selectedTabIdx
@@ -368,7 +364,6 @@ export function install(orig, automatic = false) {
   }
 
   orig.parentNode.replaceChild(widget, orig)
-  orig.style.visibility = origVisibility
 
   const childUninstalls = []
   if (automatic) {
@@ -376,6 +371,9 @@ export function install(orig, automatic = false) {
     for (const w of childWidgets) {
       childUninstalls.push(install(w, true))
     }
+    // this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
+    // once this class is added (after first paint completes), we don't need the protection anymore
+    document.documentElement.classList.add("tpw-!fouc")
   }
 
   // XXX ensure no closure leakagages (even elsewhere)
