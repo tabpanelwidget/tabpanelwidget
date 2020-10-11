@@ -17,3 +17,7 @@ Pull requests (we have a [template](pull_request_template.md)) are very welcome.
 Fork the [TabPanelWidget](https://github.com/tabpanelwidget/tabpanelwidget) repository, clone it locally and create a branch for your proposed bug fix or new feature. Avoid working directly on the master branch.
 
 Implement your bug fix or feature, then commit your changes, push your bug fix/feature branch to the origin (your forked repository) and open a pull request to `tabpanelwidget/tabpanelwidget`.
+
+---
+
+This file was inspired by the wonderful clipboard.js's contribution guidelines.
