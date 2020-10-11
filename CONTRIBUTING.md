@@ -20,4 +20,4 @@ Implement your bug fix or feature, then commit your changes, push your bug fix/f
 
 ---
 
-This file was inspired by the wonderful clipboard.js's contribution guidelines.
+*This file was inspired by the wonderful clipboard.js's contribution guidelines.*
