@@ -16,12 +16,4 @@ Pull requests (we have a [template](pull_request_template.md)) are very welcome.
 
 Fork the [TabPanelWidget](https://github.com/tabpanelwidget/tabpanelwidget) repository, clone it locally and create a branch for your proposed bug fix or new feature. Avoid working directly on the master branch.
 
-Implement your bug fix or feature, write tests to cover it and make sure all tests are passing (run a final npm test to make sure everything is correct). Then commit your changes, push your bug fix/feature branch to the origin (your forked repository) and open a pull request to the repository you originally forked's master branch.
-
-## Documentation
-
-Documentation is extremely important and takes a fair deal of time and effort to write and keep updated. Please submit any and all improvements you can make to the repository's docs.
-
-## Known issues
-
-TK
+Implement your bug fix or feature, then commit your changes, push your bug fix/feature branch to the origin (your forked repository) and open a pull request to tabpanelwidget/tabpanelwidget.
