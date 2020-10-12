@@ -17,7 +17,7 @@
     "clean": "rm -rf dist",
     "build:css": "node-sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --output-style compressed && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
-    "build:zip": "cd dist && zip -r release.zip *.js *.mjs *.css *.scss",
+    "build:zip": "cd dist && zip -r release.zip *.min.js *.min.css *.scss",
     "prepare": "npm run build"
   },
   "dependencies": {},
