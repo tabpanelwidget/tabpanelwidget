@@ -17,4 +17,5 @@ jobs:
       - run: npm run build
       - run: npx release-it --npm.skipChecks --ci
         env:
+          GITHUB_TOKEN: ${{ secrets.TJK_GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TJK_TOKEN }}
