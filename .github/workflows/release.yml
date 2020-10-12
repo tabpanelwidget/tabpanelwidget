@@ -12,10 +12,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
       - run: npm install
       - run: npm run build
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-        env:
-          NPM_TOKEN: "${{ secrets.NPM_TJK_TOKEN }}"
-      - run: npm login
       - run: npx release-it --ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TJK_TOKEN }}
