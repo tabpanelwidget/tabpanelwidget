@@ -14,6 +14,7 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - run: npm run build
-      - run: npx release-it --ci
+      - run: npm login
         env:
           NODE_AUTH_TOKEN: "${{ secrets.NPM_TJK_TOKEN }}"
+      - run: npx release-it --ci
