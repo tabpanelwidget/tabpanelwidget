@@ -2,5 +2,8 @@
   "github": {
     "release": true,
     "assets": ["dist/*.zip"]
+  },
+  "hooks": {
+    "after:bump": "node scripts/buildZip.js"
   }
 }

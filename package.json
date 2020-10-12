@@ -13,11 +13,10 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run clean && npm run build:css && npm run build:js && node scripts/addLicenses.js && npm run build:zip",
+    "build": "npm run clean && npm run build:css && npm run build:js && node scripts/addLicenses.js",
     "clean": "rm -rf dist",
     "build:css": "node-sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --output-style compressed && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
-    "build:zip": "cd dist && zip -r release.zip tabpanelwidget.min.js tabpanelwidget.min.css tabpanelwidget.scss",
     "prepare": "npm run build"
   },
   "dependencies": {},
