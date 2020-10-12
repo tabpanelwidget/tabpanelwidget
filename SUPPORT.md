@@ -1,6 +1,6 @@
 ## Here is how to get help
 
-   * Wiki: [TK]
-   * FAQ:  [tabpanelwidget.com](https://tabpanelwidget.com/index.html#faq)
+   * Wiki: [Wiki Home](https://github.com/tabpanelwidget/tabpanelwidget/wiki)
+   * FAQ:  [Frequently Asked Questions](https://github.com/tabpanelwidget/tabpanelwidget/wiki/FAQ)
    * Twitter: [https://twitter.com/TabpanelWidget](https://twitter.com/TabpanelWidget)
    * Email: [thierry@hey.com](mailto:thierry@hey.com)
