@@ -9,42 +9,64 @@
       - "tpw-widget" (REQUIRED):
 
         This class alone will either:
+
           - style the widget as a TabPanel, as long as there is enough room for the tabs to be displayed side-by-side
           - style the widget as an Accordion, if there is *not* enough room for the tabs to be displayed side-by-side
 
      - Optional classes:
 
        - For TabPanel:
+
          "tpw-accordion": this will *force* the widget to display as a TabPanel (regardless of its width)
          "tpw-fancy": this will style all the tabs (unlike the default styling that only styles the active heading as a tab)
          "tpw-pills": this will display the tabs as "pills" ("à la Bootstrap")
          "tpw-bar": this will not style the "tabs" as tabs. Instead, it will display a border below the text/headings
          "tpw-centered": this will center the tabs above the panels
          "tpw-rounded": this will add a border-radius to the tabs and panel
-       - For Accordion:
+
+      - For Accordion:
+
          "tpw-accordion": this will *force* the widget to display as an Accordion (regardless of its width)
          "tpw-disconnected": this will create space between the headers and style them with rounded corners
          "tpw-icons-at-the-end": this will display the icons (chevrons, +/-, etc.) on the opposite side of the headers's text
          "tpw-chevrons-east-south": this will overwrite the default orientation of the chevrons (South/North) to make them point East/South (West/South in RTL scripts)
          "tpw-plus-minus": this will replace the "chevron" icons with "+" and "-" signs
          "tpw-animate": this will "animate" the "chevron" icons between their states
-       - For the headings
+
+      - For the headings:
+
          "tpw-selected": this class, once applied to a heading (or a DT), will open the panel associated with that heading
            - in case "tpw-selected" is not present on any heading then no panel is open in Accordions and the 1st panel is open in TabPanels
            - TabPanels can only have one instance of ".tpw-selected", but Accordions do not have that restriction
 
-    Note that some of these classes may be mixed (i.e. <div class=".tpw-pills .tpw-centered">)
+    Note that some of these classes may be mixed (i.e. <div class="tpw-pills tpw-rounded tpw-centered">)
 
     All rules are scoped to the widget, its tabs, its headers, and its panels via classes generated via JavaScript.
     So no JavaScript -> no styling from our end.
     
-    The main classes to use to target various "states" are:
-      - "tpw-js": to use as a contextual selector to style widgets, their tabs, headers, and panels
-      - "tpw-tabpanel": to use as a contextual selector to only style the tabpanel widget, its tabs, and its panels
-      - "tpw-accordion": to use as a contextual selector to only style the accordion widget, its headers, and its panels
+    Classes to target the Widget's component:
+
+      - tpw-hx:       SHOULD ONLY be used to overwrite global styles affecting the headings in the Widget (to style tabs and headers, use the classes below)
+      - tpw-tab:      USE to style the tabs (in TabPanels)
+      - tpw-header:   USE to style the tabs (in Accordion)
+      - tpw-selected: USE to target "active" Tabs or Headers via ".tpw-selected .tpw-tab {...}"
+                      USE to target "active" Panel(s) via ".tpw-selected + div > .tpw-panel {...}"
+      - tpw-panel:    USE to style the panels (in both TabPanels and Accordions)
+      - tpw-skip:     SHOULD NOT be styled
+      - tpw-shim:     MUST NOT be styled
+      - tpw-shadow:   MUST NOT be styled
+
+    Classes to target various "states" of the Widget:
+
+      - tpw-js:        USE as a contextual selector to style widgets, their tabs, headers, and panels
+      - tpw-tabpanel:  USE as a contextual selector to only style the tabpanel widget, its tabs, and its panels
+      - tpw-accordion: USE as a contextual selector to only style the accordion widget, its headers, and its panels
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORTANT: Avoid using "tpw-widget" as a selector to style the widget and its elements since without script support other styles (styles related to tabs for example) would not apply
+    IMPORTANT: 
+
+    Avoid using "tpw-widget" as a selector to style the widget and its elements since without script support other 
+    styles (styles related to tabs for example) would not apply
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     RESET:
@@ -92,7 +114,8 @@
     - SKIP-LINK: this refers to the link used as a keybaord short-cut. It shows when the user hits the [esc] key, it allows the user to exit the widget or reach its first tab/header
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORTANT: You should not attempt to style "tpw-shim" nor "tpw-shadow" as some styling could break the widget
+    IMPORTANT: 
+    You should not attempt to style "tpw-shim" nor "tpw-shadow" as some styling could break the widget
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
