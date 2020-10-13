@@ -1,87 +1,105 @@
-/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	ALL SELECTORS RELY ON CLASSES/ATTRIBUTES GENERATED VIA JS, THUS WIDGETS ARE ONLY STYLED IF THERE IS SCRIPT SUPPORT
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ALL SELECTORS RELY ON CLASSES/ATTRIBUTES GENERATED VIA JS, THUS WIDGETS ARE ONLY STYLED IF THERE IS SCRIPT SUPPORT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-/**	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	CLASSES you may apply onto the widget "wrapper":
+/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      - ".tpw-widget" (REQUIRED):
+    CLASSES you may apply onto the widget:
+
+      - "tpw-widget" (REQUIRED):
 
         This class alone will either:
-            - style the widget as a TabPanel as long as there is enough room for the tabs to be displayed side-by-side
-            - style the widget as an Accordion if there is *not* enough room for the tabs to be displayed side-by-side
+          - style the widget as a TabPanel, as long as there is enough room for the tabs to be displayed side-by-side
+          - style the widget as an Accordion, if there is *not* enough room for the tabs to be displayed side-by-side
 
-      - Optional classes:
+     - Optional classes:
 
-        - For TabPanel:
-            ".tpw-fancy": this will style all the tabs (unlike the default styling that only styles the active heading as a tab)
-            ".tpw-pills": this will display the tabs as pills ("à la Bootstrap")
-            ".tpw-bar": this will not style the "tabs" as tabs. Instead, it will display a border below the text/headings
-            ".tpw-centered": this will center the tabs above the panel
-            ".tpw-rounded": this will add a border-radius to the tabs and panel
-        - For Accordion:
-            ".tpw-accordion": this will force the widget to display as an Accordion (regardless of its width)
-            ".tpw-disconnected": this will create space between the headers and style them with rounded corners
-            ".tpw-icons-at-the-end": this will display the icons (chevrons, +/-, etc.) on the opposite side of the headers's text
-            ".tpw-chevrons-east-south": this will overwrite the default orientation of the chevrons (South/North) to make them point East/South (West/South in RTL scripts)
-            ".tpw-plus-minus": this will replace the "chevron" icons with "+" and "-" signs
-            ".tpw-animate": this will "animate" the "chevron" icons between their state
-        - For the headings
-            ".tpw-selected": this class, once applied to a heading (or a DT), will open the panel associated with that heading
-                - in case ".tpw-selected" is not present on any heading then no panel is open in Accordions and the 1st panel is open in TabPanels
-                - TabPanels can only have one instance of ".tpw-selected", but Accordions do not have that restriction
-        Note that some of these classes may be mixed (i.e. <div class=".tpw-pills .tpw-centered">)
+       - For TabPanel:
+         "tpw-accordion": this will *force* the widget to display as a TabPanel (regardless of its width)
+         "tpw-fancy": this will style all the tabs (unlike the default styling that only styles the active heading as a tab)
+         "tpw-pills": this will display the tabs as "pills" ("à la Bootstrap")
+         "tpw-bar": this will not style the "tabs" as tabs. Instead, it will display a border below the text/headings
+         "tpw-centered": this will center the tabs above the panels
+         "tpw-rounded": this will add a border-radius to the tabs and panel
+       - For Accordion:
+         "tpw-accordion": this will *force* the widget to display as an Accordion (regardless of its width)
+         "tpw-disconnected": this will create space between the headers and style them with rounded corners
+         "tpw-icons-at-the-end": this will display the icons (chevrons, +/-, etc.) on the opposite side of the headers's text
+         "tpw-chevrons-east-south": this will overwrite the default orientation of the chevrons (South/North) to make them point East/South (West/South in RTL scripts)
+         "tpw-plus-minus": this will replace the "chevron" icons with "+" and "-" signs
+         "tpw-animate": this will "animate" the "chevron" icons between their states
+       - For the headings
+         "tpw-selected": this class, once applied to a heading (or a DT), will open the panel associated with that heading
+           - in case "tpw-selected" is not present on any heading then no panel is open in Accordions and the 1st panel is open in TabPanels
+           - TabPanels can only have one instance of ".tpw-selected", but Accordions do not have that restriction
 
-	All rules are scoped to the widget, its tabs, its headers, and its panels via classes generated via JavaScript.
+    Note that some of these classes may be mixed (i.e. <div class=".tpw-pills .tpw-centered">)
+
+    All rules are scoped to the widget, its tabs, its headers, and its panels via classes generated via JavaScript.
     So no JavaScript -> no styling from our end.
+    
     The main classes to use to target various "states" are:
-        - ".tpw-js": to use as a contextual selector to style widgets, their tabs, headers, and panels
-        - ".tpw-tabpanel": to use as a contextual selector to only style the tabpanel widget, its tabs, and its panels
-        - ".tpw-accordion": to use as a contextual selector to only style the accordion widget, its headers, and its panels
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	IMPORTANT: Avoid using ".tpw-widget" to style the widget and its elements since without script support other styles (styles related to tabs for example) would not apply
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	RESET:
-        We "reset" common styles pertaining to headings but if there are CSS rules in your document that overwrite the styling of the headings used in the widget, then you can:
-            1. overwrite those styles to preserve the integrity of the widget's headings
-            2. change your selectors so they do not target the widget's headings (the ones to which we attach the class ".tpw-hx"), for example you would replace this rule:
-                section h3 {margin: 1rem 0;}
-               with this one:
-                section h3:not(.tpw-hx) {margin: 1rem 0;}
-                The above will style all h3s inside <section> in your document except the h3s used as tabs/headers in the Widget
-                Note: this will also bump the specificity of that rule
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      - "tpw-js": to use as a contextual selector to style widgets, their tabs, headers, and panels
+      - "tpw-tabpanel": to use as a contextual selector to only style the tabpanel widget, its tabs, and its panels
+      - "tpw-accordion": to use as a contextual selector to only style the accordion widget, its headers, and its panels
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORTANT: Avoid using "tpw-widget" as a selector to style the widget and its elements since without script support other styles (styles related to tabs for example) would not apply
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    RESET:
+
+    We "reset" common styles pertaining to headings but if there are CSS rules in your document that overwrite the styling of the headings used in the widget, then you can:
+      1. overwrite those styles to preserve the integrity of the widget's headings
+      2. change your selectors so they do not target the widget's headings (the ones to which we attach the class ".tpw-hx"), for example you would replace this rule:
+         section h3 {margin: 1rem 0;}
+         with this one:
+         section h3:not(.tpw-hx) {margin: 1rem 0;}
+         The above will style all h3s inside <section> in your document except the h3s used as tabs/headers in the Widget
+ 
+    Note: this will also bump the specificity of that rule
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     HTML CONSTRUCT (for the CURIOUS):
-        In "DYNAMIC Widgets":
-        1. a div is plugged as the 1st-child of the widget, it contains "clones" of the tabs and it is used by the ResizeObserver API
-        2. an empty div is plugged (only in tabpanels) as the 2nd-child of the widget (<div role="tablist" aria-owns...>...</div>)
-        3. a span is plugged inside each heading (so keep in mind that we are styling those spans, *not* the headings)
-        4. DLs (Definition Lists) lose all their semantic as DL, DT, and DTS are replaced with DIVs, spans are inserted inside what would be DTs
-        5. content in between "tabs/headers" is wrapped inside 2 divs (those are *necessary* for the styling to work)
-        6. a SKIP-LINK (".tpw-skip") is appended to the widget (it is the last element in the widget)
-        In "STATIC Widgets":
-        - same as above with the exception of #1 and #2
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    In "DYNAMIC Widgets":
+
+      1. a div is plugged as the 1st-child of the widget, it contains "clones" of the tabs and it is used by the ResizeObserver API
+      2. an empty div is plugged (only in tabpanels) as the 2nd-child of the widget (<div role="tablist" aria-owns...>...</div>)
+      3. a span is plugged inside each heading (so keep in mind that we are styling those spans, *not* the headings)
+      4. DLs (Definition Lists) lose all their semantic as DL, DT, and DTS are replaced with DIVs, spans are inserted inside what would be DTs
+      5. content in between "tabs/headers" is wrapped inside 2 divs (those are *necessary* for the styling to work)
+      6. a SKIP-LINK (".tpw-skip") is appended to the widget (it is the last element in the widget)
+
+    In "STATIC Widgets":
+
+      - same as above with the exception of #1
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     LEXICON:
-        - DYNAMIC Widget: this is a Widget that is not explicitly set to be an Accordion or a TabPanel (".tpw-widget" without ".tpw-accordion or .tpw-tabpanel)
-        - STATIC Widget: this is a Widget that is explicitly set to be an Accordion (.tpw-widget.tpw-accordion) or a TabPanel (.tpw-widget.tpw-tabpanel)
-	    - TABPANEL: this refers to the tabpanel widget
-	    - ACCORDION: this refers to the accordion widget
-        - TAB(S):    this refers to the TabPanel's "headings", it is a heading (a DIV in the case of a Widget based on a DL) that contains a span (".tpw-tab") which is generated via JavaScript
-	    - HEADER(S): this refers to the Accordion's "headings", it is a heading (a DIV in the case of Widget based on a DL) that contains a span (".tpw-header") which is generated via JavaScript
-        - SHIM: this refers to the first wrapper (".tpw-shim"), the one that wraps all the content between headings, it is generated via JavaScript
-	    - PANELS: this refers to the 2nd wrapper (".tpw-panel") associated with the tabs/headers (same term for both tabpanel & accordion), it is generated via JavaScript
-        - SHADOW div: this refers to the first child of DYNAMIC Widgets (.tpw-shadow), it is generated via JavaScript and used by ResizeObserver
-        - SKIP-LINK: this refers to the link used as a keybaord short-cut. It shows when the user hits the [esc] key, it allows the user to exit the widget or reach its first tab/header
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORTANT: You should not attempt to style ".tpw-shim" nor ".tpw-shadow" as some styling could break the widget
+
+    - DYNAMIC Widget: this is a Widget that is not explicitly set to be an Accordion or a TabPanel (".tpw-widget" without ".tpw-accordion or .tpw-tabpanel)
+    - STATIC Widget: this is a Widget that is explicitly set to be an Accordion (.tpw-widget.tpw-accordion) or a TabPanel (.tpw-widget.tpw-tabpanel)
+    - TABPANEL: this refers to the tabpanel widget
+    - ACCORDION: this refers to the accordion widget
+    - TAB(S):    this refers to the TabPanel's "headings", it is a heading (a DIV in the case of a Widget based on a DL) that contains a span (".tpw-tab") which is generated via JavaScript
+    - HEADER(S): this refers to the Accordion's "headings", it is a heading (a DIV in the case of Widget based on a DL) that contains a span (".tpw-header") which is generated via JavaScript
+    - SHIM: this refers to the first wrapper (".tpw-shim"), the one that wraps all the content between headings, it is generated via JavaScript
+    - PANELS: this refers to the 2nd wrapper (".tpw-panel") associated with the tabs/headers (same term for both tabpanel & accordion), it is generated via JavaScript
+    - SHADOW div: this refers to the first child of DYNAMIC Widgets (.tpw-shadow), it is generated via JavaScript and used by ResizeObserver
+    - SKIP-LINK: this refers to the link used as a keybaord short-cut. It shows when the user hits the [esc] key, it allows the user to exit the widget or reach its first tab/header
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORTANT: You should not attempt to style "tpw-shim" nor "tpw-shadow" as some styling could break the widget
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	GENERIC VALUES
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    GENERIC VALUES
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 $fontSize: 1.3rem;               /* font-size for tabs and headers (this sets the icon's dimensions as well) */
 $fontFamily: inherit;            /* font-family for the tabs and headers */
@@ -92,44 +110,44 @@ $padding-tabs: .5rem 1rem .5rem; /* padding for tabs */
 $padding-headers: $padding-tabs; /* padding for headers */
 $padding-panel: 1rem;            /* padding for panels (for both tabpanel and accordion) */
 $color: currentColor;            /* color for active tab, non active headers, and "down" icon (accordion) */
-$accentColor: #0367d2;         /* color for non-active tabs and pill's background-color */
-$complimentaryColor: #ffffff;  /* color for the pill and border-color for all pills's (via :focus) */
-$backgroundColor: #fff;        /* background color for tabs, headers, and panels */
-$borderColor: #ccc;            /* border color of tabs, headers, and panel */
+$accentColor: #0367d2;           /* color for non-active tabs and pill's background-color */
+$complimentaryColor: #ffffff;    /* color for the pill and border-color for all pills's (via :focus) */
+$backgroundColor: #fff;          /* background color for tabs, headers, and panels */
+$borderColor: #ccc;              /* border color of tabs, headers, and panel */
 $borderRadius: .25rem;           /* for tabs, pills, and panel */
 $fancyYoffset: -.25rem;          /* vertical offset of the active tab for the "fancy" tabs skin */
 $fancyXoffset: .05rem;           /* horizontal offset to create space between the "fancy" tabs */
 $animationSpeed: 300ms;          /* for the chevron's transition */
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	VARIABLES FOR THE WIDGET (TABPANEL AND ACCORDION) AND ITS PANELS
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    VARIABLES FOR THE WIDGET (TABPANEL AND ACCORDION) AND ITS PANELS
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-$WIDGET-margins: 1rem auto;                              /* margins for the widget */
+$WIDGET-margins: 1rem auto;                            /* margins for the widget */
 $PANEL-boxShadow: inset 0 0 5px rgba(81, 203, 238, 1); /* box-shadow in lieu of "outline" */
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	VARIABLES FOR THE TABPANEL'S PILLS
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    VARIABLES FOR THE TABPANEL'S PILLS
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 $PILLS-padding: .2rem .7rem; /* padding for all pills/tabs */
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	VARIABLES FOR THE SKIP-BOX
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    VARIABLES FOR THE SKIP-BOX
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 $SKIP-BOX-textDecoration: none;
 $SKIP-BOX-textAlign: center;
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	VARIABLES FOR THE CHEVRON
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    VARIABLES FOR THE CHEVRON
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 $ICON-marginRight: .5em; /* right offset for all icons (this translates as margin-left in a RTL context) */
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	DATA URIS (SVGs)
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    DATA URIS (SVGs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /**
     You can make those look "rounded" by setting the 'stroke-linecap' to 'round'
@@ -149,48 +167,47 @@ $minus:   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5
     It is important to "kill" (remove) the background-image, hence why we use shorthand here
 */
 @supports (mask-size: 1px) {
-    .tpw-header::before {
-        background: $iconsColor !important;
-        mask-size: $fontSize;
-    }
+  .tpw-header::before {
+    background: $iconsColor !important;
+    mask-size: $fontSize;
+  }
 }
 /**
     "RESET" of the headings
     If a rule from another stylesheet overwrites the styling of the headings used in the widget, you can either:
-    - Overwrite that rule with the style you want for the headings
-    - Rewrite the selector for that rule to ignore the Widget's headings.
-      You can do so by attaching the :not() pseudo-class to your target (i.e. h2:not(.tpw-hx) { ... })
+      - Overwrite that rule with the style you want for the headings
+      - Rewrite the selector for that rule to ignore the Widget's headings.
+    You can do so by attaching the :not() pseudo-class to your target (i.e. h2:not(.tpw-hx) { ... })
 */
 /* bump specificity to 0.1.1.1 */
 html:not(#tpw-booster) .tpw-hx {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    vertical-align: bottom;
-    box-sizing: border-box;
-    text-align: inherit;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  text-align: inherit;
 }
 /**
-  	WIDGET
+    WIDGET
 */
 .tpw-js {
-	margin: $WIDGET-margins;
+  margin: $WIDGET-margins;
 }
 .tpw-tabpanel.tpw-centered {
-    text-align: center;
+  text-align: center;
 }
 /**
-	:FOCUS
-	Styling all nested DIVs meant to receive focus (mostly for keyboard navigation)
+    :FOCUS
+    Styling all nested DIVs meant to receive focus (mostly for keyboard navigation)
  */
 .tpw-js .tpw-shim:focus .tpw-panel {
-	outline: none;
-	box-shadow: $PANEL-boxShadow;
+  outline: none;
+  box-shadow: $PANEL-boxShadow;
 }
 .tpw-js .tpw-shim:focus {
-	box-shadow: none !important;
+  box-shadow: none !important;
 }
-
 /*
     We remove potential focus styling from rules like [tabindex]:focus
     We can do this because we are styling the state of these via text-shadow
@@ -198,140 +215,139 @@ html:not(#tpw-booster) .tpw-hx {
 */
 .tpw-header,
 .tpw-tab {
-    font-family: $fontFamily;
-    font-weight: $fontWeight;
-    text-transform: $textTransform;
-    font-size: $fontSize;
-    line-height: $lineHeight;
-    box-shadow: none;
-    outline: none;
-    cursor: default;
+  font-family: $fontFamily;
+  font-weight: $fontWeight;
+  text-transform: $textTransform;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  box-shadow: none;
+  outline: none;
+  cursor: default;
 }
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	THESE RULES ARE FOR THE TABPANEL
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    THESE RULES ARE FOR THE TABPANEL
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /**
-	TABS
-	We are styling the text in these tabs as the same color as the links ($accentColor)
+    TABS
+    We are styling the text in these tabs as the same color as the links ($accentColor)
  */
  .tpw-tab {
-    display: inline-block;
-    vertical-align: bottom;
-	border: 1px solid transparent;
-	color: $accentColor;
-	padding: $padding-tabs;
-    margin-bottom: -2px; /* 1px would show a subpixel "gap" on page zoom */
+  display: inline-block;
+  vertical-align: bottom;
+  border: 1px solid transparent;
+  color: $accentColor;
+  padding: $padding-tabs;
+  margin-bottom: -2px; /* 1px would show a subpixel "gap" on page zoom */
 }
 .tpw-rounded .tpw-tab {
-	border-radius: $borderRadius $borderRadius  0 0;
+  border-radius: $borderRadius $borderRadius  0 0;
 }
 /* In case authors plug a SVG in there (or else) as we do in our "Install" section */
 .tpw-tab * {
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
 .tpw-fancy .tpw-tab {
-    transform: translateY(#{$fancyYoffset * -1});
-    transition: transform .3s ease;
-    border: 1px solid rgba($borderColor, 0.8);
-    border-bottom-color: transparent;
-    margin-right: $fancyXoffset;
-    position: relative;
-    background-color: rgba($backgroundColor,.8);
+  transform: translateY(#{$fancyYoffset * -1});
+  transition: transform .3s ease;
+  border: 1px solid rgba($borderColor, 0.8);
+  border-bottom-color: transparent;
+  margin-right: $fancyXoffset;
+  position: relative;
+  background-color: rgba($backgroundColor,.8);
 }
 .tpw-fancy .tpw-tab::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: .15rem;
-    box-shadow: 0 0 1rem #000;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: .15rem;
+  box-shadow: 0 0 1rem #000;
 }
 [dir=rtl].tpw-fancy .tpw-tab,
 [dir=rtl] .tpw-fancy .tpw-tab {
-    margin-right: 0;
-    margin-left: $fancyXoffset;
+  margin-right: 0;
+  margin-left: $fancyXoffset;
 }
 /**
-	ACTIVE TAB
-	(the one associated to the visible panel)
+    ACTIVE TAB
+    (the one associated to the visible panel)
 */
 .tpw-tabpanel .tpw-selected .tpw-tab {
-	color: $color;
-	background-color: $backgroundColor;
-    border-color: $borderColor $borderColor transparent;
+  color: $color;
+  background-color: $backgroundColor;
+  border-color: $borderColor $borderColor transparent;
 }
 .tpw-tabpanel.tpw-fancy .tpw-selected .tpw-tab {
-    transform: translateY(0);
-    z-index: 2;
+  transform: translateY(0);
+  z-index: 2;
 }
 .tpw-tabpanel.tpw-fancy .tpw-selected .tpw-tab::before {
-    box-shadow: none;
+  box-shadow: none;
 }
 html:not(#tpw-booster) .tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-of-type) {
-    padding-right: 1rem;
+  padding-right: 1rem;
 }
 /**
     Very important to not lose the padding above when the widget becomes an accordion
     (no need to style tpw-shadow for rtl script here - we just need *1* padding side)
 */
 html:not(#tpw-booster) .tpw-bar .tpw-shadow .tpw-hx:not(:last-of-type) {
-    padding-right: 1rem !important;
-    padding-left: 0 !important;
+  padding-right: 1rem !important;
+  padding-left: 0 !important;
 }
 html:not(#tpw-booster)[dir=rtl] .tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-of-type),
 html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-of-type) {
-    padding-right: 0; /* reset */
-    padding-left: 1rem;
+  padding-right: 0; /* reset */
+  padding-left: 1rem;
 }
 .tpw-tabpanel.tpw-bar .tpw-selected .tpw-tab {
-    background: transparent;
+  background: transparent;
 }
 .tpw-tabpanel.tpw-bar .tpw-tab {
-    border-color: transparent;
-    border-style: solid;
-    border-width: 0 0 .2rem;
-    padding-left: 0;
-    padding-right: 0;
-    margin-bottom: 0; /* reset of the margin for when those as styled as tabs */
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0 0 .2rem;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 0; /* reset of the margin for when those as styled as tabs */
 }
 .tpw-tabpanel.tpw-bar .tpw-selected .tpw-tab {
-    border-color: $color;
+  border-color: $color;
 }
-
 /**
     "outline" has been unset so we need to style the active TAB when its gets focus
     font-weight would create a similar (slightly better) effect but it would also change the layout
 */
 .tpw-tabpanel .tpw-tab:focus {
-	text-shadow: 0 0 1px currentColor;
+  text-shadow: 0 0 1px currentColor;
 }
 /**
-	PANEL
+    PANEL
 */
 .tpw-tabpanel .tpw-shim:not([hidden]) .tpw-panel {
-	padding: $padding-panel;
-	border: 1px solid $borderColor;
-    background-color: $backgroundColor;
-    outline: none;
+  padding: $padding-panel;
+  border: 1px solid $borderColor;
+  background-color: $backgroundColor;
+  outline: none;
 }
 .tpw-rounded.tpw-tabpanel .tpw-shim:not([hidden]) .tpw-panel {
-   border-radius: $borderRadius;
+  border-radius: $borderRadius;
 }
 .tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim:not([hidden]) .tpw-panel,
 .tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
 .tpw-tabpanel.tpw-rounded :nth-last-child(2).tpw-selected + .tpw-shim .tpw-panel {
-    border-radius: 0 $borderRadius $borderRadius $borderRadius;
+  border-radius: 0 $borderRadius $borderRadius $borderRadius;
 }
 .tpw-tabpanel.tpw-bar .tpw-shim:not([hidden]) .tpw-panel {
-    background: transparent;
-    border: 0; /* reset of all borders to avoid slanted corners */
-    border-top: 1px solid $color;
+  background: transparent;
+  border: 0; /* reset of all borders to avoid slanted corners */
+  border-top: 1px solid $color;
 }
 .tpw-rounded.tpw-tabpanel.tpw-bar .tpw-shim:not([hidden]) .tpw-panel {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 /* RTL context */
 [dir=rtl].tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
@@ -340,176 +356,173 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 [dir=rtl] .tpw-tabpanel.tpw-rounded :nth-last-child(2).tpw-selected + .tpw-shim .tpw-panel,
 [dir=rtl].tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim .tpw-panel,
 [dir=rtl] .tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim .tpw-panel {
-    border-radius: $borderRadius 0 $borderRadius $borderRadius;
+  border-radius: $borderRadius 0 $borderRadius $borderRadius;
 }
 .tpw-fancy .tpw-shim:not([hidden]) .tpw-panel {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 /* RESET */
 .tpw-tabpanel.tpw-centered .tpw-shim .tpw-panel {
-    text-align: left;
+  text-align: left;
 }
 .tpw-rounded.tpw-tabpanel.tpw-centered .tpw-shim .tpw-panel {
-    border-radius: $borderRadius;
+  border-radius: $borderRadius;
 }
-
 [dir=rtl].tpw-tabpanel.tpw-centered .tpw-shim .tpw-panel,
 [dir=rtl] .tpw-tabpanel.tpw-centered .tpw-shim .tpw-panel {
-    text-align: right;
+  text-align: right;
 }
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	THESE RULES ARE FOR THE ACCORDION
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    THESE RULES ARE FOR THE ACCORDION
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /**
-	Styling the headings following the "unset"
+    Styling the headings following the "unset"
  */
  html:not(#tpw-booster) .tpw-accordion .tpw-hx {
-    display: block;
+  display: block;
 }
 /**
-	HEADERS
-	MAKE SURE to style these HEADERs when they get focus since "outline" has been disabled
-	You may want to style the text in the HEADERs as the same color as your links
+    HEADERS
+    MAKE SURE to style these HEADERs when they get focus since "outline" has been disabled
+    You may want to style the text in the HEADERs as the same color as your links
  */
- .tpw-accordion .tpw-header {
-	margin: 0 0 -1px;
-    padding: $padding-headers;
-    border: 1px solid $borderColor;
-	background-color: $backgroundColor;
-	color: $color;
+.tpw-accordion .tpw-header {
+  margin: 0 0 -1px;
+  padding: $padding-headers;
+  border: 1px solid $borderColor;
+  background-color: $backgroundColor;
+  color: $color;
 }
 .tpw-disconnected .tpw-header {
-    margin: 5px 0;
-    border-radius: 4px;
+  margin: 5px 0;
+  border-radius: 4px;
 }
 .tpw-disconnected .tpw-selected .tpw-header {
-    border-radius: $borderRadius $borderRadius 0 0;
+  border-radius: $borderRadius $borderRadius 0 0;
 }
 .tpw-accordion .tpw-header:focus {
-	text-shadow: 0 0 1px currentColor;
+  text-shadow: 0 0 1px currentColor;
 }
 .tpw-accordion [aria-expanded=true] {
-	color: $accentColor;
+  color: $accentColor;
 }
 /**
-	PANEL
-	The second rule applies a bottom border to the last panel
+    PANEL
+    The second rule applies a bottom border to the last panel
 */
 .tpw-accordion .tpw-shim:not([hidden]) .tpw-panel {
-	border-width: 0 1px;
-	border-style: solid;
-	padding: $padding-panel;
-	background-color: $backgroundColor;
-	border-color: $borderColor;
+  border-width: 0 1px;
+  border-style: solid;
+  padding: $padding-panel;
+  background-color: $backgroundColor;
+  border-color: $borderColor;
 }
 .tpw-accordion .tpw-shim:not([hidden]):last-of-type .tpw-panel {
-    border-width: 0 1px 1px;
+  border-width: 0 1px 1px;
 }
 .tpw-disconnected .tpw-panel {
-    border: 1px solid $borderColor !important;
-    border-radius: 0 0 $borderRadius $borderRadius !important;
-    margin: -6px 0 5px !important;
-    border-radius: $borderRadius;
+  border: 1px solid $borderColor !important;
+  border-radius: 0 0 $borderRadius $borderRadius !important;
+  margin: -6px 0 5px !important;
+  border-radius: $borderRadius;
 }
-
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	THE SKIP-BOX
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    THE SKIP-BOX
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 .tpw-skip {
-	text-decoration: $SKIP-BOX-textDecoration;
-	text-align: $SKIP-BOX-textAlign;
-	color: $accentColor !important;
-	background-color: $backgroundColor !important;
+  text-decoration: $SKIP-BOX-textDecoration;
+  text-align: $SKIP-BOX-textAlign;
+  color: $accentColor !important;
+  background-color: $backgroundColor !important;
 }
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	THESE RULES ARE FOR THE ICONS (in ACCORDION)
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    THESE RULES ARE FOR THE ICONS (in ACCORDION)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /**
-	ICONS on ALL HEADERS
+    ICONS on ALL HEADERS
 */
 .tpw-accordion .tpw-header::before {
-    content: "";
-    background: url($chevron) 50% 50% no-repeat;
-    mask-image: url($chevron);
-    background-size: contain;
-    display: inline-flex;
-    flex-shrink: 0;
-    position: relative;
-    margin-right: $ICON-marginRight;
-	transform: rotate(180deg);
-    width: $fontSize;
-    height: $fontSize;
-    transform-origin: 50% 50%;
+  content: "";
+  background: url($chevron) 50% 50% no-repeat;
+  mask-image: url($chevron);
+  background-size: contain;
+  display: inline-flex;
+  flex-shrink: 0;
+  position: relative;
+  margin-right: $ICON-marginRight;
+  transform: rotate(180deg);
+  width: $fontSize;
+  height: $fontSize;
+  transform-origin: 50% 50%;
 }
 .tpw-accordion.tpw-chevrons-east-south .tpw-header::before {
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 [dir=rtl].tpw-accordion.tpw-chevrons-east-south .tpw-header::before,
 [dir=rtl] .tpw-accordion.tpw-chevrons-east-south .tpw-header::before {
-    transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 /* specificity bump to overwrite the above */
 .tpw-js.tpw-accordion.tpw-chevrons-east-south [aria-expanded=true]::before {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .tpw-accordion.tpw-plus-minus .tpw-header::before {
-    background-image: url($plus);
-    mask-image: url($plus);
+  background-image: url($plus);
+  mask-image: url($plus);
 }
 /**
-	ICON FOR ACTIVATED HEADERS (the one(s) above open panel(s))
+    ICON FOR ACTIVATED HEADERS (the one(s) above open panel(s))
  */
 .tpw-accordion [aria-expanded=true]::before {
-	transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 .tpw-accordion [aria-expanded=true]::before {
-	transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 .tpw-accordion.tpw-plus-minus [aria-expanded=true]::before {
-    background-image: url($minus);
-    mask-image: url($minus);
-
+  background-image: url($minus);
+  mask-image: url($minus);
 }
 
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	MODIFIERS
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    MODIFIERS
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /*
-	CHEVRON SHOWING AT THE END (right if RTL and left if LTR)
-	Using the class: .tpw-icons-at-the-end (on the widget wrapper)
+    CHEVRON SHOWING AT THE END (right if RTL and left if LTR)
+    Using the class: "tpw-icons-at-the-end" (on the widget wrapper)
 */
 .tpw-accordion.tpw-icons-at-the-end .tpw-header {
-	flex-direction: row-reverse;
-    justify-content: space-between;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 .tpw-js.tpw-accordion.tpw-icons-at-the-end .tpw-header::before {
-    margin-right: 0;
-    margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 /* to animate the chevrons */
 .tpw-animate:not(.tpw-plus-minus) .tpw-header::before {
-    transition: all $animationSpeed cubic-bezier(0.655, -0.315, 0.515, 1.365);
+  transition: all $animationSpeed cubic-bezier(0.655, -0.315, 0.515, 1.365);
 }
 /*
-	For Right to Left (RTL) scripts we need to swap the margin of the icon
+    For Right to Left (RTL) scripts we need to swap the margin of the icon
 */
 [dir=rtl].tpw-accordion .tpw-header::before,
 [dir=rtl] .tpw-accordion .tpw-header::before {
-    margin-right: 0;
-    margin-left: $ICON-marginRight;
+  margin-right: 0;
+  margin-left: $ICON-marginRight;
 }
 /*
-	STYLING THE TABPANEL "A LA TWITTER"
-	Using the class: .tpw-pills (on the widget wrapper)
+    STYLING THE TABPANEL "A LA TWITTER"
+    Using the class: "tpw-pills" (on the widget wrapper)
 */
 .tpw-tabpanel.tpw-pills .tpw-selected .tpw-tab {
     color: $complimentaryColor;
@@ -517,124 +530,123 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
     border-color: transparent;
 }
 .tpw-tabpanel.tpw-pills .tpw-tab {
-	padding: $PILLS-padding;
-	margin-bottom: .3rem;
-	text-shadow: none;
-	border: .15rem double transparent;
+  padding: $PILLS-padding;
+  margin-bottom: .3rem;
+  text-shadow: none;
+  border: .15rem double transparent;
 }
 .tpw-rounded.tpw-tabpanel.tpw-pills .tpw-tab {
-    border-radius: $borderRadius;
+  border-radius: $borderRadius;
 }
 .tpw-tabpanel.tpw-pills .tpw-tab:focus {
-	box-shadow: 0 0 0 1px $accentColor;
+  box-shadow: 0 0 0 1px $accentColor;
 }
 .tpw-tabpanel.tpw-pills .tpw-shim:not([hidden]) .tpw-panel {
-    border: none;
+  border: none;
 }
 .tpw-rounded.tpw-tabpanel.tpw-pills .tpw-shim:not([hidden]) .tpw-panel {
-    border-radius: $borderRadius;
+  border-radius: $borderRadius;
 }
 
 /**
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	YOU SHOULD NOT MESS WITH ANYTHING BELOW THIS LINE (EXCEPT MAY BE FOR THE STYLING OF THE CHEVRON)
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    YOU SHOULD NOT MESS WITH ANYTHING BELOW THIS LINE (EXCEPT MAY BE FOR THE STYLING OF THE CHEVRON)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 /**
-	This is to position the "SKIP-LINK" box in relation to the widget and also to position
-	the icons in relation to the headers if we wanted to rely on "position:absolute" for that
+    This is to position the "SKIP-LINK" box in relation to the widget and also to position
+    the icons in relation to the headers if we wanted to rely on "position:absolute" for that
 */
 /**
-  	WIDGET
+    WIDGET
 */
 .tpw-js {
-	display: flow-root;
+  display: flow-root;
 }
 .tpw-js,
 .tpw-js .tpw-header {
-    position: relative;
-    z-index: 0; /* to prevent z-indexes (>0) on tabs and panel from messing with the page */
+  position: relative;
+  z-index: 0; /* to prevent z-indexes (>0) on tabs and panel from messing with the page */
 }
 /* This is to remove the element from thhe flow */
 .tpw-tabpanel > [role=tablist] {
-	position: absolute;
+  position: absolute;
 }
 /**
-    This is how we reveal the panels (tabpanel and accordion)
+    This is how we reveal the panels of the tabpanels and accordions
 */
 .tpw-shim:not([hidden]) {
-    display: inline;
-
+  display: inline;
 }
 .tpw-shim:not([hidden]) .tpw-panel {
-	float: left;
-    width: 100%;
-    box-sizing: border-box;
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 /**
-	spans need to extend across the heading
-	Flex helps with vertical alignment
+    spans need to extend across the heading
+    Flex helps with vertical alignment
 */
 .tpw-accordion .tpw-header {
-    width: 100%;
-    box-sizing: border-box;
-	display: flex;
-	align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 /**
-	"SKIP BOX"
-	This is a skip-link that allows the user to either skip the entire widget or reach the first tab/header
-	It is revealed when the user hits the escape key (it provides a "short-cut")
-	It is plugged inside the widget via javascript (it is the last element in the widget)
+    "SKIP BOX"
+    This is a skip-link that allows the user to either skip the entire widget or reach the first tab/header
+    It is revealed when the user hits the escape key (it provides a "shortcut")
+    It is plugged inside the widget via JavaScript (it is the last element in the widget)
  */
- html:not(#tpw-booster) .tpw-skip {
-    all: unset;
-	align-items: center;
-	justify-content: center;
-    position: absolute;
-    z-index: 3;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	height: 0;
-    width: 0;
-    padding: 0;
-    overflow: hidden;
-    box-shadow: none !important;
+html:not(#tpw-booster) .tpw-skip {
+  all: unset;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: none !important;
 }
 /* This should be self explanatory */
 html:not(#tpw-booster) .tpw-skip:focus {
-	display: flex;
-	padding: .5rem 1rem;
-	height: auto;
-    width: auto;
-    cursor: pointer;
-    text-align: center;
-    opacity: .95;
+  display: flex;
+  padding: .5rem 1rem;
+  height: auto;
+  width: auto;
+  cursor: pointer;
+  text-align: center;
+  opacity: .95;
 }
 .tpw-skip > b {
-	width: 100%;
-	font-style: inherit;
-	font-size: inherit;
-	color: inherit;
+  width: 100%;
+  font-style: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 /**
- DO NOT STYLE THIS
- IT IS USED BY THE SCRIPT TO DECIDE BETWEEN ACCORDION and TABPANEL
- 1. overkill but ppl could be styling aria-hidden with display:none !important (who knows?)
+    DO NOT STYLE THIS
+    IT IS USED BY THE SCRIPT TO DECIDE BETWEEN ACCORDION and TABPANEL
+    1. overkill but ppl could be styling aria-hidden with display:none !important (who knows?)
 */
 .tpw-shadow {
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
-    z-index:-1;
-    visibility:hidden;
-    display: block !important; /* 1 */
+  display: block !important; /* 1 */
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  z-index:-1;
+  visibility:hidden;
 }
 html:not(#tpw-booster) .tpw-shadow .tpw-hx {
-    display: inline-block !important;
+  display: inline-block !important;
 }
