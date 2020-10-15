@@ -1,5 +1,5 @@
 ---
-name: Bug report for the Widget
+name: Bug report for this repository (for the Widget)
 about: Create a report to help us improve the Widget
 title: '[WIDGET]'
 labels: 'widget'
