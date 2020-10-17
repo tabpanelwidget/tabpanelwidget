@@ -9,14 +9,14 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## TOC
 
-   * [Vanilla](#vanilla)
-   * [Vue](#vue)
-   * [React](#react)
-   * [Angular](#angular)
-   * [Ember](#ember)
-   * ["Old School"](#old-school)
-   * [Usage](#usage)
-   * [Development](#development)
+* [Vanilla](#vanilla)
+* [Vue](#vue)
+* [React](#react)
+* [ ] [Angular](#angular)
+* [ ] [Ember](#ember)
+* ["Old School"](#old-school)
+* [Usage](#usage)
+* [Development](#development)
 
 ### Vanilla
 
