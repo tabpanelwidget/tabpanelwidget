@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Version
+        required: false
+        default: "patch"
 jobs:
   default:
     runs-on: ubuntu-latest
@@ -16,7 +21,7 @@ jobs:
       - run: |
           git config --global user.email "tj.koblentz@gmail.com"
           git config --global user.name "TJ Koblentz (CI)"
-      - run: npx release-it --npm.skipChecks --ci
+      - run: npx release-it ${{ github.event.inputs.version }} --npm.skipChecks --ci
         env:
           GITHUB_TOKEN: ${{ secrets.TJK_GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TJK_TOKEN }}
