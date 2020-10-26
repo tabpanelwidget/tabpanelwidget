@@ -2,6 +2,7 @@ import babel from "rollup-plugin-babel"
 import jsx from "rollup-plugin-jsx"
 import { terser } from "rollup-plugin-terser"
 import replace from "@rollup/plugin-replace"
+import { nodeResolve } from "@rollup/plugin-node-resolve"
 
 const configureBabel = () => {
   return babel({
@@ -32,6 +33,21 @@ const configureReplace = (esbuild) => {
 }
 
 const builds = []
+
+builds.push({
+  input: "src/polyfill.js",
+  output: {
+    compact: true,
+    file: "dist/tabpanelwidget-polyfill.min.js",
+    format: "iife",
+  },
+  plugins: [
+    configureReplace(false),
+    nodeResolve(),
+    configureBabel(),
+    configureTerser(),
+  ],
+})
 
 builds.push({
   input: "src/tabpanelwidget.js",

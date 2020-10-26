@@ -5,6 +5,7 @@ const pkg  = require("../package.json")
 
 const distFiles = [
   "tabpanelwidget.min.js",
+  "tabpanelwidget-polyfill.min.js",
   "tabpanelwidget.min.css",
   "tabpanelwidget.scss",
 ]

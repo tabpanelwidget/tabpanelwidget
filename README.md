@@ -73,7 +73,7 @@ Download the [latest release](https://github.com/tabpanelwidget/tabpanelwidget/r
   * The minified Script
   * A stylesheet (.scss) that contains "*variables*"
   * A minified stylesheet that is the *output* of the above file
-  
+
 #### Setup
 
 Wrap your headings and their relevant content inside a `div` (or else) to which you apply the class `tpw-widget`.
@@ -114,6 +114,13 @@ Include the stylesheet in the `<head>` of your document:
 Include the script before `</body>`:
 
 ```html
+<script>
+if (!window.ResizeObserver) {
+  const script = document.createElement("script")
+  script.src = "//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget-polyfill.min.js"
+  document.head.appendChild(src)
+}
+</script>
 <script src="/PATH_TO_FILE/tabpanelwidget.min.js"></script>
 ```
 
