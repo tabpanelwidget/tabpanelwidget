@@ -8,11 +8,25 @@ const debounced = function(fn, ms) {
 
 const noop = () => {}
 
+let warned = false
+// this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
+function _addNoFouc() {
+  document.documentElement.classList.add("tpw-!fouc")
+}
+function _fail() {
+  if (!warned) {
+    console.warn("Tabpanelwidget environment not supported, please include polyfill")
+    warned = true
+  }
+  // we still want to run this even when failing to ensure we don't leave widgets invisible
+  _addNoFouc()
+}
+
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
 export function install(orig, automatic = false) {
   if (!window.ResizeObserver) {
-    console.warn("Tabpanelwidget environment not supported, please include polyfill")
+    _fail()
     return noop
   }
   if (orig.classList.contains("tpw-js")) return noop // already installed
@@ -377,8 +391,7 @@ export function install(orig, automatic = false) {
     for (const w of childWidgets) {
       childUninstalls.push(install(w, true))
     }
-    // this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
-    document.documentElement.classList.add("tpw-!fouc")
+    _addNoFouc()
   }
 
   // XXX ensure no closure leakagages (even elsewhere)
@@ -410,7 +423,7 @@ function _autoinstall() {
 }
 
 export function autoinstall() {
-  if (!window.ResizeObserver) return console.warn("Tabpanelwidget environment not supported, please include polyfill")
+  if (!window.ResizeObserver) return _fail()
   if (document.readyState === "complete" || document.readyState === "loaded") {
     _autoinstall()
     return

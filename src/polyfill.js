@@ -3,7 +3,7 @@
 import ResizeObserver from 'resize-observer-polyfill'
 window.ResizeObserver = ResizeObserver
 
-// XXX this could be done better
+// https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach#Polyfill
 if (window.NodeList && !NodeList.prototype.forEach) {
   NodeList.prototype.forEach = Array.prototype.forEach
 }
