@@ -11,6 +11,10 @@ const noop = () => {}
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
 export function install(orig, automatic = false) {
+  if (!window.ResizeObserver) {
+    console.warn("Tabpanelwidget environment not supported, please include polyfill")
+    return noop
+  }
   if (orig.classList.contains("tpw-js")) return noop // already installed
   if (automatic) {
     // wait for parent to automatically install first
@@ -326,9 +330,6 @@ export function install(orig, automatic = false) {
       resizeObserver = new window.ResizeObserver(debouncedMaybeRecomputeLayout)
       resizeObserver.observe(widget, {box: "border-box"})
       for (const span of spans) resizeObserver.observe(span, {box: "border-box"})
-    } else {
-      window.addEventListener("resize", debouncedMaybeRecomputeLayout)
-      setTimeout(maybeRecomputeLayout, 0)
     }
   } else {
     setAccordion(forceAccordion)
@@ -409,6 +410,7 @@ function _autoinstall() {
 }
 
 export function autoinstall() {
+  if (!window.ResizeObserver) return console.warn("Tabpanelwidget environment not supported, please include polyfill")
   if (document.readyState === "complete" || document.readyState === "loaded") {
     _autoinstall()
     return
