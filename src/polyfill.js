@@ -44,3 +44,7 @@ function arrayFrom(arr, callbackFn, thisArg)
     return arNew
 }
 Array.from = Array.from || arrayFrom;
+
+if (window.Tabpanelwidget && window.Tabpanelwidget._runBuffered) {
+  window.Tabpanelwidget._runBuffered()
+}

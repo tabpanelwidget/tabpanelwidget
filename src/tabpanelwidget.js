@@ -5,30 +5,17 @@ const debounced = function(fn, ms) {
     timeout = setTimeout(() => fn(...args), ms)
   }
 }
-
 const noop = () => {}
+const buffered = []
 
-let warned = false
 // this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
 function _addNoFouc() {
   document.documentElement.classList.add("tpw-!fouc")
 }
-function _fail() {
-  if (!warned) {
-    console.warn("Tabpanelwidget environment not supported, please include polyfill")
-    warned = true
-  }
-  // we still want to run this even when failing to ensure we don't leave widgets invisible
-  _addNoFouc()
-}
 
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
-export function install(orig, automatic = false) {
-  if (!window.ResizeObserver) {
-    _fail()
-    return noop
-  }
+function _install(orig, automatic = false) {
   if (orig.classList.contains("tpw-js")) return noop // already installed
   if (automatic) {
     // wait for parent to automatically install first
@@ -340,11 +327,9 @@ export function install(orig, automatic = false) {
 
   if (dynamic) {
     // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
-    if ("ResizeObserver" in window && typeof window.ResizeObserver === "function") {
-      resizeObserver = new window.ResizeObserver(debouncedMaybeRecomputeLayout)
-      resizeObserver.observe(widget, {box: "border-box"})
-      for (const span of spans) resizeObserver.observe(span, {box: "border-box"})
-    }
+    resizeObserver = new window.ResizeObserver(debouncedMaybeRecomputeLayout)
+    resizeObserver.observe(widget, {box: "border-box"})
+    for (const span of spans) resizeObserver.observe(span, {box: "border-box"})
   } else {
     setAccordion(forceAccordion)
   }
@@ -391,6 +376,7 @@ export function install(orig, automatic = false) {
     for (const w of childWidgets) {
       childUninstalls.push(install(w, true))
     }
+    // XXX ideally we want to do this when all widgets have been replaced after first pass
     _addNoFouc()
   }
 
@@ -418,15 +404,49 @@ export function install(orig, automatic = false) {
   }
 }
 
-function _autoinstall() {
-  document.querySelectorAll(`.tpw-widget`).forEach(w => install(w, true))
+function _areFeaturesSupported() {
+  // XXX improve this
+  return !!window.ResizeObserver
 }
 
-export function autoinstall() {
-  if (!window.ResizeObserver) return _fail()
-  if (document.readyState === "complete" || document.readyState === "loaded") {
-    _autoinstall()
-    return
+function _documentReady() {
+  return document.readyState !== "loading"
+}
+
+function _runBuffered() {
+  if (_areFeaturesSupported() && _documentReady()) {
+    for (const fn of buffered) {
+      fn()
+    }
+    buffered = []
   }
-  document.addEventListener("DOMContentLoaded", _autoinstall)
+}
+
+function install(...args) {
+  return new Promise(resolve => {
+    buffered.push(() => resolve(_install(...args)))
+    _runBuffered()
+  })
+}
+
+function autoinstall() {
+  buffered.push(() => {
+    document.querySelectorAll(`.tpw-widget`).forEach(w => {
+      install(w, true)
+    })
+  })
+  _runBuffered()
+}
+
+// setTimeout(_addNoFouc, 1500) // XXX find better way if they forget to call API to unhide
+if (document.readyState == 'loading') {
+  document.addEventListener("DOMContentLoaded", () => {
+    _runBuffered()
+  })
+}
+
+export {
+  install, // no longer returns install, but returns promise that resolves to uninstall
+  autoinstall,
+  _runBuffered, // this is exported but just used by polyfill... so we don't have to poll
 }
