@@ -611,10 +611,12 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 /**
     spans need to extend across the heading
     Flex helps with vertical alignment
+    inline-block is for IE10 which fails even with display:flexbox
 */
 .tpw-accordion .tpw-header {
   width: 100%;
   box-sizing: border-box;
+  display: inline-block;  
   display: flex;
   align-items: center;
 }
