@@ -6,7 +6,7 @@ const debounced = function(fn, ms) {
   }
 }
 const noop = () => {}
-const buffered = []
+let buffered = []
 
 // this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
 function _addNoFouc() {
