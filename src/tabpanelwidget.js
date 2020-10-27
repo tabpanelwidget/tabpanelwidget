@@ -15,12 +15,12 @@ function _addNoFouc() {
 
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
-function _install(orig, automatic = false) {
-  if (orig.classList.contains("tpw-js")) return noop // already installed
+function _install(orig, cb = null, automatic = false) {
+  if (orig.classList.contains("tpw-js")) return cb && cb(noop) // already installed
   if (automatic) {
     // wait for parent to automatically install first
     const parent = orig.parentNode.closest(".tpw-widget")
-    if (parent && !parent.classList.contains("tpw-js")) return noop // recursion will handle us
+    if (parent && !parent.classList.contains("tpw-js")) return cb && cb(noop) // recursion will handle us
   }
 
   const origVisibility = orig.style.visibility
@@ -271,7 +271,7 @@ function _install(orig, automatic = false) {
   const firstChildTagName = child.tagName
   if (!isDl && !/H[1-6]/.test(firstChildTagName)) {
     console.warn("tabpanelwidget: first child must be heading")
-    return noop
+    return cb && cb(noop)
   }
   let hx
   while (child) {
@@ -296,7 +296,7 @@ function _install(orig, automatic = false) {
       // only allow one element in prevOrigElements for dl
       if (isDl && (prevOrigElements.length || child.tagName !== "DD")) {
         console.warn("tabpanelwidget: dl must have alternating dt, dd")
-        return noop
+        return cb && cb(noop)
       }
       prevOrigElements.push(child)
     }
@@ -380,22 +380,15 @@ function _install(orig, automatic = false) {
 
   // XXX ensure no closure leakagages (even elsewhere)
   let uninstalled
-  return () => {
-    if (uninstalled) {
-      return
-    }
-
+  return cb && cb(() => {
+    if (uninstalled) return
     childUninstalls.forEach(uninstall => uninstall())
-
     if (resizeObserver) resizeObserver.disconnect()
     window.removeEventListener("resize", debouncedMaybeRecomputeLayout)
-
     eventListeners.forEach(([el, e, handler]) => el.removeEventListener(e, handler))
-
     widget.parentNode.replaceChild(orig, widget)
-
     uninstalled = true
-  }
+  })
 }
 
 function _areFeaturesSupported() {
@@ -415,17 +408,13 @@ function _runBuffered() {
 }
 
 function install(...args) {
-  return new Promise(resolve => {
-    buffered.push(() => resolve(_install(...args)))
-    _runBuffered()
-  })
+  buffered.push(() => _install(...args))
+  _runBuffered()
 }
 
 function autoinstall() {
   buffered.push(() => {
-    document.querySelectorAll(`.tpw-widget`).forEach(w => {
-      install(w, true)
-    })
+    document.querySelectorAll(`.tpw-widget`).forEach(w => _install(w, null, true))
   })
   _runBuffered()
 }

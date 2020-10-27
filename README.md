@@ -25,11 +25,11 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 import * as Tabpanelwidget from "@tabpanelwidget/tabpanelwidget"
 
 const el = document.querySelector('#my-element')
-const uninstall = Tabpanelwidget.install(el)
+let uninstall; Tabpanelwidget.install(el, _uninstall => (uninstall = _uninstall))
 // or Tabpanelwidget.autoinstall()
 
 // later...
-uninstall()
+if (uninstall) uninstall()
 ```
 
 ### Vue
