@@ -178,13 +178,13 @@ function _install(orig, automatic = false) {
     const panel = document.createElement("div")
     shim.appendChild(panel)
     panel.classList.add("tpw-panel")
-    for (const prevElement of prevOrigElements) {
+    prevOrigElements.forEach(prevElement => {
       if (prevElement.tagName === "DD") {
         panel.innerHTML = prevElement.innerHTML
       } else {
         panel.appendChild(prevElement.cloneNode(true))
       }
-    }
+    })
     if (last) {
       hx.parentNode.appendChild(shim)
     } else {
@@ -317,10 +317,10 @@ function _install(orig, automatic = false) {
     if (!shadowHxs.length) return
     let offsetTop = shadowHxs[0].offsetTop
     let offsetBot = offsetTop + shadowHxs[0].clientHeight
-    for (const shadowHx of shadowHxs) {
+    shadowHxs.forEach(shadowHx => {
       if (shadowHx.offsetTop !== offsetTop) offsetTop = null
       if (shadowHx.offsetTop + shadowHx.clientHeight !== offsetBot) offsetBot = null
-    }
+    })
     setAccordion(offsetTop === null && offsetBot === null)
   }
   const debouncedMaybeRecomputeLayout = debounced(maybeRecomputeLayout, 100)
@@ -329,7 +329,7 @@ function _install(orig, automatic = false) {
     // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
     resizeObserver = new window.ResizeObserver(debouncedMaybeRecomputeLayout)
     resizeObserver.observe(widget, {box: "border-box"})
-    for (const span of spans) resizeObserver.observe(span, {box: "border-box"})
+    spans.forEach(span => resizeObserver.observe(span, {box: "border-box"}))
   } else {
     setAccordion(forceAccordion)
   }
@@ -373,9 +373,7 @@ function _install(orig, automatic = false) {
   const childUninstalls = []
   if (automatic) {
     const childWidgets = widget.querySelectorAll(".tpw-widget")
-    for (const w of childWidgets) {
-      childUninstalls.push(install(w, true))
-    }
+    childWidgets.forEach(w => childUninstalls.push(install(w, true)))
     // XXX ideally we want to do this when all widgets have been replaced after first pass
     _addNoFouc()
   }
@@ -387,16 +385,12 @@ function _install(orig, automatic = false) {
       return
     }
 
-    for (const uninstall of childUninstalls) {
-      uninstall()
-    }
+    childUninstalls.forEach(uninstall => uninstall())
 
     if (resizeObserver) resizeObserver.disconnect()
     window.removeEventListener("resize", debouncedMaybeRecomputeLayout)
 
-    for (const [el, e, handler] of eventListeners) {
-      el.removeEventListener(e, handler)
-    }
+    eventListeners.forEach(([el, e, handler]) => el.removeEventListener(e, handler))
 
     widget.parentNode.replaceChild(orig, widget)
 
@@ -415,9 +409,7 @@ function _documentReady() {
 
 function _runBuffered() {
   if (_areFeaturesSupported() && _documentReady()) {
-    for (const fn of buffered) {
-      fn()
-    }
+    buffered.forEach(fn => fn())
     buffered = []
   }
 }
