@@ -46,8 +46,10 @@
         Tabpanelwidget.install(document.querySelector("#vanilla"))
       }
 
+      const cacheBust = ""+Math.random()
+
       // set to latest version here (or just remove version suffix but care cache)
-      const prodPrefix = "https://cdn.jsdelivr.net/npm/tabpanelwidget@0.0.6"
+      const prodPrefix = "https://cdn.jsdelivr.net/npm/tabpanelwidget"
       const isDev = typeof process !== "undefined"
       if (isDev) {
         import("./src/tabpanelwidget.scss")
@@ -56,17 +58,17 @@
         const link = document.createElement("link")
         link.rel = "stylesheet"
         link.type = "text/css"
-        link.href = `${prodPrefix}/dist/tabpanelwidget.min.css`
+        link.href = `${prodPrefix}/dist/tabpanelwidget.min.css?n=${cacheBust}`
         document.head.appendChild(link)
         // include iife version of vanilla script
         const script = document.createElement("script")
-        script.src = `${prodPrefix}/dist/tabpanelwidget.min.js`
+        script.src = `${prodPrefix}/dist/tabpanelwidget.min.js?n=${cacheBust}`
         script.onload = () => {
           installVanilla(window.Tabpanelwidget)
         }
         document.head.appendChild(script)
       }
-      import(isDev ? "./src/tabpanelwidget.vue.js" : `${prodPrefix}/dist/esm/tabpanelwidget.vue.js`).then(({default: VueTabpanelwidget}) => {
+      import(isDev ? "./src/tabpanelwidget.vue.js" : `${prodPrefix}/dist/esm/tabpanelwidget.vue.js?n=${cacheBust}`).then(({default: VueTabpanelwidget}) => {
         Vue.component("tabpanelwidget", VueTabpanelwidget)
         new Vue({el: "#vue"})
       })
