@@ -25,3 +25,22 @@ if (!Element.prototype.closest) {
     return null;
   };
 }
+
+// https://stackoverflow.com/a/62682524/387413
+function arrayFrom(arr, callbackFn, thisArg)
+{
+    var arNew = [],
+        k = [], // used for convert Set to an Array
+        i = 0;
+    if(window.Set && arr instanceof Set)
+    {
+        arr.forEach(function(v){k.push(v)});
+        arr = k
+    }
+    for(; i < arr.length; i++)
+        arNew[i] = callbackFn
+            ? callbackFn.call(thisArg, arr[i], i, arr)
+            : arr[i];
+    return arNew
+}
+Array.from = Array.from || arrayFrom;
