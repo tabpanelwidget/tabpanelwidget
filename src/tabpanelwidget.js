@@ -60,7 +60,7 @@ function _install(orig, cb = null, automatic = false) {
     if (v) {
       widget.classList.remove("tpw-tabpanel")
       widget.classList.add("tpw-accordion")
-      tablist.remove()
+      tablist.parentNode.removeChild(tablist)
     } else {
       widget.classList.remove("tpw-accordion")
       widget.classList.add("tpw-tabpanel")
