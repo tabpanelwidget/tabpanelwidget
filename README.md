@@ -86,9 +86,9 @@ Wrap your headings and their relevant content inside a `div` (or else) to which 
 <!-- This wrapper can be anything (article/div/dl/whatever) -->
 <div class="tpw-widget">
     <!--
-    You can use any (and as many) headings (h2, h3, h4, h5, h6)
-    You *must* use the SAME heading level throughout the Widget
-    You can use a <dl> but *only* if it made of <dt>/<dd> pairs
+    You CAN use any (and as many) headings (h2/h3/h4/h5/h6)
+    You MUST use the SAME heading level throughout a Widget
+    You CAN use a <dl> but it has to be made of dt/dd pairs
     -->
     <h3 class="tpw-selected">Lorem</h3>
     <!--
