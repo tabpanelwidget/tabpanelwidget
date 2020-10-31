@@ -403,9 +403,15 @@ function _documentReady() {
 }
 
 function _runBuffered() {
-  if (_areFeaturesSupported() && _documentReady()) {
-    buffered.forEach(fn => fn())
-    buffered = []
+  if (_areFeaturesSupported()) {
+    if (_documentReady()) {
+      buffered.forEach(fn => fn())
+      buffered = []
+    }
+  } else {
+    // dont want to end up with visibility:hidden (if they don't load polyfill)
+    // so just disable fouc protection in that case
+    _addNoFouc()
   }
 }
 
@@ -421,7 +427,6 @@ function autoinstall() {
   _runBuffered()
 }
 
-// setTimeout(_addNoFouc, 1500) // XXX find better way if they forget to call API to unhide
 if (document.readyState == 'loading') {
   document.addEventListener("DOMContentLoaded", () => {
     _runBuffered()
