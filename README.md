@@ -72,6 +72,7 @@ Coming soon!
 Download the [latest release](https://github.com/tabpanelwidget/tabpanelwidget/releases) of **tabpanelwidget-x.x.x.zip** which includes:
 
   * The minified Script
+  * The minified Polyfill
   * A stylesheet (.scss) that contains "*variables*"
   * A minified stylesheet that is the *output* of the above file
 
@@ -118,7 +119,7 @@ Include this before `</body>`:
 <script>
 if (!window.ResizeObserver) {
   const script = document.createElement("script")
-  script.src = "//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget-polyfill.min.js"
+  script.src = "/PATH_TO_FILE/tabpanelwidget-polyfill.min.js"
   document.head.appendChild(src)
 }
 </script>
@@ -130,7 +131,15 @@ Or you may choose to load both files from CDN:
 ```html
 <link href="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.css" rel="stylesheet" />
 ```
+
 ```html
+<script>
+if (!window.ResizeObserver) {
+  const script = document.createElement("script")
+  script.src = "//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget-polyfill.min.js"
+  document.head.appendChild(src)
+}
+</script>
 <script src="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.js"></script>
 ```
 
