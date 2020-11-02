@@ -112,7 +112,7 @@ Include the stylesheet in the `<head>` of your document:
 <link href="/PATH_TO_FILE/tabpanelwidget.min.css" rel="stylesheet" />
 ```
 
-Include the script before `</body>`:
+Include this before `</body>`:
 
 ```html
 <script>
@@ -125,19 +125,12 @@ if (!window.ResizeObserver) {
 <script src="/PATH_TO_FILE/tabpanelwidget.min.js"></script>
 ```
 
-Or you may choose to load the files from CDN:
+Or you may choose to load both files from CDN:
 
 ```html
 <link href="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.css" rel="stylesheet" />
 ```
 ```html
-<script src="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.js"></script>
-```
-
-If you choose to use the [polyfill](https://www.jsdelivr.com/package/npm/resize-observer-polyfill), then include it **before** `tabpanelwidget.min.js`:
-
-```html
-<script src="//cdn.jsdelivr.net/npm/resize-observer-polyfill@1.5.1/dist/ResizeObserver.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.js"></script>
 ```
 
