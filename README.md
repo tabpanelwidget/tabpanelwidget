@@ -126,7 +126,7 @@ if (!window.ResizeObserver) {
 <script src="/PATH_TO_FILE/tabpanelwidget.min.js"></script>
 ```
 
-Or you may choose to load both files from CDN:
+Or you may choose to load all files from CDN:
 
 ```html
 <link href="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.css" rel="stylesheet" />
