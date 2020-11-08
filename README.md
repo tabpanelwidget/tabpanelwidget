@@ -116,14 +116,17 @@ Include the stylesheet in the `<head>` of your document:
 Include this before `</body>`:
 
 ```html
-<script>
-if (!window.ResizeObserver) {
-  const script = document.createElement("script")
-  script.src = "/PATH_TO_FILE/tabpanelwidget-polyfill.min.js"
-  document.head.appendChild(src)
-}
-</script>
 <script src="/PATH_TO_FILE/tabpanelwidget.min.js"></script>
+<script>
+  // remove this if you do not want to serve the polyfill
+  if (!window.ResizeObserver) {
+    const script = document.createElement("script")
+    script.src = "/PATH_TO_FILE/tabpanelwidget-polyfill.min.js"
+    document.head.appendChild(src)
+  }
+  // Instantiate TabPanelWidget
+  Tabpanelwidget.autoinstall();
+</script>
 ```
 
 Or you may choose to load all files from CDN:
@@ -133,24 +136,17 @@ Or you may choose to load all files from CDN:
 ```
 
 ```html
-<script>
-if (!window.ResizeObserver) {
-  const script = document.createElement("script")
-  script.src = "//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget-polyfill.min.js"
-  document.head.appendChild(src)
-}
-</script>
 <script src="//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget.min.js"></script>
-```
-
-Make sure to instantiate the script **after** including the file:
-
-```html
 <script>
-    // TabPanelWidget
-    Tabpanelwidget.autoinstall();
+  // remove this if you do not want to serve the polyfill
+  if (!window.ResizeObserver) {
+    const script = document.createElement("script")
+    script.src = "//cdn.jsdelivr.net/npm/tabpanelwidget@1.0.0/dist/tabpanelwidget-polyfill.min.js"
+    document.head.appendChild(src)
+  }
+  // Instantiate TabPanelWidget
+  Tabpanelwidget.autoinstall();
 </script>
-```
 
 The above will attach the script to all containers with the class `tpw-widget`.
 
