@@ -147,6 +147,7 @@ Or you may choose to load all files from CDN:
   // Instantiate TabPanelWidget
   Tabpanelwidget.autoinstall();
 </script>
+```
 
 The above will attach the script to all containers with the class `tpw-widget`.
 
