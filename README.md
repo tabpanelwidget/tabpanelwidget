@@ -36,7 +36,8 @@ if (uninstall) uninstall()
 
 ```js
 <script>
-import VueTabpanelwidget from "@tabpanelwidget/tabpanelwidget"
+import VueTabpanelwidget from "tabpanelwidget/vue"
+import "tabpanelwidget/dist/tabpanelwidget.min.css"
 
 Vue.use(VueTabpanelwidget)
 // or Vue.component("Tabpanelwidget", VueTabpanelwidget)
@@ -52,7 +53,8 @@ Vue.use(VueTabpanelwidget)
 ### React
 
 ```jsx
-import ReactTabpanelwidget from "@tabpanelwidget/tabpanelwidget"
+import ReactTabpanelwidget from "tabpanelwidget/react"
+import "tabpanelwidget/dist/tabpanelwidget.min.css"
 
 <ReactTabpanelwidget prop1={} prop2={}>
 	<!-- TODO -->
