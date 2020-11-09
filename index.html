@@ -12,14 +12,14 @@
     <div>
       <h2>Vanilla</h2>
 
-      <div id="vanilla" class="tpw-widget"> <h3 class="tpw-selected">Options</h3> <p>Options</p> <h3>Semantic</h3> <p>Lorem</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Accessible</h3> <p>Ipsum</p> <p>Nulla a facilisis sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a est aliquet nisl consequat blandit. Aliquam consequat faucibus nisi eget molestie.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Responsive</h3> <p>Dolor</p> <p>Sed vel euismod lectus, in viverra massa. Sed ullamcorper, elit ac aliquam sollicitudin, eros lacus volutpat ipsum, eget elementum sapien enim vel erat. Nunc vel ante ac purus accumsan dapibus. Ut vitae eros efficitur, auctor libero ut, porta lacus.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> </div>
+      <div id="vanilla" class="tpw-widget"> <h3 class="tpw-selected">Options</h3> <p>Options</p> <h3>Semantic</h3> <p>Lorem</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Accessible</h3> <p>Ipsum</p> <p>Nulla a facilisis sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a est aliquet nisl consequat blandit. Aliquam consequat faucibus nisi eget molestie.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> <h3>Responsive VERY LONG TAB LENGTH</h3> <p>Dolor</p> <p>Sed vel euismod lectus, in viverra massa. Sed ullamcorper, elit ac aliquam sollicitudin, eros lacus volutpat ipsum, eget elementum sapien enim vel erat. Nunc vel ante ac purus accumsan dapibus. Ut vitae eros efficitur, auctor libero ut, porta lacus.</p> <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small> </div>
     </div>
 
     <div>
       <h2>Vue</h2>
 
       <div id="vue">
-        <tabpanelwidget mode="tabpanel" :tabs="['first', 'second', 'third', 'fourth']" :selected-tab-idx="2">
+        <tabpanelwidget :tabs="['first', 'second', 'third', 'fourth VERY LONG TAB LENGTH']" :selected-tab-idx="2">
           <template #panel-0>first panel content</template>
           <template #tab-1>override tab 1 heading</template>
           <template #panel-1>second panel content</template>
@@ -40,7 +40,7 @@
       // XXX conditionally import dev or prod vue? or always prod for this
       import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js"
       import React from "https://cdn.jsdelivr.net/npm/@esm-bundle/react@16.13.1/esm/react.production.min.js"
-      // import ReactDOM from "https://cdn.jsdelivr.net/npm/@esm-bundle/react-dom@16.13.1/esm/react-dom.production.min.js"
+      import ReactDOM from "https://cdn.jsdelivr.net/npm/@esm-bundle/react-dom@16.13.1/esm/react-dom.production.min.js"
 
       function installVanilla(Tabpanelwidget) {
         Tabpanelwidget.install(document.querySelector("#vanilla"))
@@ -72,7 +72,9 @@
         Vue.component("tabpanelwidget", VueTabpanelwidget)
         new Vue({el: "#vue"})
       })
-      // XXX ReactDOM.render(React.createElement(Tabpanelwidget), document.querySelector("#react"))
+      import(isDev ? "./src/tabpanelwidget.react.jsx" : `${prodPrefix}/dist/esm/tabpanelwidget.react.js?n=${cacheBust}`).then(({default: ReactTabpanelwidget}) => {
+        ReactDOM.render(React.createElement(ReactTabpanelwidget), document.querySelector("#react"))
+      })
     </script>
   </body>
 </html>

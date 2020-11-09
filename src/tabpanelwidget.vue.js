@@ -15,7 +15,7 @@ const Tabpanelwidget = {
     mode: {
       type: String,
       validator(mode) {
-        if (typeof mode === undefined) return true
+        if (typeof mode === "undefined") return true
         if (mode === ACCORDION || mode === TABPANEL) return true
         return false
       },
@@ -45,7 +45,7 @@ const Tabpanelwidget = {
     if (!window.tpwId) window.tpwId = 0
     this.id = window.tpwId++
     return {
-      selectedTabIdx: this.selectedIdx ? Math.min(this.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
+      selectedTabIdx: this.selectedIdxs ? Math.min(this.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
       expandedTabsIdx: {},
       internalMode: this.mode, // XXX ensure it's not null... or will it get set
     }
@@ -54,13 +54,10 @@ const Tabpanelwidget = {
     if (this.isDynamic) {
       this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout, 100)
       // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
-      if ("ResizeObserver" in window && typeof window.ResizeObserver === "function") {
-        this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
-        this.resizeObserver.observe(this.$el, {box: "border-box"})
-        // TODO for (const span of spans) this.resizeObserver.observe(span, {box: "border-box"})
-      } else {
-        window.addEventListener("resize", this.debouncedMaybeRecomputeLayout)
-        setTimeout(this.maybeRecomputeLayout, 0)
+      this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
+      this.resizeObserver.observe(this.$el, {box: "border-box"})
+      for (let idx = 0; idx < this.tabs.length; idx++) {
+        this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
       }
     }
   },
