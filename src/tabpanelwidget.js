@@ -81,7 +81,8 @@ function _install(orig, cb = null, automatic = false) {
         span.classList.add("tpw-header")
         span.setAttribute("role", "button")
         span.removeAttribute("aria-selected")
-        if (shadow) shadowHxs[idx].classList.remove("tpw-selected")
+        // keep tpw-selected on shadow so it is still styled the same as tabpanel would be
+        // if (shadow) shadowHxs[idx].classList.remove("tpw-selected")
         if (expandedTabIdxs[idx]) {
           hx.classList.add("tpw-selected")
           span.setAttribute("aria-expanded", "true")
