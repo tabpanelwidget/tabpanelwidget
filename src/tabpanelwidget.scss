@@ -326,19 +326,19 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   padding-right: 0; /* reset */
   padding-left: 1rem;
 }
-.tpw-tabpanel.tpw-bar .tpw-selected .tpw-tab {
+.tpw-widget.tpw-bar .tpw-selected .tpw-tab {
   background: transparent;
 }
-.tpw-tabpanel.tpw-bar .tpw-tab {
+.tpw-widget.tpw-bar .tpw-tab {
   border-color: transparent;
   border-style: solid;
-  border-width: 0 0 .2rem;
+  border-width: 1px 1px .2rem;
   padding-left: 0;
   padding-right: 0;
   margin-bottom: 0; /* reset of the margin for when those as styled as tabs */
 }
-.tpw-tabpanel.tpw-bar .tpw-selected .tpw-tab {
-  border-color: $color;
+.tpw-widget.tpw-bar .tpw-selected .tpw-tab {
+  border-color: transparent transparent $color;
 }
 /**
     "outline" has been unset so we need to style the active TAB when its gets focus
