@@ -79,20 +79,26 @@ const Tabpanelwidget = {
     tabIds() {
       return this.tabs.map((_, idx) => this.tabId(idx))
     },
+    shadowHxs() {
+      const ret = []
+      for (let idx = 0; idx < this.tabs.length; idx++) {
+        ret.push(this.$refs[`shadowHx-${idx}`])
+      }
+      return ret
+    },
   },
   methods: {
     maybeRecomputeLayout() {
-      const shadowHxs = []
-      for (let idx = 0; idx < this.tabs.length; idx++) {
-        shadowHxs.push(this.$refs[`shadowHx-${idx}`])
+      let bottom
+      for (const shadowHx of this.shadowHxs) {
+        const rect = shadowHx.getBoundingClientRect()
+        if (bottom === undefined) {
+          bottom = rect.bottom
+        } else if (bottom !== rect.bottom) {
+          bottom = null
+        }
       }
-      let offsetTop = shadowHxs[0].offsetTop
-      let offsetBot = offsetTop + shadowHxs[0].clientHeight
-      for (const shadowHx of shadowHxs) {
-        if (shadowHx.offsetTop !== offsetTop) offsetTop = null
-        if (shadowHx.offsetTop + shadowHx.clientHeight !== offsetBot) offsetBot = null
-      }
-      this.internalMode = offsetTop === null && offsetBot === null ? ACCORDION : TABPANEL
+      this.internalMode = bottom === null ? ACCORDION : TABPANEL
     },
     tabId(idx) {
       return `tpw-${this.id}-${idx}-t`

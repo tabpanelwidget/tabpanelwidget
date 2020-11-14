@@ -315,16 +315,19 @@ function _install(orig, cb = null, automatic = false) {
 
   let resizeObserver
 
-  // if in accordion, can only go into tabpanel if the widget width grows...
+  // if in accordion, can only go into tabpanel if any hx bottom position is different
   const maybeRecomputeLayout = () => {
     if (!shadowHxs.length) return
-    let offsetTop = shadowHxs[0].offsetTop
-    let offsetBot = offsetTop + shadowHxs[0].clientHeight
+    let bottom
     shadowHxs.forEach(shadowHx => {
-      if (shadowHx.offsetTop !== offsetTop) offsetTop = null
-      if (shadowHx.offsetTop + shadowHx.clientHeight !== offsetBot) offsetBot = null
+      const rect = shadowHx.getBoundingClientRect()
+      if (bottom === undefined) {
+        bottom = rect.bottom
+      } else if (bottom !== rect.bottom) {
+        bottom = null
+      }
     })
-    setAccordion(offsetTop === null && offsetBot === null)
+    setAccordion(bottom === null)
   }
   const debouncedMaybeRecomputeLayout = debounced(maybeRecomputeLayout, 100)
 
