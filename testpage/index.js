@@ -1,4 +1,8 @@
-import * as Tabpanelwidget from "../src/tabpanelwidget.js"
+import Vue from "vue"
 
-// XXX make sure this happens before we do vue and react so we don't try to do those
-Tabpanelwidget.autoinstall()
+import App from "./App.vue"
+
+new Vue({
+  el: "#app",
+  render: h => h(App),
+})

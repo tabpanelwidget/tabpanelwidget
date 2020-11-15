@@ -4,15 +4,8 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## TODO
 
-- [ ] use storybook instead of index.html (and vite)...? (would make playing with components better)
-- [ ] for "old school" aka tabpanelwidget.min.js -- we should set window.tpw
---[ ] rewrite in typescript
-
-- test page goals:
-  - run locally, pug for partials
-  - deploy to github pages
-  - semi-DRY for vanilla, vue, react
-  - same pattern with stylesheets, etc.
+--[ ] rewrite in typescript?
+- [ ] change heuristic to check biggest tpw-hx height >= tpw-shadow height
 
 ## TOC
 
