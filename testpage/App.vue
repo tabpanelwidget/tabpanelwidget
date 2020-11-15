@@ -65,7 +65,18 @@
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addBorderRadius + addCentered)
       div(ref="vanillaSection")
-        h2 TabPanels
+        h2 #[code .tpw-widget] (dynamic)
+        div(:style="{width: width+'%'}")
+          div
+            h4
+              code.code .tpw-widget
+              code.code .tpw-bar
+              code.code .tpw-plus-minus
+              code.code .tpw-icons-at-the-end
+              code.code.centered(v-if="addCentered") .tpw-centered
+            .tpw-widget.tpw-bar.tpw-plus-minus.tpw-icons-at-the-end
+              include ./_vanilla-headings.pug
+        h2 #[code .tpw-widget.tpw-tabpanel]
         div(:style="{width: width+'%'}")
           div
             h3 Headings (#[code h5])
@@ -89,7 +100,7 @@
                 code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               dl.tpw-widget.tpw-tabpanel(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-dl.pug
-        h2 Accordions
+        h2 #[code .tpw-widget.tpw-accordion]
         div(:style="{width: width+'%'}")
           div
             h3 Headings (#[code h5])

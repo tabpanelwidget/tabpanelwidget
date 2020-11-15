@@ -89,16 +89,13 @@ const Tabpanelwidget = {
   },
   methods: {
     maybeRecomputeLayout() {
-      let bottom
-      for (const shadowHx of this.shadowHxs) {
-        const rect = shadowHx.getBoundingClientRect()
-        if (bottom === undefined) {
-          bottom = rect.bottom
-        } else if (bottom !== rect.bottom) {
-          bottom = null
+      let maxShadowHxHeight = 0
+      this.shadowHxs.forEach(shadowHx => {
+        if (maxShadowHxHeight < shadowHx.clientHeight) {
+          maxShadowHxHeight = shadowHx.clientHeight
         }
-      }
-      this.internalMode = bottom === null ? ACCORDION : TABPANEL
+      })
+      this.internalMode = (this.$refs.shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
     },
     tabId(idx) {
       return `tpw-${this.id}-${idx}-t`
@@ -184,6 +181,7 @@ const Tabpanelwidget = {
         attrs: {
           "aria-hidden": true,
         },
+        ref: "shadow",
         class: "tpw-shadow",
       }, children)
     },

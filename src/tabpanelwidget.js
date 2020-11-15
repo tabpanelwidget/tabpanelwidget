@@ -318,16 +318,13 @@ function _install(orig, cb = null, automatic = false) {
   // if in accordion, can only go into tabpanel if any hx bottom position is different
   const maybeRecomputeLayout = () => {
     if (!shadowHxs.length) return
-    let bottom
+    let maxShadowHxHeight = 0
     shadowHxs.forEach(shadowHx => {
-      const rect = shadowHx.getBoundingClientRect()
-      if (bottom === undefined) {
-        bottom = rect.bottom
-      } else if (bottom !== rect.bottom) {
-        bottom = null
+      if (maxShadowHxHeight < shadowHx.clientHeight) {
+        maxShadowHxHeight = shadowHx.clientHeight
       }
     })
-    setAccordion(bottom === null)
+    setAccordion(shadow.clientHeight > maxShadowHxHeight)
   }
   const debouncedMaybeRecomputeLayout = debounced(maybeRecomputeLayout, 100)
 
