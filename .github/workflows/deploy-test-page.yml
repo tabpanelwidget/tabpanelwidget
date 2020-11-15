@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'src/**'
+      - 'test-page/**'
+      - '.github/workflows/deploy-test-page.yml'
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
