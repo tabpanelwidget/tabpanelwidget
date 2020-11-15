@@ -5,8 +5,8 @@ on:
       - master
     paths:
       - 'src/**'
-      - 'test-page/**'
-      - '.github/workflows/deploy-test-page.yml'
+      - 'testpage/**'
+      - '.github/workflows/deploy-testpage.yml'
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,10 +17,10 @@ jobs:
       - run: |
           npm install
           npm run build
-        working-directory: test-page
+        working-directory: testpage
       - uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: test-page/dist
+          FOLDER: testpage/dist
           CLEAN: true
