@@ -65,7 +65,8 @@
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addBorderRadius + addCentered)
       div(ref="vanillaSection")
-        h2 #[code .tpw-widget] (dynamic)
+        h2 Vanilla
+        h3 #[code .tpw-widget] (dynamic)
         div(:style="{width: width+'%'}")
           div
             h4
@@ -76,12 +77,12 @@
               code.code.centered(v-if="addCentered") .tpw-centered
             .tpw-widget.tpw-bar.tpw-plus-minus.tpw-icons-at-the-end
               include ./_vanilla-headings.pug
-        h2 #[code .tpw-widget.tpw-tabpanel]
+        h3 #[code .tpw-widget.tpw-tabpanel]
         div(:style="{width: width+'%'}")
           div
-            h3 Headings (#[code h5])
+            h4 Headings (#[code h5])
             template(v-for="example in examples")
-              h4
+              h5
                 code.code .tpw-widget
                 code.code .tpw-tabpanel
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
@@ -90,9 +91,9 @@
               .tpw-widget.tpw-tabpanel(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-headings.pug
           div
-            h3 Definition List #[code dl]
+            h4 Definition List #[code dl]
             template(v-for="example in examples")
-              h4
+              h5
                 code.code .tpw-widget
                 code.code .tpw-tabpanel
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
@@ -100,12 +101,12 @@
                 code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               dl.tpw-widget.tpw-tabpanel(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-dl.pug
-        h2 #[code .tpw-widget.tpw-accordion]
+        h3 #[code .tpw-widget.tpw-accordion]
         div(:style="{width: width+'%'}")
           div
-            h3 Headings (#[code h5])
+            h4 Headings (#[code h5])
             template(v-for="example in examples")
-              h4
+              h5
                 code.code .tpw-widget
                 code.code .tpw-accordion
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
@@ -114,9 +115,9 @@
               .tpw-widget.tpw-accordion(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-headings.pug
           div
-            h3 Definition List (#[code dl])
+            h4 Definition List (#[code dl])
             template(v-for="example in examples")
-              h4
+              h5
                 code.code .tpw-widget
                 code.code .tpw-accordion
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
@@ -124,13 +125,25 @@
                 code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               dl.tpw-widget.tpw-accordion(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-dl.pug
+      div(ref="vueSection")
+        h2 Vue
+        div
+          //- XXX include html of the vue section below above automatically
+          VueTabpanelwidget(:tabs="['Lorem', 'Ipsum', 'Dolor', 'Sit Amet']")
+            template(v-slot:panel-0="")
+              p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+              small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 </template>
 
 <script>
 import * as Tabpanelwidget from "../src/tabpanelwidget.js"
+import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
 
 export default {
   name: "App",
+  components: {
+    VueTabpanelwidget,
+  },
   data() {
     this.examples = [
       {classes: []},
