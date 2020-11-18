@@ -1,8 +1,11 @@
+@-ms-viewport {
+    width: device-width;
+}
 html, body {
      background: #f1f1f1;
      margin: 0;
 }
- header *:not(strong) {
+header *:not(strong) {
      box-sizing: border-box;
      vertical-align: bottom;
      color: #555 !important;

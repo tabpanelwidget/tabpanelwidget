@@ -160,7 +160,7 @@ export default {
       addNormalize: false,
       customStylesheetHref: "",
       editCustomStylesheetHref: "",
-      fontSize: 10,
+      fontSize: 18,
       fontWeight: 500,
       rtlEnabled: false,
       space: 0,
