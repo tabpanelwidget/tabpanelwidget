@@ -237,28 +237,16 @@ h3 + div {margin:auto}
  input[type=range]::-moz-range-track {
      background: #ccc;
 }
+
  .code {
-     display: block;
-     position: relative;
+     display: inline-block;
      font-weight: bold;
      font-size: 18px;
-     padding: 5px;
-     display: block;
-     background:rgba(166,184,239,0.95);
+     padding: 2px 5px;
+     background:#ffd1df;
      color: #000;
      border-radius: 3px;
-     margin-top: 1px;
-}
- .code:last-of-type:before {
-     content: "";
-     position: absolute;
-     top: 100%;
-     left:50%;
-     width: 1.4rem;
-     height: 1.4rem;
-     margin: -.7rem 0 0 -.7rem;
-     background:rgba(166,184,239,0.95);
-     transform: rotate(45deg);
+     border: 1px solid #ccc;
 }
  #test-container {
      --space: 0;
@@ -266,6 +254,8 @@ h3 + div {margin:auto}
      letter-spacing: calc(1em * (var(--space) / 200));
      word-spacing: calc(1em * (var(--space) / 100));
 }
+#test-container ul {margin: 0; padding: 0;}
+#test-container li {display: inline-block;}
  #homeLink {
      display:inline-block;
      margin-right: 12px;
