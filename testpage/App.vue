@@ -31,9 +31,6 @@
         input#turn-off-tpw.input(type="checkbox" v-model="tpwOff")
         label(for="turn-off-tpw") Turn the Widgets off [#[abbr(title="Plain Old Semantic HTML") POSH]]
         br
-        input#tabpanel-check-option-rounded.input(type="checkbox" v-model="addBorderRadius")
-        label(for="tabpanel-check-option-rounded") Add "border-radius" to tabs/panels
-        br
         input#tabpanel-check-option-centered.input(type="checkbox" v-model="addCentered")
         label(for="tabpanel-check-option-centered") Center the tabs
         br
@@ -42,7 +39,7 @@
     #controls
       p
         label(for="width") Width:
-        input#width(type="range" v-model="width" step="1" min="30" max="100")
+        input#width(type="range" v-model="width" step="1" min="10" max="100")
         input(:value="width+'%'" disabled="disabled")
       p
         label(for="fontSize") Font-size:
@@ -63,21 +60,137 @@
             g(fill="#ffffff")
               path#Path(d="M114.294,21.429 C98.78,33.018 86.087,42.725 86.087,43 C86.087,43.275 98.893,53.065 114.544,64.756 L143,86.012 L143,71.408 L143,56.804 L149.25,57.442 C174.418,60.013 194.178,67.216 211.173,80.018 C220.734,87.219 234.712,102.435 240.292,111.716 C263.404,150.152 263.404,193.379 240.292,232.407 C233.675,243.582 214.582,262.675 203.407,269.292 C168.172,290.158 128.743,292.219 93.434,275.041 C28.675,243.536 8.148,160.908 50.935,103.964 C53.177,100.979 54.897,98.222 54.756,97.837 C54.399,96.862 34.773,80 33.994,80 C33.076,80 23.998,92.463 19.646,99.7 C10.769,114.457 4.257,132.652 1.464,150.5 C-0.746,164.63 -0.084,189.259 2.85,202 C15.805,258.268 58.369,300.241 115.04,312.633 C127.107,315.271 158.883,315.27 171,312.631 C228.317,300.148 271.079,257.371 283.633,199.96 C285.08,193.341 285.482,187.256 285.482,172 C285.482,151.094 284.415,143.527 279.285,128.04 C260.907,72.57 210.327,32.798 153.776,29.351 L143.052,28.697 L142.776,14.528 L142.5,0.359 L114.294,21.429")
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
-      //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addBorderRadius + addCentered)
+      //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
       div(ref="vanillaSection")
         h2 Vanilla
-        h3 #[code .tpw-widget] (dynamic)
+        h3 "Dynamic" Widgets with default Accordion Styling
         div(:style="{width: width+'%'}")
           div
-            h4
-              code.code .tpw-widget
-              code.code .tpw-bar
-              code.code .tpw-plus-minus
-              code.code .tpw-icons-at-the-end
-              code.code.centered(v-if="addCentered") .tpw-centered
-            .tpw-widget.tpw-bar.tpw-plus-minus.tpw-icons-at-the-end
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget
               include ./_vanilla-headings.pug
-        h3 #[code .tpw-widget.tpw-tabpanel]
+          //- tpw-rounded
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li 
+                code.code .tpw-rounded
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-rounded
+              include ./_vanilla-headings.pug
+          //- tpw-fancy
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li 
+                code.code .tpw-rounded
+              li 
+                code.code .tpw-fancy
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-rounded.tpw-fancy
+              include ./_vanilla-headings.pug
+          //- tpw-pills
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li 
+                code.code .tpw-rounded
+              li 
+                code.code .tpw-pills
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-rounded.tpw-pills
+              include ./_vanilla-headings.pug
+          //- tpw-bar
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li 
+                code.code .tpw-bar
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-bar
+              include ./_vanilla-headings.pug
+
+        h3 "Dynamic" Widgets with custom Accordion Styling
+        div(:style="{width: width+'%'}")
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li
+                code.code .tpw-chevrons-east-south
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-chevrons-east-south
+              include ./_vanilla-headings.pug
+          //- tpw-plus-minus
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li
+                code.code .tpw-plus-minus
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-plus-minus
+              include ./_vanilla-headings.pug
+          //- tpw-disconnected    
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li
+                code.code .tpw-disconnected
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-disconnected
+              include ./_vanilla-headings.pug
+          //- tpw-animate    
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li
+                code.code .tpw-animate
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-animate
+              include ./_vanilla-headings.pug
+          //- tpw-icons-at-the-end
+          div
+            p Classes applied to the Widget:
+            ul
+              li 
+                code.code .tpw-widget
+              li
+                code.code .tpw-icons-at-the-end
+              li(v-if="addCentered") 
+                code.code.centered .tpw-centered
+            .tpw-widget.tpw-icons-at-the-end
+              include ./_vanilla-headings.pug
+
+
+        h3 "Static" Widget: TabPanel
         div(:style="{width: width+'%'}")
           div
             h4 Headings (#[code h5])
@@ -87,7 +200,6 @@
                 code.code .tpw-tabpanel
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
                 code.code.centered(v-if="addCentered && !example.ignoreCentered") .tpw-centered
-                code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               .tpw-widget.tpw-tabpanel(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-headings.pug
           div
@@ -98,10 +210,10 @@
                 code.code .tpw-tabpanel
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
                 code.code.centered(v-if="addCentered && !example.ignoreCentered") .tpw-centered
-                code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               dl.tpw-widget.tpw-tabpanel(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-dl.pug
-        h3 #[code .tpw-widget.tpw-accordion]
+
+        h3 "Static" Widget: Accordion
         div(:style="{width: width+'%'}")
           div
             h4 Headings (#[code h5])
@@ -111,7 +223,6 @@
                 code.code .tpw-accordion
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
                 code.code.centered(v-if="addCentered && !example.ignoreCentered") .tpw-centered
-                code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               .tpw-widget.tpw-accordion(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-headings.pug
           div
@@ -122,7 +233,6 @@
                 code.code .tpw-accordion
                 code.code(v-for="cls in example.classes") .tpw-{{cls}}
                 code.code.centered(v-if="addCentered && !example.ignoreCentered") .tpw-centered
-                code.code.rounded(v-if="addBorderRadius && !example.ignoreBorderRadius") .tpw-rounded
               dl.tpw-widget.tpw-accordion(:class="example.classes.map(cls => `tpw-${cls}`)")
                 include ./_vanilla-dl.pug
       div(ref="vueSection")
@@ -155,7 +265,6 @@ export default {
     ]
     this.uninstalls = []
     return {
-      addBorderRadius: false,
       addCentered: false, // TODO to examples say whether this is supported or not
       addNormalize: false,
       customStylesheetHref: "",
@@ -166,7 +275,7 @@ export default {
       space: 0,
       stylesheetHref: "",
       tpwOff: false,
-      width: 100,
+      width: 72,
     }
   },
   mounted() {
@@ -191,15 +300,6 @@ export default {
       } else {
         this.enableTpw()
       }
-    },
-    addBorderRadius(v) {
-      this.$refs.vanillaSection.querySelectorAll(`.tpw-widget`).forEach(w => {
-        if (v) {
-          w.classList.add("tpw-rounded")
-        } else {
-          w.classList.remove("tpw-rounded")
-        }
-      })
     },
     addCentered(v) {
       this.$refs.vanillaSection.querySelectorAll(`.tpw-widget`).forEach(w => {
