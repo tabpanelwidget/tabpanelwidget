@@ -13,8 +13,7 @@ header *:not(strong) {
 }
  header {
      margin: 30px auto;
-     width: 80%;
-     max-width: 960px;
+     width: 72%;
      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
      color: #606c76;
      font-size: 18px;
@@ -297,9 +296,6 @@ h3 + div {margin:auto}
          padding: 1rem 0;
          display: block;
          position: relative;
-         width: 80%;
-         border-radius: 5px;
-         margin: auto;
     }
      #controls p {
          width: auto;
