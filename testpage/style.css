@@ -1,7 +1,9 @@
 @-ms-viewport {
     width: device-width;
 }
-
+:focus:not(:focus-visible) + label {
+  box-shadow: none !important;
+}
 header *:not(strong) {
     box-sizing: border-box;
     vertical-align: bottom;
