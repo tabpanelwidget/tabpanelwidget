@@ -293,6 +293,13 @@ input[type=range]::-moz-range-track {
     word-spacing: calc(1em * (var(--space) / 100));
 }
 
+#test-container h3:not(.tpw-hx) {
+    font-size: 1.8rem;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+    border-top: 4px solid #555;
+    border-bottom: 4px solid #555;
+}
+
 #test-container ul {
     margin: 0;
     padding: 0;
