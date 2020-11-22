@@ -286,6 +286,7 @@ input[type=range]::-moz-range-track {
     color: #000;
     border-radius: 3px;
     border: 1px solid #ccc;
+    margin: 0 3px 3px 0;
 }
 
 #test-container {
