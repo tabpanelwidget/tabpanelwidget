@@ -204,7 +204,8 @@ $minus:   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5
 */
 /* bump specificity to 0.1.1.1 */
 html:not(#tpw-booster) .tpw-hx {
-  margin: 0;
+  margin: 0 !important;
+  border: 0 !important;
   padding: 0;
   display: inline-block;
   vertical-align: bottom;
