@@ -40,9 +40,11 @@ const Tabpanelwidget = {
         return true
       },
     },
+    rtl: Boolean,
     // special classes (XXX for now just forward the vanilla classes but need to improve customizability)
     animate: Boolean,
     bar: Boolean,
+    centered: Boolean,
     chevronsEastSouth:  Boolean,
     disconnected: Boolean,
     fancy: Boolean,
@@ -91,6 +93,7 @@ const Tabpanelwidget = {
       const ret = []
       if (this.animate) ret.push("tpw-animate")
       if (this.bar) ret.push("tpw-bar")
+      if (this.centered) ret.push("tpw-centered")
       if (this.chevronsEastSouth) ret.push("tpw-chevrons-east-south")
       if (this.disconnected) ret.push("tpw-disconnected")
       if (this.fancy) ret.push("tpw-fancy")
@@ -112,6 +115,7 @@ const Tabpanelwidget = {
           maxShadowHxHeight = shadowHx.clientHeight
         }
       })
+      // TODO why are the shadowHx clientHeight set to 0 sometimes?
       console.log('shadow.clientHeight', shadow.clientHeight)
       this.internalMode = (shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
       console.log("in maybeRecomputeLayout", this.internalMode)
@@ -169,6 +173,9 @@ const Tabpanelwidget = {
       children.push(this.renderSkipLink(h))
       return h("div", {
         class: ["tpw-widget", "tpw-js", "tpw-tabpanel"].concat(this.classes),
+        attrs: {
+          "dir": this.rtl ? "rtl" : undefined,
+        },
         on: {
           keydown: e => {
             switch (e.which) {
@@ -283,6 +290,9 @@ const Tabpanelwidget = {
           class: {
             "tpw-hx": true,
             "tpw-selected": this.expandedTabsIdx[idx],
+          },
+          attrs: {
+            "dir": this.rtl ? "rtl" : undefined,
           },
         }, [
           h("span", {
