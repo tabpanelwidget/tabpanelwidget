@@ -315,9 +315,9 @@ function _install(orig, cb = null, automatic = false) {
 
   let resizeObserver
 
-  // if in accordion, can only go into tabpanel if any hx bottom position is different
   const maybeRecomputeLayout = () => {
     if (!shadowHxs.length) return
+    // heuristic ignores margin / border because css sets to 0 !important
     let maxShadowHxHeight = 0
     shadowHxs.forEach(shadowHx => {
       if (maxShadowHxHeight < shadowHx.clientHeight) {

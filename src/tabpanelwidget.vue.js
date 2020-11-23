@@ -40,25 +40,25 @@ const Tabpanelwidget = {
         return true
       },
     },
+    // special classes (XXX for now just forward the vanilla classes but need to improve customizability)
+    animate: Boolean,
+    bar: Boolean,
+    chevronsEastSouth:  Boolean,
+    disconnected: Boolean,
+    fancy: Boolean,
+    iconsAtTheEnd: Boolean,
+    pills: Boolean,
+    plusMinus: Boolean,
+    rounded: Boolean,
   },
   data() {
     if (!window.tpwId) window.tpwId = 0
     this.id = window.tpwId++
+    this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout, 100)
     return {
       selectedTabIdx: this.selectedIdxs ? Math.min(this.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
       expandedTabsIdx: {},
-      internalMode: this.mode, // XXX ensure it's not null... or will it get set
-    }
-  },
-  mounted() {
-    if (this.isDynamic) {
-      this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout, 100)
-      // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
-      this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
-      this.resizeObserver.observe(this.$el, {box: "border-box"})
-      for (let idx = 0; idx < this.tabs.length; idx++) {
-        this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
-      }
+      internalMode: this.mode || null,
     }
   },
   beforeDestroy() {
@@ -86,16 +86,35 @@ const Tabpanelwidget = {
       }
       return ret
     },
+    // XXX maybe check which ones can go with which
+    classes() {
+      const ret = []
+      if (this.animate) ret.push("tpw-animate")
+      if (this.bar) ret.push("tpw-bar")
+      if (this.chevronsEastSouth) ret.push("tpw-chevrons-east-south")
+      if (this.disconnected) ret.push("tpw-disconnected")
+      if (this.fancy) ret.push("tpw-fancy")
+      if (this.iconsAtTheEnd) ret.push("tpw-icons-at-the-end")
+      if (this.pills) ret.push("tpw-pills")
+      if (this.plusMinus) ret.push("tpw-plus-minus")
+      if (this.rounded) ret.push("tpw-rounded")
+      return ret
+    },
   },
   methods: {
     maybeRecomputeLayout() {
+      const { shadow } = this.$refs
+      if (!shadow) return
       let maxShadowHxHeight = 0
       this.shadowHxs.forEach(shadowHx => {
+        console.log('shadowHx.clientHeight', shadowHx.clientHeight)
         if (maxShadowHxHeight < shadowHx.clientHeight) {
           maxShadowHxHeight = shadowHx.clientHeight
         }
       })
-      this.internalMode = (this.$refs.shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
+      console.log('shadow.clientHeight', shadow.clientHeight)
+      this.internalMode = (shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
+      console.log("in maybeRecomputeLayout", this.internalMode)
     },
     tabId(idx) {
       return `tpw-${this.id}-${idx}-t`
@@ -149,7 +168,7 @@ const Tabpanelwidget = {
       }
       children.push(this.renderSkipLink(h))
       return h("div", {
-        class: "tpw-widget tpw-js tpw-tabpanel",
+        class: ["tpw-widget", "tpw-js", "tpw-tabpanel"].concat(this.classes),
         on: {
           keydown: e => {
             switch (e.which) {
@@ -309,12 +328,34 @@ const Tabpanelwidget = {
       }
       children.push(this.renderSkipLink(h))
       return h("div", {
-        class: "tpw-widget tpw-js tpw-accordion",
+        class: ["tpw-widget", "tpw-js", "tpw-accordion"].concat(this.classes),
       }, children)
     },
   },
   render(h) {
     return this.isAccordion ? this.renderAccordion(h) : this.renderTabpanel(h)
+  },
+  watch: {
+    mode(v) {
+      this.internalMode = v || null
+    },
+    isDynamic(v) {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect()
+      }
+      if (v) {
+        if (!this.resizeObserver) {
+          // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
+          this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
+        }
+        this.$nextTick(() => {
+          this.resizeObserver.observe(this.$el, {box: "border-box"})
+          for (let idx = 0; idx < this.tabs.length; idx++) {
+            this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
+          }
+        })
+      }
+    },
   },
 }
 

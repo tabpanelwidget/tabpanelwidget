@@ -66,9 +66,9 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget
               include ./_vanilla-headings.pug
@@ -76,11 +76,11 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-rounded
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-rounded
               include ./_vanilla-headings.pug
@@ -88,13 +88,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-rounded
-              li 
+              li
                 code.code tpw-fancy
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-rounded.tpw-fancy
               include ./_vanilla-headings.pug
@@ -102,13 +102,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-rounded
-              li 
+              li
                 code.code tpw-pills
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-rounded.tpw-pills
               include ./_vanilla-headings.pug
@@ -116,11 +116,11 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-bar
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-bar
               include ./_vanilla-headings.pug
@@ -129,11 +129,11 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
               li
                 code.code tpw-chevrons-east-south
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-chevrons-east-south
               include ./_vanilla-headings.pug
@@ -141,35 +141,35 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
               li
                 code.code tpw-plus-minus
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-plus-minus
               include ./_vanilla-headings.pug
-          //- tpw-disconnected    
+          //- tpw-disconnected
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
               li
                 code.code tpw-disconnected
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-disconnected
               include ./_vanilla-headings.pug
-          //- tpw-animate    
+          //- tpw-animate
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
               li
                 code.code tpw-animate
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-animate
               include ./_vanilla-headings.pug
@@ -177,11 +177,11 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
               li
                 code.code tpw-icons-at-the-end
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-icons-at-the-end
               include ./_vanilla-headings.pug
@@ -190,11 +190,11 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-tabpanel
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel
               include ./_vanilla-headings.pug
@@ -202,13 +202,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-tabpanel
-              li 
+              li
                 code.code tpw-rounded
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded
               include ./_vanilla-headings.pug
@@ -216,15 +216,15 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-tabpanel
-              li 
+              li
                 code.code tpw-rounded
-              li 
+              li
                 code.code tpw-fancy
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-fancy
               include ./_vanilla-headings.pug
@@ -232,15 +232,15 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-tabpanel
-              li 
+              li
                 code.code tpw-rounded
-              li 
+              li
                 code.code tpw-pills
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-pills
               include ./_vanilla-headings.pug
@@ -248,13 +248,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-tabpanel
-              li 
+              li
                 code.code tpw-bar
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-bar
               include ./_vanilla-headings.pug
@@ -263,13 +263,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-chevrons-east-south
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-chevrons-east-south
               include ./_vanilla-headings.pug
@@ -277,41 +277,41 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-plus-minus
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-plus-minus
               include ./_vanilla-headings.pug
-          //- tpw-disconnected    
+          //- tpw-disconnected
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-disconnected
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-disconnected
               include ./_vanilla-headings.pug
-          //- tpw-animate    
+          //- tpw-animate
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-animate
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-animate
               include ./_vanilla-headings.pug
@@ -319,13 +319,13 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-icons-at-the-end
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-icons-at-the-end
               include ./_vanilla-headings.pug
@@ -333,26 +333,43 @@
           div
             p Classes applied to the Widget:
             ul
-              li 
+              li
                 code.code tpw-widget
-              li 
+              li
                 code.code tpw-accordion
               li
                 code.code tpw-icons-at-the-end
               li
                 code.code tpw-animate
-              li(v-if="addCentered") 
+              li(v-if="addCentered")
                 code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-icons-at-the-end.tpw-animate
               include ./_vanilla-headings.pug
       div(ref="vueSection")
         h2 Vue
+        h3 just for h3+div margin auto style
+        h4 Mode
         div
-          //- XXX include html of the vue section below above automatically
-          VueTabpanelwidget(:tabs="['Lorem', 'Ipsum', 'Dolor', 'Sit Amet']")
-            template(v-slot:panel-0="")
-              p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
-              small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+          label #[input(type="radio" v-model="vueMode" :value="undefined")] unspecified (dynamic)
+          label #[input(type="radio" v-model="vueMode" value="accordion")] strictly accordion
+          label #[input(type="radio" v-model="vueMode" value="tabpanel")] strictly tabpanel
+        h4 Tabs
+        div(v-for="(tab, idx) in vueTabs" :key="idx")
+          input(type="text" v-model="vueTabs[idx]")
+          button(@click="vueTabs.splice(idx, 1)") remove
+        button(@click="vueTabs.push('')") add
+        h4 Class props
+        label(v-for="vueClassProp in vueClassProps" :key="vueClassProp") #[input(type="checkbox" :value="vueSelectedClassProps[vueClassProp]" @input="e => $set(vueSelectedClassProps, vueClassProp, !!e.target.checked)")] {{vueClassProp}}
+        div(:style="{width: width+'%'}")
+          div
+            //- XXX include html of the vue section below above automatically
+            VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueSelectedClassProps")
+              template(v-slot:panel-0="")
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+                small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+          div
+            pre
+              code {{vueCode}}
 </template>
 
 <script>
@@ -374,6 +391,8 @@ export default {
       {classes: ["bar", "plus-minus", "icons-at-the-end"], ignoreBorderRadius: true},
     ]
     this.uninstalls = []
+    this.vueModes = [undefined, "accordion", "tabpanel"]
+    this.vueClassProps = ["animate", "bar", "chevrons-east-south", "disconnected", "fancy", "icons-at-the-end", "pills", "plus-minus", "rounded"]
     return {
       addCentered: false, // TODO to examples say whether this is supported or not
       addNormalize: false,
@@ -386,10 +405,40 @@ export default {
       stylesheetHref: "",
       tpwOff: false,
       width: 72,
+
+      vueMode: this.vueModes[0],
+      vueSelectedClassProps: {},
+      vueTabs: ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'],
+      // XXX some way to customize the panels
     }
   },
   mounted() {
     this.enableTpw()
+  },
+  computed: {
+    vueCode() {
+      const keys = Object.keys(this.vueSelectedClassProps)
+      const props = keys.filter(k => this.vueSelectedClassProps[k]).join(" ")
+      // XXX .script because otherwise parse fail
+      return `<template>
+  <VueTabpanelwidget ${this.vueMode ? `mode="${this.vueMode}" ` : ''}:tabs="${JSON.stringify(this.vueTabs)}"${props ? ` ${props}` : ''}>
+    <template v-slot:panel-0="">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.<p>
+      <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small>
+    </template>
+  </VueTabpanelwidget>
+</template>
+
+<.script>
+import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
+
+export default {
+  components: {
+    VueTabpanelwidget,
+  },
+}
+</.script>`
+    },
   },
   methods: {
     enableTpw() {
