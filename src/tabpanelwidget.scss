@@ -275,7 +275,7 @@ html:not(#tpw-booster) .tpw-hx {
 .tpw-fancy .tpw-tab {
   transform: translateY(#{$fancyYoffset * -1});
   transition: transform .3s ease;
-  border: 1px solid rgba($borderColor, 0.8);
+  border: 1px solid $borderColor;
   border-bottom-color: transparent;
   margin-right: $fancyXoffset;
   position: relative;
@@ -447,7 +447,7 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 .tpw-accordion .tpw-shim:not([hidden]):last-of-type .tpw-panel {
   border-width: 0 1px 1px;
 }
-.tpw-disconnected .tpw-panel {
+.tpw-disconnected.tpw-accordion .tpw-panel {
   border: 1px solid $borderColor !important;
   border-radius: 0 0 $borderRadius $borderRadius !important;
   margin: -6px 0 5px !important;
