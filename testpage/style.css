@@ -1,6 +1,9 @@
 @-ms-viewport {
     width: device-width;
 }
+html {
+    scroll-padding-top: 5rem;
+}
 :focus:not(:focus-visible) + label {
   box-shadow: none !important;
 }
@@ -22,10 +25,10 @@ header {
     line-height: 1.6;
 }
 h2:not(.tpw-hx) {
-    font-size: 1.8rem;
+    font-size: 2.8rem;
     text-align: center;
-    padding: .5rem;
-    background: #7f9ddf;
+    padding: 1rem !important;
+    background: #b5c6ea;
     color: #3f3d55;
     margin: 3rem 0;
     font-weight: bold;
@@ -112,7 +115,7 @@ button:not(#TK),
     max-width: 100%;
     box-sizing: border-box !important;
     /* materialize */
-    margin: 0;
+    margin: 2px 0;
     border: 1px solid #aaa !important;
     /* materialize */
     box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
@@ -127,7 +130,12 @@ button:not(#TK) {
     /* materialize */
     background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
 }
-
+button:not(#TK).vue-remove {
+    clear: both;
+    float: none;
+    width: 100% !important;
+    margin-top: 1rem;
+}
 [type=checkbox]:not(#TK) {
     position: absolute;
     opacity: 0;
@@ -181,7 +189,8 @@ ul:not(#TK) {
     font-weight: 400;
 }
 
-.fieldset {
+.fieldset,
+.vue-fieldset {
     clear: both;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -189,7 +198,9 @@ ul:not(#TK) {
     background: #fff;
     padding: 5px 15px 10px;
 }
-
+.vue-fieldset {
+    margin: 1rem auto;
+}
 #controls {
     background: #333;
     color: #fff;
@@ -291,14 +302,19 @@ input[type=range]::-moz-range-track {
     letter-spacing: calc(1em * (var(--space) / 200));
     word-spacing: calc(1em * (var(--space) / 100));
 }
- 
+#test-container > * {
+    padding: 0 10px;
+} 
 #test-container h3:not(.tpw-hx) {
     font-size: 1.8rem;
-    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
     border-top: 4px solid #555;
     border-bottom: 4px solid #555;
 }
-
+label:not(#tk),
+input[type=text]:not(#tk),
+#test-container h3:not(.tpw-hx) {
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
 #test-container ul {
     margin: 0;
     padding: 0;
@@ -312,7 +328,9 @@ input[type=range]::-moz-range-track {
     display: inline-block;
     margin-right: 12px;
 }
-
+.m-a {
+    margin: auto;
+}
 .v-h {
     clip: rect(1px, 1px, 1px, 1px);
     -webkit-clip-path: inset(50%);
@@ -338,6 +356,34 @@ input[type=range]::-moz-range-track {
 
 .hidden {
     display: none;
+}
+pre {
+    color: #000;
+    overflow-x: auto;
+    -moz-tab-size: 0;
+    tab-size: 0;
+    position: relative;
+    white-space: pre;
+}
+pre code {
+    font-size: 0.9rem;
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #333;
+    background: #ffd1df;
+    border: 1px solid #ccc;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.2rem;
+    margin: 0 0.2rem;
+    vertical-align: middle;
+    box-shadow: inset 0 0 1px #f2f2f2;
+    display: block;
+    overflow-x: auto;
+    padding: .6rem .3rem;
+    background: #333;
+    color: #DCDCDC;
+    text-shadow: 2px 2px #000;
 }
 
 @media screen and (max-width: 800px) {
