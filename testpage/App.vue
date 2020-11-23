@@ -354,17 +354,27 @@
           label #[input(type="radio" v-model="vueMode" :value="undefined")] unspecified (dynamic)
           label #[input(type="radio" v-model="vueMode" value="accordion")] strictly accordion
           label #[input(type="radio" v-model="vueMode" value="tabpanel")] strictly tabpanel
+        h4 Pick a style
+        select(v-model="vueStyle")
+          option(:value="null") Default
+          option(value="fancy") Fancy
+          option(value="pills") Pills
+          option(value="bar") Bar
+        div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
+          label #[input(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")] Add border-radius
+        div
+          label #[input(type="checkbox" v-model="vueCentered")] Center the tabs
+        div
+          label #[input(type="checkbox" v-model="vueRtl")] RTL
         h4 Tabs
         div(v-for="(tab, idx) in vueTabs" :key="idx")
           input(type="text" v-model="vueTabs[idx]")
           button(@click="vueTabs.splice(idx, 1)") remove
         button(@click="vueTabs.push('')") add
-        h4 Class props
-        label(v-for="vueClassProp in vueClassProps" :key="vueClassProp") #[input(type="checkbox" :value="vueSelectedClassProps[vueClassProp]" @input="e => $set(vueSelectedClassProps, vueClassProp, !!e.target.checked)")] {{vueClassProp}}
         div(:style="{width: width+'%'}")
           div
             //- XXX include html of the vue section below above automatically
-            VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueSelectedClassProps")
+            VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
               template(v-slot:panel-0="")
                 p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                 small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
@@ -393,7 +403,8 @@ export default {
     ]
     this.uninstalls = []
     this.vueModes = [undefined, "accordion", "tabpanel"]
-    this.vueClassProps = ["animate", "bar", "chevrons-east-south", "disconnected", "fancy", "icons-at-the-end", "pills", "plus-minus", "rounded"]
+    // TODO allow controls of these
+    // this.vueClassProps = ["animate", "chevrons-east-south", "disconnected", "icons-at-the-end", "plus-minus"]
     return {
       addCentered: false, // TODO to examples say whether this is supported or not
       addNormalize: false,
@@ -408,7 +419,10 @@ export default {
       width: 72,
 
       vueMode: this.vueModes[0],
-      vueSelectedClassProps: {},
+      vueStyle: null,
+      vueCentered: false,
+      vueRounded: false,
+      vueRtl: false,
       vueTabs: ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'],
       // XXX some way to customize the panels
     }
@@ -417,9 +431,17 @@ export default {
     this.enableTpw()
   },
   computed: {
+    vueProps() {
+      const ret = {}
+      if (this.vueCentered) ret.centered = true
+      if (this.vueRounded) ret.rounded = true
+      if (this.vueRtl) ret.rtl = true
+      if (this.vueStyle) ret[this.vueStyle] = true
+      return ret
+    },
     vueCode() {
-      const keys = Object.keys(this.vueSelectedClassProps)
-      const props = keys.filter(k => this.vueSelectedClassProps[k]).join(" ")
+      const keys = Object.keys(this.vueProps)
+      const props = keys.filter(k => this.vueProps[k]).join(" ")
       // XXX .script because otherwise parse fail
       return `<template>
   <VueTabpanelwidget ${this.vueMode ? `mode="${this.vueMode}" ` : ''}:tabs="${JSON.stringify(this.vueTabs)}"${props ? ` ${props}` : ''}>
