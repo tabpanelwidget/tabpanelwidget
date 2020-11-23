@@ -26,16 +26,7 @@
         label(for="url") Add a Stylesheet
         input#url.input(inputmode="url" type="url" v-model="editCustomStylesheetHref" placeholder="https://example.com/styles.min.css" pattern="https://.*.css" size="30")
         button(type="button" @click="customStylesheetHref = editCustomStylesheetHref") Insert
-      fieldset
-        legend Options
-        input#turn-off-tpw.input(type="checkbox" v-model="tpwOff")
-        label(for="turn-off-tpw") Turn the Widgets off [#[abbr(title="Plain Old Semantic HTML") POSH]]
-        br
-        input#tabpanel-check-option-centered.input(type="checkbox" v-model="addCentered")
-        label(for="tabpanel-check-option-centered") Center the tabs
-        br
-        input#rtl-switcher.input(type="checkbox" v-model="rtlEnabled")
-        label(for="rtl-switcher") Check RTL context
+
     #controls
       p
         label(for="width") Width:
@@ -61,6 +52,16 @@
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
       div(ref="vanillaSection")
         h2 Vanilla
+        fieldset.fieldset
+          legend Options
+          input#turn-off-tpw.input(type="checkbox" v-model="tpwOff")
+          label(for="turn-off-tpw") Turn the Widgets off [#[abbr(title="Plain Old Semantic HTML") POSH]]
+          br
+          input#tabpanel-check-option-centered.input(type="checkbox" v-model="addCentered")
+          label(for="tabpanel-check-option-centered") Center the tabs
+          br
+          input#rtl-switcher.input(type="checkbox" v-model="rtlEnabled")
+          label(for="rtl-switcher") Check RTL context
         h3 "Dynamic" Widgets with default Accordion Styling
         div(:style="{width: width+'%'}")
           div
