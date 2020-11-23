@@ -7,8 +7,7 @@
 *:not(strong) {
     box-sizing: border-box;
     vertical-align: bottom;
-    color: #555 !important;
-    font-weight: normal;
+    color: #555;
 }
 header,
 .fieldset {
@@ -186,7 +185,7 @@ ul:not(#TK) {
     clear: both;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin: auto;
+    margin: -1.8rem auto 0;
     background: #fff;
     padding: 5px 15px 10px;
 }
@@ -292,7 +291,7 @@ input[type=range]::-moz-range-track {
     letter-spacing: calc(1em * (var(--space) / 200));
     word-spacing: calc(1em * (var(--space) / 100));
 }
-
+ 
 #test-container h3:not(.tpw-hx) {
     font-size: 1.8rem;
     font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
