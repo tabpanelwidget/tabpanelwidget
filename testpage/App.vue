@@ -64,23 +64,41 @@
           option(:value="null") Unspecified (Dynamic)
           option(value="accordion") Strictly Accordion
           option(value="tabpanel") Strictly TabPanel
-        label(for="vue-style") Style
-        select#vue-style(v-model="vueStyle")
-          option(:value="null") Default
-          option(value="fancy") Fancy
-          option(value="pills") Pills
-          option(value="bar") Bar
         fieldset.vue-fieldset
           label.v-h Options
-          div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
-            input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
-            label(for="vue-rounded") Add border-radius
-          div
-            input#vue-centered(type="checkbox" v-model="vueCentered")
-            label(for="vue-centered") Center the tabs
           div
             input#vue-rtl(type="checkbox" v-model="vueRtl")
             label(for="vue-rtl") RTL
+        fieldset.vue-tabpanel-fieldset
+          legend only applies when tabpanel
+          label(for="vue-style") Style
+          select#vue-style(v-model="vueStyle")
+            option(:value="null") Default
+            option(value="fancy") Fancy
+            option(value="pills") Pills
+            option(value="bar") Bar
+          div
+            input#vue-centered(type="checkbox" v-model="vueCentered")
+            label(for="vue-centered") Center the tabs
+          div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
+            input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
+            label(for="vue-rounded") Add border-radius
+        fieldset.vue-accordion-fieldset
+          legend only applies when accordion
+          label(for="vue-icon-style") Style
+          select#vue-icon-style(v-model="vueIconStyle")
+            option(:value="null") Chevrons North/South (default)
+            option(value="chevrons-east-south") Chevrons East/South
+            option(value="plus-minus") Plus/Minus
+          div
+            input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
+            label(for="vue-disconnected") Disconnected
+          div
+            input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
+            label(for="vue-icon-at-the-end") Icons at the end
+          div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
+            input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
+            label(for="vue-icon-animate") Animate open/close
         div#vue-wrapper
           div#left
             h4 Tabs/Headers
@@ -438,6 +456,10 @@ export default {
 
       vueMode: this.vueModes[0],
       vueStyle: null,
+      vueIconStyle: null,
+      vueIconAnimate: false,
+      vueDisconnected: false,
+      vueIconsAtTheEnd: false,
       vueCentered: false,
       vueRounded: false,
       vueRtl: false,
@@ -455,6 +477,10 @@ export default {
       if (this.vueRounded) ret.rounded = true
       if (this.vueRtl) ret.rtl = true
       if (this.vueStyle) ret[this.vueStyle] = true
+      if (this.vueIconStyle) ret[this.vueIconStyle] = true
+      if (this.vueIconAnimate) ret.animate = true
+      if (this.vueDisconnected) ret.disconnected= true
+      if (this.vueIconsAtTheEnd) ret["icons-at-the-end"] = true
       return ret
     },
     vueCode() {
@@ -470,7 +496,7 @@ export default {
   </VueTabpanelwidget>
 </template>
 
-<.script>
+<script>
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
 
 export default {
@@ -478,7 +504,7 @@ export default {
     VueTabpanelwidget,
   },
 }
-</.script>`
+<\/script>`
     },
   },
   methods: {
