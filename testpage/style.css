@@ -7,6 +7,23 @@ html {
 :focus:not(:focus-visible) + label {
   box-shadow: none !important;
 }
+nav ul:not(#TK) {
+    margin: 0 0 2rem;;
+    padding: 0;
+}
+nav li {
+    display: inline-block;
+    margin: 0 1rem 0 0;
+}
+nav a {
+    font-size: 1.8rem;
+    color: cornflowerblue;
+    display: inline-block;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
 *:not(strong) {
     box-sizing: border-box;
     vertical-align: bottom;
@@ -133,7 +150,6 @@ button:not(#TK) {
 button:not(#TK).vue-remove {
     clear: both;
     float: none;
-    width: 100% !important;
     margin-top: 1rem;
 }
 [type=checkbox]:not(#TK) {
@@ -385,7 +401,28 @@ pre code {
     color: #DCDCDC;
     text-shadow: 2px 2px #000;
 }
-
+#vue-wrapper {
+    display: flex;
+}
+#vue-wrapper #left {
+    min-width: 30%;
+}
+#vue-wrapper #right {
+    padding-left: 1rem;
+    flex-grow: 1;
+}
+#vue-wrapper #right .tpw-widget {
+    margin-top: 3px;
+}
+#vue-wrapper #left input {
+    width: 60% !important;
+}
+#vue-wrapper #left button {
+    width: 37% !important;
+}    
+#vue-wrapper #left button.vue-remove {
+    width: 100% !important;
+}
 @media screen and (max-width: 800px) {
     #test-container > div > div {
         display: block;

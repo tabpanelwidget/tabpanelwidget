@@ -4,6 +4,13 @@
     link(v-if="stylesheetHref" rel="stylesheet" :href="stylesheetHref")
     link(v-if="customStylesheetHref" rel="stylesheet" :href="customStylesheetHref")
     header
+      nav
+        ul
+          li
+            a(href="#vue") VUE
+          li
+            a(href="#vanilla") VANILLA
+
       h1 TabPanelWidget Test Page &middot; #[a(title="TabpanelWidget.com" href="https://tabpanelwidget.com") tabpanelwidget.com]
       //-p All the widgets below are only styled via #[strong tabpanelwidget.min.css]
       p
@@ -28,6 +35,7 @@
         button(type="button" @click="customStylesheetHref = editCustomStylesheetHref") Insert
 
     #controls
+      h2.v-h Controls (options to style the widgets)
       p
         label(for="width") Width:
         input#width(type="range" v-model="width" step="1" min="10" max="100")
@@ -51,7 +59,6 @@
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
       h2#vue Vue
       div(ref="vueSection")
-        h3 just for h3+div margin auto style
         label(for="vue-mode") Mode
         select#vue-mode(v-model="vueMode")
           option(:value="null") Unspecified (Dynamic)
@@ -64,6 +71,7 @@
           option(value="pills") Pills
           option(value="bar") Bar
         fieldset.vue-fieldset
+          label.v-h Options
           div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
             input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
             label(for="vue-rounded") Add border-radius
@@ -73,18 +81,24 @@
           div
             input#vue-rtl(type="checkbox" v-model="vueRtl")
             label(for="vue-rtl") RTL
-        h4 Tabs/Headers
-        div(v-for="(tab, idx) in vueTabs" :key="idx")
-          input.input(type="text" v-model="vueTabs[idx]")
-          button(@click="vueTabs.splice(idx, 1)") remove
-        button.vue-remove(@click="vueTabs.push('')") add
-        div.m-a(:style="{width: width+'%'}")
-          div
-            //- XXX include html of the vue section below above automatically
-            VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
-              template(v-slot:panel-0="")
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
-                small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+        div#vue-wrapper
+          div#left
+            h4 Tabs/Headers
+            div(v-for="(tab, idx) in vueTabs" :key="idx")
+              input.input(type="text" v-model="vueTabs[idx]")
+              button(@click="vueTabs.splice(idx, 1)") remove
+            button.vue-remove(@click="vueTabs.push('')") add
+          div#right
+            div.m-a(:style="{width: width+'%'}")
+              h4 Widget
+              div
+                //- XXX include html of the vue section below above automatically
+                VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
+                  template(v-slot:panel-0="")
+                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+                    small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+
+
         div
           pre
             code {{vueCode}}
