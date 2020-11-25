@@ -158,7 +158,7 @@ The above will attach the script to all containers with the class `tpw-widget`.
 
 ### Classes
 
-"*Out-of-the-box*", the Widget will appear as shown in the [Demo section](https://tabpanelwidget.com/#demos) of TabPanelWidget.com but a few classes gives you different options. Check the SCSS file or the classes associated to the "demo Widget" at the top of [that section](https://tabpanelwidget.com/#demos).
+"*Out-of-the-box*", the Widget will appear as shown in the [Demo section](https://tabpanelwidget.com/#demos) of TabPanelWidget.com but a [few classes](https://github.com/tabpanelwidget/tabpanelwidget/wiki#tpw-classes) gives you different options.
 
 All classes are meant to be applied to the Widget (the wrapper) with the exception of `tpw-selected` which, applied to a "heading" (or multiple headings in the case of an Accordion), will let you arbitrary choose which panel(s) to open by default (the one(s) associated with that/those heading(s)).
 
