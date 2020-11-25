@@ -69,9 +69,9 @@
           div
             input#vue-rtl(type="checkbox" v-model="vueRtl")
             label(for="vue-rtl") RTL
-        fieldset.vue-tabpanel-fieldset
-          legend only applies when tabpanel
-          label(for="vue-style") Style
+        fieldset.vue-tabpanel-fieldset.vue-fieldset
+          legend For TabPanel
+          label(for="vue-style") Skins
           select#vue-style(v-model="vueStyle")
             option(:value="null") Default
             option(value="fancy") Fancy
@@ -83,9 +83,9 @@
           div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
             input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
             label(for="vue-rounded") Add border-radius
-        fieldset.vue-accordion-fieldset
-          legend only applies when accordion
-          label(for="vue-icon-style") Style
+        fieldset.vue-accordion-fieldset.vue-fieldset
+          legend For Accordion
+          label(for="vue-icon-style") Icons
           select#vue-icon-style(v-model="vueIconStyle")
             option(:value="null") Chevrons North/South (default)
             option(value="chevrons-east-south") Chevrons East/South
