@@ -110,15 +110,11 @@ const Tabpanelwidget = {
       if (!shadow) return
       let maxShadowHxHeight = 0
       this.shadowHxs.forEach(shadowHx => {
-        console.log('shadowHx.clientHeight', shadowHx.clientHeight)
         if (maxShadowHxHeight < shadowHx.clientHeight) {
           maxShadowHxHeight = shadowHx.clientHeight
         }
       })
-      // TODO why are the shadowHx clientHeight set to 0 sometimes?
-      console.log('shadow.clientHeight', shadow.clientHeight)
       this.internalMode = (shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
-      console.log("in maybeRecomputeLayout", this.internalMode)
     },
     tabId(idx) {
       return `tpw-${this.id}-${idx}-t`
@@ -349,22 +345,25 @@ const Tabpanelwidget = {
     mode(v) {
       this.internalMode = v || null
     },
-    isDynamic(v) {
-      if (this.resizeObserver) {
-        this.resizeObserver.disconnect()
-      }
-      if (v) {
-        if (!this.resizeObserver) {
-          // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
-          this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
+    isDynamic: {
+      immediate: true,
+      handler(v) {
+        if (this.resizeObserver) {
+          this.resizeObserver.disconnect()
         }
-        this.$nextTick(() => {
-          this.resizeObserver.observe(this.$el, {box: "border-box"})
-          for (let idx = 0; idx < this.tabs.length; idx++) {
-            this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
+        if (v) {
+          if (!this.resizeObserver) {
+            // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
+            this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
           }
-        })
-      }
+          this.$nextTick(() => {
+            this.resizeObserver.observe(this.$el, {box: "border-box"})
+            for (let idx = 0; idx < this.tabs.length; idx++) {
+              this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
+            }
+          })
+        }
+      },
     },
   },
 }
