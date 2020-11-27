@@ -108,7 +108,12 @@
             button.vue-remove(@click="vueTabs.push('')") add
           div#right
             div.m-a(:style="{width: width+'%'}")
-              h4 Widget
+              h4 Widget (Vue)
+              // TODO
+              // a show code
+              //-div
+                pre
+                  code {{vueCode}}
               div
                 //- XXX include html of the vue section below above automatically
                 VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
@@ -116,10 +121,14 @@
                     p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                     small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
+              h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
+              //- vuera auto-wraps in div
+              ReactTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
+                template(v-slot:panel-0="")
+                  p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+                  small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
-        div
-          pre
-            code {{vueCode}}
+
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
       h2#vanilla Vanilla
       div(ref="vanillaSection")
@@ -422,11 +431,13 @@
 <script>
 import * as Tabpanelwidget from "../src/tabpanelwidget.js"
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
+import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
 
 export default {
   name: "App",
   components: {
     VueTabpanelwidget,
+    ReactTabpanelwidget,
   },
   data() {
     this.examples = [
