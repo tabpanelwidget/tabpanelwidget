@@ -124,7 +124,8 @@
     GENERIC VALUES
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-$fontSize: 1.3rem;               /* font-size for tabs and headers (this sets the icon's dimensions as well) */
+$fontSize: calc(1em * 1.2);      /* font-size for tabs and headers */
+$iconSize: 1em;                  /* width and height of the icons */
 $fontFamily: inherit;            /* font-family for the tabs and headers */
 $fontWeight: 500;                /* font-weight for the tabs and headers */
 $textTransform: none;            /* (Capitalize, Uppercase, etc.) for the tabs and headers  */
@@ -192,7 +193,7 @@ $minus:   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5
 @supports (mask-size: 1px) {
   .tpw-header::before {
     background: $iconsColor !important;
-    mask-size: $fontSize;
+    mask-size: $iconSize;
   }
 }
 /**
@@ -482,8 +483,8 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   position: relative;
   margin-right: $ICON-marginRight;
   transform: rotate(180deg);
-  width: $fontSize;
-  height: $fontSize;
+  width: $iconSize;
+  height: $iconSize;
   transform-origin: 50% 50%;
 }
 .tpw-accordion.tpw-chevrons-east-south .tpw-header::before {
