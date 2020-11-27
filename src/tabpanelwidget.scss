@@ -212,6 +212,7 @@ html:not(#tpw-booster) .tpw-hx {
   vertical-align: bottom;
   box-sizing: border-box;
   text-align: inherit;
+  font-size: $fontSize;
 }
 /**
     WIDGET
@@ -243,7 +244,6 @@ html:not(#tpw-booster) .tpw-hx {
   font-family: $fontFamily;
   font-weight: $fontWeight;
   text-transform: $textTransform;
-  font-size: $fontSize;
   line-height: $lineHeight;
   box-shadow: none;
   outline: none;
