@@ -422,6 +422,9 @@ pre code {
 #vue-wrapper #left button.vue-remove {
     width: 100% !important;
 }
+#swap:not(#TK) {
+    margin: 1em 0 1em 20px;
+}
 @media screen and (max-width: 800px) {
     #test-container > div > div {
         display: block;

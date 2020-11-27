@@ -99,7 +99,7 @@
             label(for="vue-icon-animate") Animate open/close
         div 
           input#vue-rtl(type="checkbox" v-model="vueRtl")
-          label(for="vue-rtl") Swap Script Direction to RTL
+          label#swap(for="vue-rtl") Swap Script Direction to RTL
         div#vue-wrapper
           div#left
             h4 Tabs/Headers
