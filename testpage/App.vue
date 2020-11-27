@@ -65,7 +65,9 @@
           option(value="accordion") Strictly Accordion
           option(value="tabpanel") Strictly TabPanel
         fieldset.vue-fieldset
-          label.v-h Options
+          label(for="vue-heading") Heading
+          select#vue-style(v-model="vueHeading")
+            option(v-for="i in 6" :value="i") h{{i}}
           div
             input#vue-rtl(type="checkbox" v-model="vueRtl")
             label(for="vue-rtl") RTL
@@ -473,6 +475,7 @@ export default {
       vueIconsAtTheEnd: false,
       vueCentered: false,
       vueRounded: false,
+      vueHeading: 2, // or whatever default is
       vueRtl: false,
       vueTabs: ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'],
       // XXX some way to customize the panels
@@ -492,6 +495,7 @@ export default {
       if (this.vueIconAnimate) ret.animate = true
       if (this.vueDisconnected) ret.disconnected= true
       if (this.vueIconsAtTheEnd) ret["icons-at-the-end"] = true
+      ret.heading = this.vueHeading
       return ret
     },
     vueCode() {

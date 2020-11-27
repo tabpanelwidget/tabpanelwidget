@@ -14,7 +14,6 @@ const debounced = function(fn, ms) {
 export default class ReactTabpanelwidget extends React.Component {
   constructor(props) {
     super(props)
-    console.log("PROPS", props)
     if (!(props.mode === null || props.mode === ACCORDION || props.mode === TABPANEL)) {
       throw new Error(`mode prop should be null, "accordion", or "tabpanel"`)
     }
@@ -170,8 +169,7 @@ export default class ReactTabpanelwidget extends React.Component {
   }
 
   renderTabpanel() {
-    // TODO keydown stuff}
-    console.log("this.props.tabs", this.props.tabs)
+    // TODO keydown stuff
     return (
       <div className="tpw-widget tpw-js tpw-tabpanel" dir={this.props.rtl ? "rtl" : undefined}>
         {this.isDynamic && this.renderShadow()}

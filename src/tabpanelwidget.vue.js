@@ -88,13 +88,6 @@ const Tabpanelwidget = {
     tabIds() {
       return this.tabs.map((_, idx) => this.tabId(idx))
     },
-    shadowHxs() {
-      const ret = []
-      for (let idx = 0; idx < this.tabs.length; idx++) {
-        ret.push(this.$refs[`shadowHx-${idx}`])
-      }
-      return ret
-    },
     // XXX maybe check which ones can go with which
     classes() {
       const ret = []
@@ -116,11 +109,12 @@ const Tabpanelwidget = {
       const { shadow } = this.$refs
       if (!shadow) return
       let maxShadowHxHeight = 0
-      this.shadowHxs.forEach(shadowHx => {
+      for (let idx = 0; idx < this.tabs.length; idx++) {
+        const shadowHx = this.$refs[`shadowHx-${idx}`]
         if (maxShadowHxHeight < shadowHx.clientHeight) {
           maxShadowHxHeight = shadowHx.clientHeight
         }
-      })
+      }
       this.internalMode = (shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
     },
     tabId(idx) {
@@ -289,7 +283,7 @@ const Tabpanelwidget = {
       for (let idx = 0; idx < this.tabs.length; idx++) {
         const tabId = this.tabId(idx)
         const panelId = this.panelId(idx)
-        children.push(h("div", {
+        children.push(h(`h${this.heading}`, {
           class: {
             "tpw-hx": true,
             "tpw-selected": this.expandedTabsIdx[idx],
