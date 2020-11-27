@@ -69,7 +69,7 @@
           div
             input#vue-rtl(type="checkbox" v-model="vueRtl")
             label(for="vue-rtl") RTL
-        fieldset.vue-tabpanel-fieldset(v-if="vueMode !== 'accordion'")
+        fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
           legend For TabPanel
           label(for="vue-style") Skins
           select#vue-style(v-model="vueStyle")
@@ -83,7 +83,7 @@
           div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
             input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
             label(for="vue-rounded") Add border-radius
-        fieldset.vue-accordion-fieldset(v-if="vueMode !== 'tabpanel'")
+        fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
           legend For Accordion
           label(for="vue-icon-style") Icons
           select#vue-icon-style(v-model="vueIconStyle")

@@ -89,7 +89,7 @@ select:not(#TK) {
     margin-bottom: 10px;
 }
 select:not(#TK) {
-    height: 40px;
+    min-height: 40px;
     background-origin: initial;
     display: block;
     font-family: sans-serif;
