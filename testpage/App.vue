@@ -64,13 +64,9 @@
           option(:value="null") Unspecified (Dynamic)
           option(value="accordion") Strictly Accordion
           option(value="tabpanel") Strictly TabPanel
-        fieldset.vue-fieldset
-          label(for="vue-heading") Heading
-          select#vue-style(v-model="vueHeading")
-            option(v-for="i in 6" :value="i") h{{i}}
-          div
-            input#vue-rtl(type="checkbox" v-model="vueRtl")
-            label(for="vue-rtl") RTL
+        label(for="vue-heading") Heading
+        select#vue-style(v-model="vueHeading")
+          option(v-for="i in 6" :value="i") h{{i}}
         fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
           legend For TabPanel
           label(for="vue-style") Skins
@@ -101,6 +97,9 @@
           div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
             input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
             label(for="vue-icon-animate") Animate open/close
+        div 
+          input#vue-rtl(type="checkbox" v-model="vueRtl")
+          label(for="vue-rtl") Swap Script Direction to RTL
         div#vue-wrapper
           div#left
             h4 Tabs/Headers
