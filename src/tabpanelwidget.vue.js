@@ -12,6 +12,13 @@ const debounced = function(fn, ms) {
 const Tabpanelwidget = {
   name: "Tabpanelwidget",
   props: {
+    heading: {
+      type: Number,
+      default: 2,
+      validator(heading) {
+        return [1, 2, 3, 4, 5, 6].includes(heading)
+      },
+    },
     mode: {
       type: String,
       validator(mode) {
@@ -252,7 +259,7 @@ const Tabpanelwidget = {
           },
         }
       }
-      return h("div", hxOptions, [
+      return h(`h${this.heading}`, hxOptions, [
         h("span", spanOptions, this.$slots[`tab-${idx}`] || this.tabs[idx]),
       ])
     },
