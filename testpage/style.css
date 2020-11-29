@@ -318,9 +318,6 @@ input[type=range]::-moz-range-track {
     letter-spacing: calc(1em * (var(--space) / 200));
     word-spacing: calc(1em * (var(--space) / 100));
 }
-#test-container > * {
-    padding: 0 10px;
-} 
 #test-container h3:not(.tpw-hx) {
     font-size: 1.8rem;
     border-top: 4px solid #555;
@@ -400,8 +397,15 @@ pre code {
     color: #DCDCDC;
     text-shadow: 2px 2px #000;
 }
+.block {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    padding: 0 5px;
+}
 #vue-wrapper {
     display: flex;
+    padding: 0 5px;
 }
 #vue-wrapper #left {
     min-width: 30%;

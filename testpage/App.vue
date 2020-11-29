@@ -59,44 +59,48 @@
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
       h2#vue Vue
       div(ref="vueSection")
-        label(for="vue-mode") Mode
-        select#vue-mode(v-model="vueMode")
-          option(:value="null") Unspecified (Dynamic)
-          option(value="accordion") Strictly Accordion
-          option(value="tabpanel") Strictly TabPanel
-        label(for="vue-heading") Heading
-        select#vue-style(v-model="vueHeading")
-          option(v-for="i in 6" :value="i") h{{i}}
-        fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
-          legend For TabPanel
-          label(for="vue-style") Skins
-          select#vue-style(v-model="vueStyle")
-            option(:value="null") Default
-            option(value="fancy") Fancy
-            option(value="pills") Pills
-            option(value="bar") Bar
-          div
-            input#vue-centered(type="checkbox" v-model="vueCentered")
-            label(for="vue-centered") Center the tabs
-          div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
-            input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
-            label(for="vue-rounded") Add border-radius
-        fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
-          legend For Accordion
-          label(for="vue-icon-style") Icons
-          select#vue-icon-style(v-model="vueIconStyle")
-            option(:value="null") Chevrons North/South (default)
-            option(value="chevrons-east-south") Chevrons East/South
-            option(value="plus-minus") Plus/Minus
-          div
-            input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
-            label(for="vue-disconnected") Disconnected
-          div
-            input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
-            label(for="vue-icon-at-the-end") Icons at the end
-          div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
-            input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
-            label(for="vue-icon-animate") Animate open/close
+        div.block
+          label(for="vue-mode") Mode
+          select#vue-mode(v-model="vueMode")
+            option(:value="null") Unspecified (Dynamic)
+            option(value="accordion") Strictly Accordion
+            option(value="tabpanel") Strictly TabPanel
+        div.block
+          label(for="vue-heading") Heading
+          select#vue-style(v-model="vueHeading")
+            option(v-for="i in 6" :value="i") h{{i}}
+        div.block
+          fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
+            legend For TabPanel
+            label(for="vue-style") Skins
+            select#vue-style(v-model="vueStyle")
+              option(:value="null") Default
+              option(value="fancy") Fancy
+              option(value="pills") Pills
+              option(value="bar") Bar
+            div
+              input#vue-centered(type="checkbox" v-model="vueCentered")
+              label(for="vue-centered") Center the tabs
+            div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
+              input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
+              label(for="vue-rounded") Add border-radius
+        div.block
+          fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
+            legend For Accordion
+            label(for="vue-icon-style") Icons
+            select#vue-icon-style(v-model="vueIconStyle")
+              option(:value="null") Chevrons North/South (default)
+              option(value="chevrons-east-south") Chevrons East/South
+              option(value="plus-minus") Plus/Minus
+            div
+              input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
+              label(for="vue-disconnected") Disconnected
+            div
+              input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
+              label(for="vue-icon-at-the-end") Icons at the end
+            div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
+              input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
+              label(for="vue-icon-animate") Animate open/close
         div 
           input#vue-rtl(type="checkbox" v-model="vueRtl")
           label#swap(for="vue-rtl") Swap Script Direction to RTL
@@ -464,7 +468,7 @@ export default {
       space: 0,
       stylesheetHref: "",
       tpwOff: false,
-      width: 72,
+      width: 100,
 
       vueMode: this.vueModes[0],
       vueStyle: null,
