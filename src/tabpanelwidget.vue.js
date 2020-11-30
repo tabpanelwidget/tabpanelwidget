@@ -16,6 +16,7 @@ const Tabpanelwidget = {
       type: Number,
       default: 2,
       validator(heading) {
+        // XXX warn if heading === 1?
         return [1, 2, 3, 4, 5, 6].includes(heading)
       },
     },
@@ -253,7 +254,6 @@ const Tabpanelwidget = {
           },
         }
       }
-      console.log("this.$slots", this.$slots)
       return h(`h${this.heading}`, hxOptions, [
         h("span", spanOptions, this.$slots[`tab-${idx}`] || this.tabs[idx]),
       ])

@@ -69,7 +69,7 @@
           div
             label(for="vue-heading") Heading
             select#vue-style(v-model="vueHeading")
-              option(v-for="i in 6" :value="i") h{{i}}
+              option(v-for="i in 5" :value="i+1") h{{i+1}}
           div
             fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
               legend For TabPanel
@@ -483,7 +483,7 @@ export default {
       vueIconsAtTheEnd: false,
       vueCentered: false,
       vueRounded: false,
-      vueHeading: 2, // or whatever default is
+      vueHeading: 2,
       vueRtl: false,
       vueTabs: ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'],
       // XXX some way to customize the panels
