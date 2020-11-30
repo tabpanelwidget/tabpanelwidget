@@ -101,17 +101,17 @@
             div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
               input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
               label(for="vue-icon-animate") Animate open/close
-        div 
+        div.c-l 
           input#vue-rtl(type="checkbox" v-model="vueRtl")
           label#swap(for="vue-rtl") Swap Script Direction to RTL
         div#vue-wrapper
-          div#left
+          div.block
             h4 Tabs/Headers
             div(v-for="(tab, idx) in vueTabs" :key="idx")
               input.input(type="text" v-model="vueTabs[idx]")
               button(@click="vueTabs.splice(idx, 1)") remove
             button.vue-remove(@click="vueTabs.push('')") add
-          div#right
+          div.block
             div.m-a(:style="{width: width+'%'}")
               h4 Widget (Vue)
               // TODO
@@ -135,7 +135,7 @@
 
 
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
-      h2#vanilla Vanilla
+      h2#vanilla.c-l Vanilla
       div(ref="vanillaSection")
         fieldset.fieldset
           legend Options

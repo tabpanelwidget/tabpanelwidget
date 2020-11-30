@@ -355,18 +355,18 @@ input[type=text]:not(#tk),
     padding: 0;
     position: absolute;
 }
-
 .refresh {
     width: 28px;
     height: 28px;
     margin: 2px 5px 2px;
 }
-
 .tpw-js {
-    margin-top: 2rem;
+    margin-top: 1.65rem;
     margin-bottom: 4rem;
 }
-
+.c-l {
+    clear: left;
+}
 .hidden {
     display: none;
 }
@@ -398,43 +398,24 @@ pre code {
     text-shadow: 2px 2px #000;
 }
 .block {
-    display: inline-block;
+    float: left;
     vertical-align: top;
     width: 50%;
     padding: 0 5px;
 }
 #vue-wrapper {
-    display: flex;
     padding: 0 5px;
-}
-#vue-wrapper #left {
-    min-width: 30%;
-}
-#vue-wrapper #right {
-    padding-left: 1rem;
-    flex-grow: 1;
-}
-#vue-wrapper #right .tpw-widget {
-    margin-top: 3px;
-}
-#vue-wrapper #left input {
-    width: 60% !important;
-}
-#vue-wrapper #left button {
-    width: 37% !important;
-}    
-#vue-wrapper #left button.vue-remove {
-    width: 100% !important;
 }
 #swap:not(#TK) {
     margin: 1em 0 1em 20px;
 }
 @media screen and (max-width: 800px) {
-    #test-container > div > div {
+    #test-container .block {
         display: block;
+        float: none;
         margin-left: auto;
         margin-right: auto;
-        width: 90%;
+        width: 100%;
     }
     #homeLink {
         display: none;
