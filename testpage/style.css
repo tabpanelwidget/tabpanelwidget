@@ -323,6 +323,7 @@ input[type=range]::-moz-range-track {
     border-top: 4px solid #555;
     border-bottom: 4px solid #555;
 }
+h4:not(.tpw-hx),
 label:not(#tk),
 input[type=text]:not(#tk),
 #test-container h3:not(.tpw-hx) {
@@ -397,11 +398,24 @@ pre code {
     color: #DCDCDC;
     text-shadow: 2px 2px #000;
 }
-.block {
+.columns {
+    display: flow-root;
+}
+.left,
+.right {
     float: left;
     vertical-align: top;
     width: 50%;
-    padding: 0 5px;
+}
+.left {
+    padding: 0 20px 0 5px;
+}
+.right {
+    padding: 0 5px 0 20px;
+}
+.columns h4:not(.tpw-hx) {
+    margin: 5px 0;
+
 }
 #vue-wrapper {
     padding: 0 5px;
@@ -410,12 +424,13 @@ pre code {
     margin: 1em 0 1em 20px;
 }
 @media screen and (max-width: 800px) {
-    #test-container .block {
+    #test-container .left,
+    #test-container .right {
         display: block;
-        float: none;
         margin-left: auto;
         margin-right: auto;
         width: 100%;
+        padding: 0 5px;
     }
     #homeLink {
         display: none;
