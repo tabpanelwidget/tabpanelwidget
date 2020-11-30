@@ -57,75 +57,81 @@
         svg(role="presentation" xmlns="http://www.w3.org/2000/svg" width="50" height="35" viewBox="0 0 640 512")
           path(fill="#fff" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z")
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
-      h2#vue Vue
-      div(ref="vueSection")
-        div.block
-          label(for="vue-mode") Mode
-          select#vue-mode(v-model="vueMode")
-            option(:value="null") Unspecified (Dynamic)
-            option(value="accordion") Strictly Accordion
-            option(value="tabpanel") Strictly TabPanel
-        div.block
-          label(for="vue-heading") Heading
-          select#vue-style(v-model="vueHeading")
-            option(v-for="i in 6" :value="i") h{{i}}
-        div.block
-          fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
-            legend For TabPanel
-            label(for="vue-style") Skins
-            select#vue-style(v-model="vueStyle")
-              option(:value="null") Default
-              option(value="fancy") Fancy
-              option(value="pills") Pills
-              option(value="bar") Bar
-            div
-              input#vue-centered(type="checkbox" v-model="vueCentered")
-              label(for="vue-centered") Center the tabs
-            div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
-              input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
-              label(for="vue-rounded") Add border-radius
-        div.block
-          fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
-            legend For Accordion
-            label(for="vue-icon-style") Icons
-            select#vue-icon-style(v-model="vueIconStyle")
-              option(:value="null") Chevrons North/South (default)
-              option(value="chevrons-east-south") Chevrons East/South
-              option(value="plus-minus") Plus/Minus
-            div
-              input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
-              label(for="vue-disconnected") Disconnected
-            div
-              input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
-              label(for="vue-icon-at-the-end") Icons at the end
-            div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
-              input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
-              label(for="vue-icon-animate") Animate open/close
-        div.c-l 
-          input#vue-rtl(type="checkbox" v-model="vueRtl")
-          label#swap(for="vue-rtl") Swap Script Direction to RTL
-        div#vue-wrapper
-          div.block
+      h2#vue Stress Tester
+      div(style="display:flex")
+        div(style="flex:1;margin-right:20px")
+          div
+            label(for="vue-mode") Mode
+            select#vue-mode(v-model="vueMode")
+              option(:value="null") Unspecified (Dynamic)
+              option(value="accordion") Strictly Accordion
+              option(value="tabpanel") Strictly TabPanel
+          div
+            label(for="vue-heading") Heading
+            select#vue-style(v-model="vueHeading")
+              option(v-for="i in 6" :value="i") h{{i}}
+          div
+            fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
+              legend For TabPanel
+              label(for="vue-style") Skins
+              select#vue-style(v-model="vueStyle")
+                option(:value="null") Default
+                option(value="fancy") Fancy
+                option(value="pills") Pills
+                option(value="bar") Bar
+              div
+                input#vue-centered(type="checkbox" v-model="vueCentered")
+                label(for="vue-centered") Center the tabs
+              div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
+                input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
+                label(for="vue-rounded") Add border-radius
+          div
+            fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
+              legend For Accordion
+              label(for="vue-icon-style") Icons
+              select#vue-icon-style(v-model="vueIconStyle")
+                option(:value="null") Chevrons North/South (default)
+                option(value="chevrons-east-south") Chevrons East/South
+                option(value="plus-minus") Plus/Minus
+              div
+                input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
+                label(for="vue-disconnected") Disconnected
+              div
+                input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
+                label(for="vue-icon-at-the-end") Icons at the end
+              div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
+                input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
+                label(for="vue-icon-animate") Animate open/close
+          div
+            input#vue-rtl(type="checkbox" v-model="vueRtl")
+            label#swap(for="vue-rtl") Swap Script Direction to RTL
+          div
             h4 Tabs/Headers
             div(v-for="(tab, idx) in vueTabs" :key="idx")
               input.input(type="text" v-model="vueTabs[idx]")
               button(@click="vueTabs.splice(idx, 1)") remove
             button.vue-remove(@click="vueTabs.push('')") add
-          div.block
-            div.m-a(:style="{width: width+'%'}")
+        div(style="flex:1")
+          .m-a(:style="{width: width+'%'}")
+            div
+              h4 Widget (Vanilla)
+              p Coming soon
+
+            div
               h4 Widget (Vue)
               // TODO
               // a show code
               //-div
                 pre
                   code {{vueCode}}
-              div
-                //- XXX include html of the vue section below above automatically
-                VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
-                  template(v-slot:panel-0="")
-                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
-                    small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+              //- XXX include html of the vue section below above automatically
+              VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
+                template(v-for="i in vueTabs.length" v-slot:[`panel-${i-1}`]="")
+                  p Panel {{i-1}}
+                  p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+                  small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
+            div
               h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
               //- vuera auto-wraps in div
               ReactTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
@@ -133,9 +139,8 @@
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
-
       //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
-      h2#vanilla.c-l Vanilla
+      h2#vanilla.c-l Showcase
       div(ref="vanillaSection")
         fieldset.fieldset
           legend Options

@@ -253,6 +253,7 @@ const Tabpanelwidget = {
           },
         }
       }
+      console.log("this.$slots", this.$slots)
       return h(`h${this.heading}`, hxOptions, [
         h("span", spanOptions, this.$slots[`tab-${idx}`] || this.tabs[idx]),
       ])
