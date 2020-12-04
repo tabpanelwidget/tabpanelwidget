@@ -426,9 +426,9 @@ pre code {
 button#unmount {
     width: auto !important;
     padding: 1px 10px !important;
-    font-size: .9rem !important;
-    line-height: 1;
-    margin: 0 0 0 1em;
+    font-size: .8rem !important;
+    height: 2em !important;
+    margin: .4em 0 0 1em;
     font-weight: 400;
 }
 @media screen and (max-width: 800px) {
