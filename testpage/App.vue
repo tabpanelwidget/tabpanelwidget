@@ -4,13 +4,6 @@
     link(v-if="stylesheetHref" rel="stylesheet" :href="stylesheetHref")
     link(v-if="customStylesheetHref" rel="stylesheet" :href="customStylesheetHref")
     header
-      nav
-        ul
-          li
-            a(href="#vue") VUE
-          li
-            a(href="#vanilla") VANILLA
-
       h1 TabPanelWidget Test Page &middot; #[a(title="TabpanelWidget.com" href="https://tabpanelwidget.com") tabpanelwidget.com]
       //-p All the widgets below are only styled via #[strong tabpanelwidget.min.css]
       p
@@ -62,61 +55,57 @@
         div.left
           div
             label(for="vue-mode") Mode
-            select#vue-mode(v-model="vueMode")
+            select#vue-mode(v-model="stressMode")
               option(:value="null") Unspecified (Dynamic)
               option(value="accordion") Strictly Accordion
               option(value="tabpanel") Strictly TabPanel
           div
             label(for="vue-heading") Heading
-            select#vue-style(v-model="vueHeading")
+            select#vue-style(v-model="stressHeading")
               option(v-for="i in 5" :value="i+1") h{{i+1}}
           div
-            fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="vueMode !== 'accordion'")
+            fieldset.vue-tabpanel-fieldset.vue-fieldset(v-if="stressMode !== 'accordion'")
               legend For TabPanel
               label(for="vue-style") Skins
-              select#vue-style(v-model="vueStyle")
+              select#vue-style(v-model="stressSkin")
                 option(:value="null") Default
                 option(value="fancy") Fancy
                 option(value="pills") Pills
                 option(value="bar") Bar
               div
-                input#vue-centered(type="checkbox" v-model="vueCentered")
+                input#vue-centered(type="checkbox" v-model="stressCentered")
                 label(for="vue-centered") Center the tabs
-              div(:style="{'opacity': vueStyle === 'bar' ? 0.5 : 1}")
-                input#vue-rounded(type="checkbox" v-model="vueRounded" :disabled="vueStyle === 'bar'")
+              div(:style="{'opacity': stressSkin === 'bar' ? 0.5 : 1}")
+                input#vue-rounded(type="checkbox" v-model="stressRounded" :disabled="stressSkin === 'bar'")
                 label(for="vue-rounded") Add border-radius
           div
-            fieldset.vue-accordion-fieldset.vue-fieldset(v-if="vueMode !== 'tabpanel'")
+            fieldset.vue-accordion-fieldset.vue-fieldset(v-if="stressMode !== 'tabpanel'")
               legend For Accordion
               label(for="vue-icon-style") Icons
-              select#vue-icon-style(v-model="vueIconStyle")
+              select#vue-icon-style(v-model="stressIconStyle")
                 option(:value="null") Chevrons North/South (default)
                 option(value="chevrons-east-south") Chevrons East/South
                 option(value="plus-minus") Plus/Minus
               div
-                input#vue-disconnected(type="checkbox" v-model="vueDisconnected")
+                input#vue-disconnected(type="checkbox" v-model="stressDisconnected")
                 label(for="vue-disconnected") Disconnected
               div
-                input#vue-icon-at-the-end(type="checkbox" v-model="vueIconsAtTheEnd")
+                input#vue-icon-at-the-end(type="checkbox" v-model="stressIconsAtTheEnd")
                 label(for="vue-icon-at-the-end") Icons at the end
-              div(:style="{'opacity': vueIconStyle === 'plus-minus' ? 0.5 : 1}")
-                input#vue-icon-animate(type="checkbox" v-model="vueIconAnimate"  :disabled="vueIconStyle === 'plus-minus'")
+              div(:style="{'opacity': stressIconStyle === 'plus-minus' ? 0.5 : 1}")
+                input#vue-icon-animate(type="checkbox" v-model="stressIconAnimate"  :disabled="stressIconStyle === 'plus-minus'")
                 label(for="vue-icon-animate") Animate open/close
           div
-            input#vue-rtl(type="checkbox" v-model="vueRtl")
+            input#vue-rtl(type="checkbox" v-model="stressRtl")
             label#swap(for="vue-rtl") Swap Script Direction to RTL
           div
             h4 Tabs/Headers
-            div(v-for="(tab, idx) in vueTabs" :key="idx")
-              input.input(type="text" v-model="vueTabs[idx]")
-              button(@click="vueTabs.splice(idx, 1)") remove
-            button.vue-remove(@click="vueTabs.push('')") add
+            div(v-for="(tab, idx) in stressTabs" :key="idx")
+              input.input(type="text" v-model="stressTabs[idx]" @input="e => stressSetTab(idx, e.target.value)")
+              button(@click="stressRemoveTab(idx)") remove
+            button.vue-remove(@click="stressAddTab()") add
         div.right
           .m-a(:style="{width: width+'%'}")
-            div
-              h4 Widget (Vanilla)
-              p Coming soon
-
             div
               h4 Widget (Vue)
               // TODO
@@ -125,8 +114,8 @@
                 pre
                   code {{vueCode}}
               //- XXX include html of the vue section below above automatically
-              VueTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
-                template(v-for="i in vueTabs.length" v-slot:[`panel-${i-1}`]="")
+              VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="vueProps")
+                template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
                   p Panel {{i-1}}
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
@@ -134,24 +123,26 @@
             div
               h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
               //- vuera auto-wraps in div
-              ReactTabpanelwidget(:mode="vueMode" :tabs="vueTabs" v-bind="vueProps")
-                template(v-slot:panel-0="")
+              ReactTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="vueProps")
+                //- XXX figure out slots for react
+                //- XXX and changing props does not update
+                template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
-      //- because vanilla takes over and replaces widgets... we cannot use vue to update them live (addCentered)
+            div(ref="vanillaWrapper")
+              div(style="display:flex")
+                h4(style="flex-grow:1") Widget (Vanilla)
+                button(v-if="vanillaMounted" @click="vanillaUnmount") unmount
+                button(v-else @click="vanillaMount") mount
+              //- un-mount and re-mount means we can't use vue to keep classes on here via template and instead need to use watchers
+              //- ... looking up the node at that moment
+              .tpw-widget
+                template(v-for="tab in initialStressTabs")
+                  h2 {{tab}}
+                  div hello world
       h2#vanilla.c-l Showcase
-      div(ref="vanillaSection")
-        fieldset.fieldset
-          legend Options
-          input#turn-off-tpw.input(type="checkbox" v-model="tpwOff")
-          label(for="turn-off-tpw") Turn the Widgets off [#[abbr(title="Plain Old Semantic HTML") POSH]]
-          br
-          input#tabpanel-check-option-centered.input(type="checkbox" v-model="addCentered")
-          label(for="tabpanel-check-option-centered") Center the tabs
-          br
-          input#rtl-switcher.input(type="checkbox" v-model="rtlEnabled")
-          label(for="rtl-switcher") Check RTL context
+      div
         h3 "Dynamic" Widgets with default Accordion Styling
         div(:style="{width: width+'%'}")
           div
@@ -159,8 +150,6 @@
             ul
               li
                 code.code tpw-widget
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget
               include ./_vanilla-headings.pug
           //- tpw-rounded
@@ -171,8 +160,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-rounded
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-rounded
               include ./_vanilla-headings.pug
           //- tpw-fancy
@@ -185,8 +172,6 @@
                 code.code tpw-rounded
               li
                 code.code tpw-fancy
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-rounded.tpw-fancy
               include ./_vanilla-headings.pug
           //- tpw-pills
@@ -199,8 +184,6 @@
                 code.code tpw-rounded
               li
                 code.code tpw-pills
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-rounded.tpw-pills
               include ./_vanilla-headings.pug
           //- tpw-bar
@@ -211,9 +194,19 @@
                 code.code tpw-widget
               li
                 code.code tpw-bar
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-bar
+              include ./_vanilla-headings.pug
+          //- tpw-bar, tpw-centered
+          div
+            p Classes applied to the Widget:
+            ul
+              li
+                code.code tpw-widget
+              li
+                code.code tpw-bar
+              li
+                code.code tpw-centered
+            .tpw-widget.tpw-bar.tpw-centered
               include ./_vanilla-headings.pug
         h3 "Dynamic" Widgets with custom Accordion Styling
         div(:style="{width: width+'%'}")
@@ -224,8 +217,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-chevrons-east-south
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-chevrons-east-south
               include ./_vanilla-headings.pug
           //- tpw-plus-minus
@@ -236,8 +227,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-plus-minus
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-plus-minus
               include ./_vanilla-headings.pug
           //- tpw-disconnected
@@ -248,8 +237,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-disconnected
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-disconnected
               include ./_vanilla-headings.pug
           //- tpw-animate
@@ -260,8 +247,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-animate
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-animate
               include ./_vanilla-headings.pug
           //- tpw-icons-at-the-end
@@ -272,8 +257,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-icons-at-the-end
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-icons-at-the-end
               include ./_vanilla-headings.pug
         h3 "Static" Widgets: TabPanels
@@ -285,8 +268,6 @@
                 code.code tpw-widget
               li
                 code.code tpw-tabpanel
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel
               include ./_vanilla-headings.pug
           //- tpw-rounded
@@ -299,8 +280,6 @@
                 code.code tpw-tabpanel
               li
                 code.code tpw-rounded
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded
               include ./_vanilla-headings.pug
           //- tpw-fancy
@@ -315,8 +294,6 @@
                 code.code tpw-rounded
               li
                 code.code tpw-fancy
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-fancy
               include ./_vanilla-headings.pug
           //- tpw-pills
@@ -331,8 +308,6 @@
                 code.code tpw-rounded
               li
                 code.code tpw-pills
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-pills
               include ./_vanilla-headings.pug
           //- tpw-bar
@@ -345,8 +320,6 @@
                 code.code tpw-tabpanel
               li
                 code.code tpw-bar
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-tabpanel.tpw-bar
               include ./_vanilla-headings.pug
         h3 "Static" Widgets: Accordions
@@ -360,8 +333,6 @@
                 code.code tpw-accordion
               li
                 code.code tpw-chevrons-east-south
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-chevrons-east-south
               include ./_vanilla-headings.pug
           //- tpw-plus-minus
@@ -374,8 +345,6 @@
                 code.code tpw-accordion
               li
                 code.code tpw-plus-minus
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-plus-minus
               include ./_vanilla-headings.pug
           //- tpw-disconnected
@@ -388,8 +357,6 @@
                 code.code tpw-accordion
               li
                 code.code tpw-disconnected
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-disconnected
               include ./_vanilla-headings.pug
           //- tpw-animate
@@ -402,8 +369,6 @@
                 code.code tpw-accordion
               li
                 code.code tpw-animate
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-animate
               include ./_vanilla-headings.pug
           //- tpw-icons-at-the-end
@@ -416,8 +381,6 @@
                 code.code tpw-accordion
               li
                 code.code tpw-icons-at-the-end
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-icons-at-the-end
               include ./_vanilla-headings.pug
           //- tpw-icons-at-the-end
@@ -432,8 +395,6 @@
                 code.code tpw-icons-at-the-end
               li
                 code.code tpw-animate
-              li(v-if="addCentered")
-                code.code.centered tpw-centered
             .tpw-widget.tpw-accordion.tpw-icons-at-the-end.tpw-animate
               include ./_vanilla-headings.pug
 </template>
@@ -443,6 +404,7 @@ import * as Tabpanelwidget from "../src/tabpanelwidget.js"
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
 import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
 
+let _vanillaUnmount
 export default {
   name: "App",
   components: {
@@ -459,51 +421,49 @@ export default {
       {classes: ["bar", "plus-minus", "icons-at-the-end"], ignoreBorderRadius: true},
     ]
     this.uninstalls = []
-    this.vueModes = [null, "accordion", "tabpanel"]
-    // TODO allow controls of these
-    // this.vueClassProps = ["animate", "chevrons-east-south", "disconnected", "icons-at-the-end", "plus-minus"]
+    this.stressModes = [null, "accordion", "tabpanel"]
+    this.initialStressTabs = ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'] // so not bound for vanilla
     return {
-      addCentered: false, // TODO to examples say whether this is supported or not
       addNormalize: false,
       customStylesheetHref: "",
       editCustomStylesheetHref: "",
       fontSize: 18,
       fontWeight: 500,
-      rtlEnabled: false,
       space: 0,
       stylesheetHref: "",
       tpwOff: false,
       width: 100,
 
-      vueMode: this.vueModes[0],
-      vueStyle: null,
-      vueIconStyle: null,
-      vueIconAnimate: false,
-      vueDisconnected: false,
-      vueIconsAtTheEnd: false,
-      vueCentered: false,
-      vueRounded: false,
-      vueHeading: 2,
-      vueRtl: false,
-      vueTabs: ['Lorem', 'Ipsum', 'Dolor', 'Sit Amet'],
+      vanillaMounted: false,
+      stressMode: this.stressModes[0],
+      stressSkin: null,
+      stressIconStyle: null,
+      stressIconAnimate: false,
+      stressDisconnected: false,
+      stressIconsAtTheEnd: false,
+      stressCentered: false,
+      stressRounded: false,
+      stressHeading: 2,
+      stressRtl: false,
+      stressTabs: [...this.initialStressTabs],
       // XXX some way to customize the panels
     }
   },
   mounted() {
-    this.enableTpw()
+    this.vanillaMount()
   },
   computed: {
     vueProps() {
       const ret = {}
-      if (this.vueCentered) ret.centered = true
-      if (this.vueRounded) ret.rounded = true
-      if (this.vueRtl) ret.rtl = true
-      if (this.vueStyle) ret[this.vueStyle] = true
-      if (this.vueIconStyle) ret[this.vueIconStyle] = true
-      if (this.vueIconAnimate) ret.animate = true
-      if (this.vueDisconnected) ret.disconnected= true
-      if (this.vueIconsAtTheEnd) ret["icons-at-the-end"] = true
-      ret.heading = this.vueHeading
+      if (this.stressCentered) ret.centered = true
+      if (this.stressRounded) ret.rounded = true
+      if (this.stressRtl) ret.rtl = true
+      if (this.stressSkin) ret[this.stressSkin] = true
+      if (this.stressIconStyle) ret[this.stressIconStyle] = true
+      if (this.stressIconAnimate) ret.animate = true
+      if (this.stressDisconnected) ret.disconnected= true
+      if (this.stressIconsAtTheEnd) ret["icons-at-the-end"] = true
+      ret.heading = this.stressHeading
       return ret
     },
     vueCode() {
@@ -511,7 +471,7 @@ export default {
       const props = keys.filter(k => this.vueProps[k]).join(" ")
       // XXX .script because otherwise parse fail
       return `<template>
-  <VueTabpanelwidget ${this.vueMode ? `mode="${this.vueMode}" ` : ''}:tabs="${JSON.stringify(this.vueTabs)}"${props ? ` ${props}` : ''}>
+  <VueTabpanelwidget ${this.stressMode ? `mode="${this.stressMode}" ` : ''}:tabs="${JSON.stringify(this.stressTabs)}"${props ? ` ${props}` : ''}>
     <template v-slot:panel-0="">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.<p>
       <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small>
@@ -531,40 +491,128 @@ export default {
     },
   },
   methods: {
-    enableTpw() {
-      this.uninstalls = []
-      this.$refs.vanillaSection.querySelectorAll(`.tpw-widget`).forEach(w => Tabpanelwidget.install(w, _uninstall => {
-        this.uninstalls.push(_uninstall)
-      }, true))
+    vanillaMount() {
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      const mounted = widget.classList.contains("tpw-js")
+      if (!mounted) {
+        // if (_vanillaUnmount) console.warn("_vanillaUnmount should not be set")
+        // this needs to happen before install because determines dynamic
+        this.vanillaApply("mode")
+        Tabpanelwidget.install(widget, _uninstall => (_vanillaUnmount = _uninstall), true)
+        this.vanillaApply()
+      }
+      this.vanillaMounted = true
     },
-    disableTpw() {
-      this.uninstalls.forEach(uninstall => uninstall())
+    vanillaUnmount() {
+      this.vanillaMounted = false
+      if (_vanillaUnmount) {
+        _vanillaUnmount()
+        _vanillaUnmount = null
+        return true
+      } else {
+        // did not unmount
+        return false
+      }
+    },
+    vanillaApply(key, prevValue) {
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      if (!key || key === "mode") {
+        widget.classList.remove("tpw-tabpanel")
+        widget.classList.remove("tpw-accordion")
+        if (this.stressMode === "accordion") {
+          widget.classList.add("tpw-accordion")
+        } else if (this.stressMode === "tabpanel") {
+          widget.classList.add("tpw-tabpanel")
+        }
+      }
+      if (!key || key === "skin") {
+        widget.classList.remove("tpw-fancy")
+        widget.classList.remove("tpw-pills")
+        widget.classList.remove("tpw-bar")
+        if (this.stressSkin) widget.classList.add(`tpw-${this.stressSkin}`)
+      }
+      if (!key || key === "iconStyle") {
+        widget.classList.remove("tpw-chevrons-east-south")
+        widget.classList.remove("tpw-plus-minus")
+        if (this.stressIconStyle) {
+          widget.classList.add(`tpw-${this.stressIconStyle}`)
+        }
+      }
+      if (!key || key === "heading") {
+        // XXX this doesn't work
+        // widget.querySelectorAll(`h${prevValue}`).forEach(node => {
+        //   const newNode = document.createElement(`h${this.stressHeading}`)
+        //   node.parentNode.replaceChild(newNode, node)
+        //   newNode.outerHTML = node.outerHTML.replace(`<h${prevValue}`, `<h${this.stressHeading}`).replace(`</h${prevValue}>`, `</h${this.stressHeading}>`)
+        // })
+      }
+      if (!key || key === "centered") widget.classList[this.stressCentered ? "add" : "remove"](`tpw-centered`)
+      if (!key || key === "rounded") widget.classList[this.stressRounded ? "add" : "remove"](`tpw-rounded`)
+      if (!key || key === "disconnected") widget.classList[this.stressDisconnected ? "add" : "remove"](`tpw-disconnected`)
+      if (!key || key === "iconsAtTheEnd") widget.classList[this.stressIconsAtTheEnd ? "add" : "remove"](`tpw-icons-at-the-end`)
+      if (!key || key === "iconAnimate") widget.classList[this.stressIconAnimate ? "add" : "remove"](`tpw-animate`)
+      if (!key || key === "rtl") widget.setAttribute("dir", this.stressRtl ? "rtl" : "ltr")
+    },
+    stressRemoveTab(idx) {
+      this.stressTabs.splice(idx, 1)
+      // remove hx+shim elements in vanilla widget
+      const unmounted = this.vanillaUnmount()
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      for (let i = 0; i < widget.children.length; i++) {
+        if (widget.children[i].tagName.match(/^h[1-6]$/i)) {
+          if (idx <= 0) {
+            // delete this child and next
+            widget.removeChild(widget.children[i+1])
+            widget.removeChild(widget.children[i])
+            break
+          }
+          idx -= 1
+        }
+      }
+      if (unmounted) this.vanillaMount()
+    },
+    stressAddTab() {
+      const v = Math.floor(Math.random()*20) + ""
+      this.stressTabs.push(v)
+      const unmounted = this.vanillaUnmount()
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      const heading = document.createElement(`h${this.stressHeading}`)
+      heading.innerText = v
+      const div = document.createElement("div")
+      div.innerText = v
+      widget.appendChild(heading)
+      widget.appendChild(div)
+      if (unmounted) this.vanillaMount()
+    },
+    stressSetTab(idx, v) {
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      for (let i = 0; i < widget.children.length; i++) {
+        if (widget.children[i].tagName.match(/^h[1-6]$/i)) {
+          if (idx <= 0) {
+            // span
+            widget.children[i].firstChild.innerText = v
+            return
+          }
+          idx -= 1
+        }
+      }
     },
   },
   watch: {
-    // not immediate because we have to wait until mount
-    tpwOff(v) {
-      if (v) {
-        this.disableTpw()
-      } else {
-        this.enableTpw()
-      }
+    stressMode() {
+      // gotta make it dynamic, so unmount, add proper class and re-mount
+      const unmounted = this.vanillaUnmount()
+      if (unmounted) this.vanillaMount()
     },
-    addCentered(v) {
-      this.$refs.vanillaSection.querySelectorAll(`.tpw-widget`).forEach(w => {
-        if (v) {
-          w.classList.add("tpw-centered")
-        } else {
-          w.classList.remove("tpw-centered")
-        }
-      })
-    },
-    rtlEnabled(v) {
-      this.$refs.vanillaSection.querySelectorAll(`.tpw-widget`).forEach(w => {
-        const dir = w.getAttribute("dir") || "ltr"
-        w.setAttribute("dir", dir === "ltr" ? "rtl" : "ltr")
-      })
-    },
+    stressSkin() { this.vanillaApply("skin") },
+    stressIconStyle() { this.vanillaApply("iconStyle") },
+    stressHeading(nv, ov) { this.vanillaApply("heading", ov) }, // XXX not working
+    stressCentered() { this.vanillaApply("centered") },
+    stressRounded() { this.vanillaApply("rounded") },
+    stressDisconnected() { this.vanillaApply("disconnected") },
+    stressIconsAtTheEnd() { this.vanillaApply("iconsAtTheEnd") },
+    stressIconAnimate() { this.vanillaApply("iconAnimate") },
+    stressRtl() { this.vanillaApply("rtl") },
   },
 }
 </script>
