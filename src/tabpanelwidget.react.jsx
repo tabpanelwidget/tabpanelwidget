@@ -1,4 +1,4 @@
-import React from "react"
+import React, { createRef } from "react"
 
 const ACCORDION = "accordion"
 const TABPANEL = "tabpanel"
@@ -11,21 +11,57 @@ const debounced = function(fn, ms) {
   }
 }
 
+/*
+ * <ReactTabpanelwidget>
+ *      <TeactTabpanelwidget.Heading>Hello world</ReactTabpanelwidget.Heading>
+ *      <TeactTabpanelwidget.Panel>This is a panel</ReactTabpanelwidget.Panel>
+ *      <!-- ... -->
+ * </ReactTabpanelwidget>
+ */
 export default class ReactTabpanelwidget extends React.Component {
+  // we don't render these, just use them to declare children
+  static Heading = props => (<div>heading</div>)
+  static Panel = props => (<div>panel</div>)
+
   constructor(props) {
     super(props)
     if (!(props.mode === null || props.mode === ACCORDION || props.mode === TABPANEL)) {
-      throw new Error(`mode prop should be null, "accordion", or "tabpanel"`)
+      throw new Error(`mode prop should be null, "${ACCORDION}", or "${TABPANEL}"`)
     }
-    // XXX check props.selectedIdxs, props.tabs?
     if (!window.tpwId) window.tpwId = 0
     this.id = window.tpwId++
-    this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout, 100)
+    this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout.bind(this), 100)
+
+    // both of these are used to trigger resize observer callback but not basic refs because they change constantly... XXX fix
+    this.el = null
+    this.spanEls = {} // hash so we can remove/add at index without worrying about size + also used for focus()
+
+    // assume used properly alternating... can't introspect (easily) while VueContainer wraps in testpage
+    const [tabs, panels] = this.computeTabsAndPanels(props)
+    this.tabs = tabs
+    this.panels = panels
+
+    // these are used in resize observer computation.. can just access .current and be okay
+    this.shadowRef = createRef()
+    this.shadowHxRefs = this.tabs.map(tab => createRef())
+
+    this.refSkipLink = createRef()
     this.state = {
-      selectedTabIdx: props.selectedIdxs ? Math.min(props.selectedIdxs[0] || 0, props.tabs.length - 1) : 0,
+      key: 0,
+      selectedTabIdx: props.selectedIdxs ? Math.min(props.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
       expandedTabsIdx: {},
       internalMode: props.mode || null,
     }
+  }
+
+  // TODO fix this function to gets slots working... might not work with vuera
+  computeTabsAndPanels(props) {
+    const tabs = []
+    const panels = []
+    React.Children.forEach(props.children, (el, idx) => {
+      tabs.push(el)
+    })
+    return [tabs, panels]
   }
 
   componentDidMount() {
@@ -33,18 +69,17 @@ export default class ReactTabpanelwidget extends React.Component {
   }
 
   maybeRecomputeLayout() {
-    // TODO
-    // const { shadow } = this.$refs
-    // if (!shadow) return
-    // let maxShadowHxHeight = 0
-    // this.shadowHxs.forEach(shadowHx => {
-    //   if (maxShadowHxHeight < shadowHx.clientHeight) {
-    //     maxShadowHxHeight = shadowHx.clientHeight
-    //   }
-    // })
-    // this.setState({
-    //   internalMode = (shadow.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL,
-    // })
+    if (!this.shadowRef.current) return
+    let maxShadowHxHeight = 0
+    this.shadowHxRefs.forEach(shadowHxRef => {
+      if (!shadowHxRef.current) return
+      if (maxShadowHxHeight < shadowHxRef.current.clientHeight) {
+        maxShadowHxHeight = shadowHxRef.current.clientHeight
+      }
+    })
+    // XXX can't believe it calls render on setState even if state doesn't change... (so have to manually check)
+    const newInternalMode = (this.shadowRef.current.clientHeight > maxShadowHxHeight) ? ACCORDION : TABPANEL
+    if (this.state.internalMode !== newInternalMode) this.setState({internalMode: newInternalMode})
   }
 
   isDynamicManualWatcher(v) {
@@ -52,29 +87,29 @@ export default class ReactTabpanelwidget extends React.Component {
       this.resizeObserver.disconnect()
     }
     if (v) {
-      if (!this.resizeObserver) {
-        // XXX optimize to just make one of these handlers for all tpws (instead of per widget)
-        this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
-      }
-      // XXX do this better
-      process.nextTick(() => {
-        // TODO...
-        // this.resizeObserver.observe(this.$el, {box: "border-box"})
-        for (let idx = 0; idx < this.props.tabs.length; idx++) {
-          // this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
-        }
-      })
+      if (!this.resizeObserver) this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
+      if (this.el) this.resizeObserver.observe(this.el, {box: "border-box"})
+      for (const idx in this.spanEls) this.resizeObserver.observe(this.spanEls[idx], {box: "border-box"})
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.mode !== this.props.mode) {
-      this.setState({
-        internalMode: nextProps.mode || null,
-      })
-      const nextIsDynamic = !nextProps.mode // XXX this is terrible
+      this.setState({internalMode: nextProps.mode || null})
+      const nextIsDynamic = !nextProps.mode
       this.isDynamicManualWatcher(nextIsDynamic)
     }
+    const [newTabs, newPanels] = this.computeTabsAndPanels(nextProps)
+    const tabLengthDiff = newTabs.length - this.tabs.length
+    if (tabLengthDiff > 0) {
+      for (let i = 0; i < tabLengthDiff; i++) this.shadowHxRefs.push(createRef())
+    } else if (tabLengthDiff < 0) {
+      this.shadowHxRefs.splice(0, -tabLengthDiff)
+    }
+    this.tabs = newTabs
+    this.panels = newPanels
+    // XXX trigger re-render on any props change... better way to do this probably
+    this.setState({key: this.state.key + 1})
   }
 
   componentWillUnmount() {
@@ -96,7 +131,7 @@ export default class ReactTabpanelwidget extends React.Component {
   }
 
   get tabIds() {
-    return this.props.tabs.map((_, idx) => this.tabId(idx))
+    return this.tabs.map((_, idx) => this.tabId(idx))
   }
 
   panelId(idx) {
@@ -109,21 +144,15 @@ export default class ReactTabpanelwidget extends React.Component {
 
   renderShadow() {
     return (
-      <div aria-hidden="true" className="tpw-shadow">
-        {this.props.tabs.forEach(tab => {
-          // XXX renderTabpanelHx
-          return (
-            <div></div>
-          )
-        })}
+      <div ref={this.shadowRef} aria-hidden="true" className="tpw-shadow">
+        {this.tabs.map((tab, idx) => this.renderTabpanelHx(idx, true))}
       </div>
     )
   }
 
   renderSkipLink() {
-    const refSkipLink = React.createRef()
     return (
-      <a ref={refSkipLink} href={`#tpw-${this.id}-0-t`} tabIndex={-1} className="tpw-skip">
+      <a ref={this.refSkipLink} href={`#${this.tabId(0)}`} tabIndex={-1} className="tpw-skip">
         <b>Tab through to leave this widget<br/>or<br/> Click to go back to the first {this.isAccordion ? "header" : "tab"}</b>
       </a>
     )
@@ -135,26 +164,125 @@ export default class ReactTabpanelwidget extends React.Component {
     )
   }
 
+  setSpanEl(idx, el) {
+    this.spanEls[idx] = el
+    if (this.resizeObserver) {
+      if (this.spanEls[idx]) this.resizeObserver.unobserve(this.spanEls[idx])
+      if (el) this.resizeObserver.observe(el, {box: "border-box"})
+    }
+    this.spanEls[idx]  = el
+  }
+
+  toggleExpandedIdx(idx) {
+    const newExpandedTabsIdx = {...this.state.expandedTabsIdx}
+    newExpandedTabsIdx[idx] = !newExpandedTabsIdx[idx]
+    this.setState({expandedTabsIdx: newExpandedTabsIdx})
+  }
+
+  spanClick(idx) {
+    if (this.isAccordion) {
+      this.toggleExpandedIdx(idx)
+    } else {
+      this.setState({selectedTabIdx: idx})
+    }
+  }
+
+  spanKeyDown(e, idx) {
+    switch (e.which) {
+      case 13: // enter
+      case 32: // space
+        if (this.isAccordion) {
+          e.preventDefault()
+          this.toggleExpandedIdx(idx)
+        }
+        break
+      case 37: // arrow left
+      case 38: // arrow up
+        if (e.which === (this.isAccordion ? 38 : 37)) {
+          e.preventDefault()
+          this.wrapFocusIdx(idx - 1)
+        }
+        break
+      case 39: // arrow right
+      case 40: // arrow down
+        if (e.which === (this.isAccordion ? 40 : 39)) {
+          e.preventDefault()
+          this.wrapFocusIdx(idx + 1)
+        }
+        break
+    }
+  }
+
   renderAccordion() {
+    const CustomHeadingTag = `h${this.props.heading}`
     return (
-      <div className="tpw-widget tpw-js tpw-accordion">
-        {this.isDynamic && this.renderShadow()}
+      <>
+        {this.tabs.map((tab, idx) => {
+          const tabId = this.tabId(idx)
+          const panelId = this.panelId(idx)
+          let className = "tpw-hx"
+          if (this.state.expandedTabsIdx[idx]) className += " tpw-selected"
+          return (
+            <React.Fragment key={idx}>
+              <CustomHeadingTag className={className} dir={this.props.rtl ? "rtl" : null}>
+                <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-header" aria-controls={panelId} aria-expanded={this.state.expandedTabsIdx[idx]} role="button" tabIndex={0} onClick={() => this.spanClick(idx)} onKeyDown={e => this.spanKeyDown(e, idx)}>
+                  {this.tabs[idx]}
+                </span>
+              </CustomHeadingTag>
+              <div id={panelId} className="tpw-shim" role="region" aria-labelledby={tabId} hidden={!this.state.expandedTabsIdx[idx]}>
+                <div className="tpw-panel">
+                  {this.panels[idx]}
+                </div>
+              </div>
+            </React.Fragment>
+          )
+        })}
         {this.renderSkipLink()}
-      </div>
+      </>
     )
   }
 
-  renderTabpanelHx(idx) {
+  wrapFocusIdx(idx) {
+    if (idx < 0) {
+      idx = this.tabs.length - 1
+    } else if (idx >= this.tabs.length) {
+      idx = 0
+    }
+    this.spanEls[idx].focus()
+  }
+
+  tabpanelSpanKeyDown(e, idx) {
+    switch (e.which) {
+      case 13: // enter
+      case 32: // space
+        e.preventDefault()
+        const newExpandedTabsIdx = {...this.expandedTabsIdx}
+        newExpandedTabsIdx[idx] = !newExpandedTabsIdx[idx]
+        this.setState({expandedTabsIdx: newExpandedTabsIdx})
+        break
+      case 37: // arrow left
+        e.preventDefault()
+        this.wrapFocusIdx(idx - 1)
+        break
+      case 39: // arrow right
+        e.preventDefault()
+        this.wrapFocusIdx(idx + 1)
+        break
+    }
+  }
+
+  renderTabpanelHx(idx, shadow = false) {
+    const CustomHeadingTag = `h${this.props.heading}`
     const panelId = this.panelId(idx)
     const tabId = this.tabId(idx)
-    // TODO spanOptions.ref, spanOptions.on
-    // TODO slot
     let hxClassName = "tpw-hx"
     if (this.state.selectedTabIdx === idx) hxClassName += " tpw-selected"
     return (
-      <div className={hxClassName}>
-        <span id={tabId} className="tpw-tab" role="tab" tabIndex={this.state.selectedTabIdx === idx ? 0 : -1} aria-controls={panelId} aria-selected={this.state.selectedTabIdx === idx}>{this.props.tabs[idx]}</span>
-      </div>
+      <CustomHeadingTag key={idx} ref={shadow ? this.shadowHxRefs[idx] : null} className={hxClassName}>
+        <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-tab" role="tab" tabIndex={this.state.selectedTabIdx === idx ? 0 : -1} aria-controls={panelId} aria-selected={this.state.selectedTabIdx === idx} onClick={shadow ? null : () => this.spanClick(idx)} onFocus={shadow ? null : () => this.spanClick(idx)} onKeyDown={shadow ? null : e => this.spanKeyDown(e, idx)}>
+          {this.tabs[idx]}
+        </span>
+      </CustomHeadingTag>
     )
   }
 
@@ -169,12 +297,10 @@ export default class ReactTabpanelwidget extends React.Component {
   }
 
   renderTabpanel() {
-    // TODO keydown stuff
     return (
-      <div className="tpw-widget tpw-js tpw-tabpanel" dir={this.props.rtl ? "rtl" : undefined}>
-        {this.isDynamic && this.renderShadow()}
+      <>
         {this.renderTablist()}
-        {this.props.tabs.map((tab, idx) => {
+        {this.tabs.map((tab, idx) => {
           return (
             <React.Fragment key={idx}>
               {this.renderTabpanelHx(idx)}
@@ -183,11 +309,53 @@ export default class ReactTabpanelwidget extends React.Component {
           )
         })}
         {this.renderSkipLink()}
-      </div>
+      </>
     )
   }
 
+  // XXX why can't the parent div ref stay the same? mostly just class/attr changes :/
+  setEl(el) {
+    if (this.resizeObserver) {
+      if (this.el) this.resizeObserver.unobserve(this.el)
+      if (el) this.resizeObserver.observe(el, {box: "border-box"})
+    }
+    this.el = el
+  }
+
+  accordionKeyDown(e) {
+    switch (e.which) {
+      case 27: // escape
+        if (document.activeElement === this.refSkipLink.current) {
+          ;(this.prevFocused || this.el).focus()
+        } else {
+          this.prevFocused = document.activeElement
+          this.refSkipLink.current.focus()
+        }
+        break
+      case 35: // end
+        e.preventDefault()
+        this.spanEls[this.tabs.length - 1].focus() // XXX defensive
+      case 36: // home
+        e.preventDefault()
+        this.spanEls[0].focus() // XXX defensive
+    }
+  }
+
   render() {
-    return this.isAccordion ? this.renderAccordion() : this.renderTabpanel()
+    let className = "tpw-widget tpw-js"
+    className += ` ${this.isAccordion ? "tpw-accordion" : "tpw-tabpanel"}`
+    if (this.props.animate) className += " tpw-animate"
+    if (this.props.centered) className += " tpw-centered"
+    if (this.props.disconnected) className += " tpw-disconnected"
+    if (this.props.skin) className += ` tpw-${this.props.skin}`
+    if (this.props.iconsAtTheEnd) className += " tpw-icons-at-the-end"
+    if (this.props.iconStyle) className += ` tpw-${this.props.iconStyle}`
+    if (this.props.rounded) className += " tpw-rounded"
+    return (
+      <div ref={el => this.setEl(el)} key={this.state.key} className={className} dir={this.props.rtl ? "rtl" : null} onKeyDown={this.isAccordion ? null : e => this.accordionKeyDown(e)}>
+        {this.isDynamic && this.renderShadow()}
+        {this.isAccordion ? this.renderAccordion() : this.renderTabpanel()}
+      </div>
+    )
   }
 }

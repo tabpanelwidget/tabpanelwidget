@@ -51,14 +51,11 @@ const Tabpanelwidget = {
     rtl: Boolean,
     // special classes (XXX for now just forward the vanilla classes but need to improve customizability)
     animate: Boolean,
-    bar: Boolean,
+    skin: String, // null | fancy | pills | bar
+    iconStyle: String, // null | chevrons-east-south | plus-minus
     centered: Boolean,
-    chevronsEastSouth:  Boolean,
     disconnected: Boolean,
-    fancy: Boolean,
     iconsAtTheEnd: Boolean,
-    pills: Boolean,
-    plusMinus: Boolean,
     rounded: Boolean,
   },
   data() {
@@ -93,14 +90,11 @@ const Tabpanelwidget = {
     classes() {
       const ret = []
       if (this.animate) ret.push("tpw-animate")
-      if (this.bar) ret.push("tpw-bar")
       if (this.centered) ret.push("tpw-centered")
-      if (this.chevronsEastSouth) ret.push("tpw-chevrons-east-south")
+      if (this.iconStyle) ret.push(`tpw-${this.iconStyle}`)
       if (this.disconnected) ret.push("tpw-disconnected")
-      if (this.fancy) ret.push("tpw-fancy")
+      if (this.skin) ret.push(`tpw-${this.skin}`)
       if (this.iconsAtTheEnd) ret.push("tpw-icons-at-the-end")
-      if (this.pills) ret.push("tpw-pills")
-      if (this.plusMinus) ret.push("tpw-plus-minus")
       if (this.rounded) ret.push("tpw-rounded")
       return ret
     },
@@ -132,10 +126,42 @@ const Tabpanelwidget = {
       }
       this.$refs[`span-${idx}`].focus()
     },
+    spanClick(idx) {
+      if (this.isAccordion) {
+        this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+      } else {
+        this.selectedTabIdx = idx
+      }
+    },
+    spanKeydown(e, idx) {
+      switch (e.which) {
+        case 13: // enter
+        case 32: // space
+          if (this.isAccordion) {
+            e.preventDefault()
+            this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+          }
+          break
+        case 37: // arrow left
+        case 38: // arrow up
+          if (e.which === (this.isAccordion ? 38 : 37)) {
+            e.preventDefault()
+            this.wrapFocusIdx(idx - 1)
+          }
+          break
+        case 39: // arrow right
+        case 40: // arrow down
+          if (e.which === (this.isAccordion ? 40 : 39)) {
+            e.preventDefault()
+            this.wrapFocusIdx(idx + 1)
+          }
+          break
+      }
+    },
     renderSkipLink(h) {
       return h("a", {
         attrs: {
-          href: `#tpw-${this.id}-0-t`,
+          href: `#${this.tabId(0)}`,
           tabindex: "-1",
         },
         class: "tpw-skip",
@@ -233,25 +259,9 @@ const Tabpanelwidget = {
         }
         spanOptions.ref = `span-${idx}`
         spanOptions.on = {
-          click: () => this.selectedTabIdx = idx,
-          focus: () => this.selectedTabIdx = idx,
-          keydown: e => {
-            switch (e.which) {
-              case 13: // enter
-              case 32: // space
-                e.preventDefault()
-                this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
-                break
-              case 37: // arrow left
-                e.preventDefault()
-                this.wrapFocusIdx(idx - 1)
-                break
-              case 39: // arrow right
-                e.preventDefault()
-                this.wrapFocusIdx(idx + 1)
-                break
-            }
-          },
+          click: () => this.spanClick(idx),
+          focus: () => this.spanClick(idx),
+          keydown: e => this.spanKeydown(e, idx),
         }
       }
       return h(`h${this.heading}`, hxOptions, [
@@ -303,19 +313,8 @@ const Tabpanelwidget = {
             },
             class: "tpw-header",
             on: {
-              click: () => this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx]),
-              keydown: e => {
-                switch (e.which) {
-                  case 38: // arrow up
-                    e.preventDefault()
-                    this.wrapFocusIdx(idx - 1)
-                    break
-                  case 40: // arrow down
-                    e.preventDefault()
-                    this.wrapFocusIdx(idx + 1)
-                    break
-                }
-              },
+              click: () => this.spanClick(idx),
+              keydown: e => this.spanKeydown(e, idx),
             },
             ref: `span-${idx}`,
           }, this.$slots[`tab-${idx}`] || this.tabs[idx]),

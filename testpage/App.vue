@@ -114,7 +114,7 @@
                 pre
                   code {{vueCode}}
               //- XXX include html of the vue section below above automatically
-              VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="vueProps")
+              VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps")
                 template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
                   p Panel {{i-1}}
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
@@ -123,12 +123,10 @@
             div
               h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
               //- vuera auto-wraps in div
-              ReactTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="vueProps")
-                //- XXX figure out slots for react
-                //- XXX and changing props does not update
-                template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
-                  p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
-                  small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
+              ReactTabpanelwidget(:mode="stressMode" v-bind="stressProps")
+                template(v-for="tab in stressTabs")
+                  ReactTabpanelwidgetHeading {{tab}}
+                  ReactTabpanelwidgetPanel hello world
 
             div(ref="vanillaWrapper")
               div(style="display:flex")
@@ -142,7 +140,7 @@
                   h2 {{tab}}
                   div hello world
       h2#vanilla.c-l Showcase
-      div
+      div(ref="showcase")
         h3 "Dynamic" Widgets with default Accordion Styling
         div(:style="{width: width+'%'}")
           div
@@ -410,6 +408,8 @@ export default {
   components: {
     VueTabpanelwidget,
     ReactTabpanelwidget,
+    ReactTabpanelwidgetHeading: ReactTabpanelwidget.Heading,
+    ReactTabpanelwidgetPanel: ReactTabpanelwidget.Panel,
   },
   data() {
     this.examples = [
@@ -451,28 +451,29 @@ export default {
   },
   mounted() {
     this.vanillaMount()
+    this.$refs.showcase.querySelectorAll(".tpw-widget").forEach(widget => Tabpanelwidget.install(widget, () => {}, true))
   },
   computed: {
-    vueProps() {
+    // not just the true values because then react nextProps doesn't contain the value so it uses previous props
+    stressProps() {
       const ret = {}
-      if (this.stressCentered) ret.centered = true
-      if (this.stressRounded) ret.rounded = true
-      if (this.stressRtl) ret.rtl = true
-      if (this.stressSkin) ret[this.stressSkin] = true
-      if (this.stressIconStyle) ret[this.stressIconStyle] = true
-      if (this.stressIconAnimate) ret.animate = true
-      if (this.stressDisconnected) ret.disconnected= true
-      if (this.stressIconsAtTheEnd) ret["icons-at-the-end"] = true
+      ret.centered = !!this.stressCentered
+      ret.rounded = !!this.stressRounded
+      ret.rtl = !!this.stressRtl
+      ret.skin = this.stressSkin
+      ret.iconStyle = this.stressIconStyle
+      ret.animate = !!this.stressIconAnimate
+      ret.disconnected = !!this.stressDisconnected
+      ret.iconsAtTheEnd = !!this.stressIconsAtTheEnd
       ret.heading = this.stressHeading
       return ret
     },
     vueCode() {
-      const keys = Object.keys(this.vueProps)
-      const props = keys.filter(k => this.vueProps[k]).join(" ")
-      // XXX .script because otherwise parse fail
+      const keys = Object.keys(this.stressProps)
+      const props = keys.filter(k => this.stressProps[k]).join(" ")
       return `<template>
   <VueTabpanelwidget ${this.stressMode ? `mode="${this.stressMode}" ` : ''}:tabs="${JSON.stringify(this.stressTabs)}"${props ? ` ${props}` : ''}>
-    <template v-slot:panel-0="">
+    <template v-for="i in stressTabs.length" v-slot:[\`panel-${i-1}\`]="">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.<p>
       <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small>
     </template>
@@ -538,14 +539,6 @@ export default {
           widget.classList.add(`tpw-${this.stressIconStyle}`)
         }
       }
-      if (!key || key === "heading") {
-        // XXX this doesn't work
-        // widget.querySelectorAll(`h${prevValue}`).forEach(node => {
-        //   const newNode = document.createElement(`h${this.stressHeading}`)
-        //   node.parentNode.replaceChild(newNode, node)
-        //   newNode.outerHTML = node.outerHTML.replace(`<h${prevValue}`, `<h${this.stressHeading}`).replace(`</h${prevValue}>`, `</h${this.stressHeading}>`)
-        // })
-      }
       if (!key || key === "centered") widget.classList[this.stressCentered ? "add" : "remove"](`tpw-centered`)
       if (!key || key === "rounded") widget.classList[this.stressRounded ? "add" : "remove"](`tpw-rounded`)
       if (!key || key === "disconnected") widget.classList[this.stressDisconnected ? "add" : "remove"](`tpw-disconnected`)
@@ -600,19 +593,27 @@ export default {
   },
   watch: {
     stressMode() {
-      // gotta make it dynamic, so unmount, add proper class and re-mount
       const unmounted = this.vanillaUnmount()
       if (unmounted) this.vanillaMount()
     },
     stressSkin() { this.vanillaApply("skin") },
     stressIconStyle() { this.vanillaApply("iconStyle") },
-    stressHeading(nv, ov) { this.vanillaApply("heading", ov) }, // XXX not working
     stressCentered() { this.vanillaApply("centered") },
     stressRounded() { this.vanillaApply("rounded") },
     stressDisconnected() { this.vanillaApply("disconnected") },
     stressIconsAtTheEnd() { this.vanillaApply("iconsAtTheEnd") },
     stressIconAnimate() { this.vanillaApply("iconAnimate") },
     stressRtl() { this.vanillaApply("rtl") },
+    stressHeading(nv, ov) {
+      const unmounted = this.vanillaUnmount()
+      const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
+      widget.querySelectorAll(`h${ov}`).forEach(node => {
+        const newNode = document.createElement(`h${nv}`)
+        newNode.innerText = node.innerText
+        node.parentNode.replaceChild(newNode, node)
+      })
+      if (unmounted) this.vanillaMount()
+    },
   },
 }
 </script>
