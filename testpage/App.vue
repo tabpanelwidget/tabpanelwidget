@@ -120,7 +120,7 @@
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
-            div
+            //-div
               h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
               //- vuera auto-wraps in div
               ReactTabpanelwidget(:mode="stressMode" v-bind="stressProps")
@@ -136,9 +136,12 @@
               //- un-mount and re-mount means we can't use vue to keep classes on here via template and instead need to use watchers
               //- ... looking up the node at that moment
               .tpw-widget
-                template(v-for="tab in initialStressTabs")
+                template(v-for="(tab, idx) in initialStressTabs")
                   h2 {{tab}}
-                  div hello world
+                  div
+                    p Panel {{idx}}
+                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
+                    small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
       h2#vanilla.c-l Showcase
       div(ref="showcase")
         h3 "Dynamic" Widgets with default Accordion Styling
