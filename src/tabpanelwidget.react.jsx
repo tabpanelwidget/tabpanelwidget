@@ -19,14 +19,18 @@ const debounced = function(fn, ms) {
  * </ReactTabpanelwidget>
  */
 export default class ReactTabpanelwidget extends React.Component {
-  // we don't render these, just use them to declare children
-  static Heading = props => (<div>heading</div>)
-  static Panel = props => (<div>panel</div>)
+  static defaultProps = {
+    heading: 2,
+  }
+
+  // XXX most likely a better way to do all this
+  static Heading = props => props.children
+  static Panel = props => props.children
 
   constructor(props) {
     super(props)
-    if (!(props.mode === null || props.mode === ACCORDION || props.mode === TABPANEL)) {
-      throw new Error(`mode prop should be null, "${ACCORDION}", or "${TABPANEL}"`)
+    if (!(props.mode == null || props.mode === ACCORDION || props.mode === TABPANEL)) {
+      throw new Error(`mode prop should be nullish, "${ACCORDION}", or "${TABPANEL}"`)
     }
     if (!window.tpwId) window.tpwId = 0
     this.id = window.tpwId++
@@ -54,12 +58,17 @@ export default class ReactTabpanelwidget extends React.Component {
     }
   }
 
-  // TODO fix this function to gets slots working... might not work with vuera
+  // this function does not work with vuea because of VueContainer (https://github.com/akxcv/vuera/blob/master/src/wrappers/Vue.js#L15)
   computeTabsAndPanels(props) {
     const tabs = []
     const panels = []
+    // XXX this assumes proper ordering of children... should be improved but el.type, etc. doesn't help
     React.Children.forEach(props.children, (el, idx) => {
-      tabs.push(el)
+      if (idx % 2 == 0) {
+        tabs.push(el)
+      } else {
+        panels.push(el)
+      }
     })
     return [tabs, panels]
   }
@@ -291,7 +300,7 @@ export default class ReactTabpanelwidget extends React.Component {
     const panelId = this.panelId(idx)
     return (
       <div id={panelId} className="tpw-shim" role="tabpanel" tabIndex={0} aria-labelledby={tabId} hidden={this.state.selectedTabIdx !== idx}>
-        <div className="tpw-panel">SHIM {idx}</div>
+        <div className="tpw-panel">{this.panels[idx]}</div>
       </div>
     )
   }
