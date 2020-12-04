@@ -60,7 +60,7 @@
               option(value="accordion") Strictly Accordion
               option(value="tabpanel") Strictly TabPanel
           div
-            label(for="vue-heading") Heading
+            label(for="vue-heading") Heading (the markup should change but not the styling)
             select#vue-style(v-model="stressHeading")
               option(v-for="i in 5" :value="i+1") h{{i+1}}
           div
@@ -105,14 +105,13 @@
               button(@click="stressRemoveTab(idx)") remove
             button.vue-remove(@click="stressAddTab()") add
         div.right
+          h4 Widget (Vue)
           .m-a(:style="{width: width+'%'}")
             div
-              div(style="display:flex")
-                h4(style="flex-grow:1") Widget (Vue)
-                //-button(@click="vueShowCode = !vueShowCode") {{vueShowCode ? "hide" : "show"}} code
-              div(v-if="vueShowCode")
-                pre
-                  code {{vueCode}}
+              // TODO
+              // a show code
+              pre
+                code {{vueCode}}
               //- XXX include html of the vue section below above automatically
               VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps")
                 template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
@@ -120,20 +119,21 @@
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
-            //- TODO react doesn't work with vuera... so we should remove those deps
-            //-div
-              h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
-              //- vuera auto-wraps in div
-              ReactTabpanelwidget(:mode="stressMode" v-bind="stressProps")
-                template(v-for="tab in stressTabs")
-                  ReactTabpanelwidgetHeading {{tab}}
-                  ReactTabpanelwidgetPanel hello world
+          //- TODO react doesn't work with vuera... so we should remove those deps
+          //-div
+            h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
+            //- vuera auto-wraps in div
+            ReactTabpanelwidget(:mode="stressMode" v-bind="stressProps")
+              template(v-for="tab in stressTabs")
+                ReactTabpanelwidgetHeading {{tab}}
+                ReactTabpanelwidgetPanel hello world
 
-            div(ref="vanillaWrapper")
-              div(style="display:flex")
-                h4(style="flex-grow:1") Widget (Vanilla)
-                button(v-if="vanillaMounted" @click="vanillaUnmount") unmount
-                button(v-else @click="vanillaMount") mount
+          div(ref="vanillaWrapper")
+            div(style="display:flex")
+              h4 Widget (Vanilla)
+              button#unmount(v-if="vanillaMounted" @click="vanillaUnmount") unmount
+              button#unmount(v-else @click="vanillaMount") mount
+            .m-a(:style="{width: width+'%'}")
               //- un-mount and re-mount means we can't use vue to keep classes on here via template and instead need to use watchers
               //- ... looking up the node at that moment
               .tpw-widget
