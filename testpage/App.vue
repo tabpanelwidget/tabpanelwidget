@@ -110,8 +110,9 @@
             div
               // TODO
               // a show code
-              pre
-                code {{vueCode}}
+              //-div
+                pre
+                  code {{vueCode}}
               //- XXX include html of the vue section below above automatically
               VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps")
                 template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
