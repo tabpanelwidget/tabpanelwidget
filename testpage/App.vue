@@ -107,10 +107,10 @@
         div.right
           .m-a(:style="{width: width+'%'}")
             div
-              h4 Widget (Vue)
-              // TODO
-              // a show code
-              //-div
+              div(style="display:flex")
+                h4(style="flex-grow:1") Widget (Vue)
+                //-button(@click="vueShowCode = !vueShowCode") {{vueShowCode ? "hide" : "show"}} code
+              div(v-if="vueShowCode")
                 pre
                   code {{vueCode}}
               //- XXX include html of the vue section below above automatically
@@ -120,6 +120,7 @@
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
+            //- TODO react doesn't work with vuera... so we should remove those deps
             //-div
               h4 Widget (React &mdash; embedded in Vue via #[a(target="_blank" href="https://github.com/akxcv/vuera" title="Vuera on GitHub") vuera])
               //- vuera auto-wraps in div
@@ -438,6 +439,7 @@ export default {
       width: 100,
 
       vanillaMounted: false,
+      vueShowCode: false,
       stressMode: this.stressModes[0],
       stressSkin: null,
       stressIconStyle: null,
