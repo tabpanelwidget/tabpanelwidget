@@ -60,7 +60,7 @@
           div(v-for="(tab, idx) in stressTabs" :key="idx")
             input.input(type="text" v-model="stressTabs[idx]" @input="e => stressSetTab(idx, e.target.value)")
             button(@click="stressRemoveTab(idx)") remove
-          button.vue-remove(@click="stressAddTab()") add
+          button.vue-add(@click="stressAddTab()") add
       div.columns
         div.left
           div

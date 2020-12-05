@@ -3,6 +3,7 @@
 }
 html {
     scroll-padding-top: 5rem;
+    overflow-x: hidden;
 }
 :focus:not(:focus-visible) + label {
   box-shadow: none !important;
@@ -146,8 +147,7 @@ button:not(#TK) {
     /* materialize */
     background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
 }
-button:not(#TK).vue-remove {
-    clear: both;
+button:not(#TK).vue-add {
     float: none;
     margin-top: 1rem;
 }
@@ -318,6 +318,12 @@ input[type=range]::-moz-range-track {
     border-radius: 3px;
     background: #fafafa;
 }
+#tabsHeadersBox > div > div {
+    display: flow-root;
+}
+#tabsHeadersBox > div > div > input {
+    margin: 1px;
+}
 #test-container {
     --space: 0;
     line-height: calc(1.4 + var(--space) / 100);
@@ -330,6 +336,10 @@ input[type=range]::-moz-range-track {
     font-size: 1.8rem;
     border-top: 4px double #cecece;
     border-bottom: 4px double #cecece;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
 }
 h4:not(.tpw-hx),
 label:not(#tk),
