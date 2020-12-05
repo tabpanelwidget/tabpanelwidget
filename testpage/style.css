@@ -42,12 +42,12 @@ header {
     line-height: 1.6;
 }
 h2:not(.tpw-hx) {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-size: 2.8rem;
     text-align: center;
     padding: 1rem !important;
-    background: #b5c6ea;
-    color: #3f3d55;
-    margin: 3rem 0;
+    color: #555;
+    margin: 1.5em 0 0;
     font-weight: bold;
 }
 h2:not(.tpw-hx),
@@ -311,17 +311,25 @@ input[type=range]::-moz-range-track {
     border: 1px solid #ccc;
     margin: 0 3px 3px 0;
 }
-
+#tabsHeadersBox {
+    padding: 0 1em 1em;
+    border: 1px solid #ccc;
+    margin: 2em 0;
+    border-radius: 3px;
+    background: #fafafa;
+}
 #test-container {
     --space: 0;
     line-height: calc(1.4 + var(--space) / 100);
     letter-spacing: calc(1em * (var(--space) / 200));
     word-spacing: calc(1em * (var(--space) / 100));
+    max-width: 900px;
+    margin: auto;
 }
 #test-container h3:not(.tpw-hx) {
     font-size: 1.8rem;
-    border-top: 4px solid #555;
-    border-bottom: 4px solid #555;
+    border-top: 4px double #cecece;
+    border-bottom: 4px double #cecece;
 }
 h4:not(.tpw-hx),
 label:not(#tk),
@@ -414,7 +422,7 @@ pre code {
     padding: 0 5px 0 20px;
 }
 .columns h4:not(.tpw-hx) {
-    margin: 5px 0;
+    margin: 5px 0 -2px;
 
 }
 #vue-wrapper {

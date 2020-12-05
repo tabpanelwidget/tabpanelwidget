@@ -51,6 +51,16 @@
           path(fill="#fff" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z")
     #test-container(:style="{fontSize: fontSize+'px', '--space': space, fontWeight: fontWeight}")
       h2#vue Stress Tester
+      div
+        input#vue-rtl(type="checkbox" v-model="stressRtl")
+        label#swap(for="vue-rtl") Swap Script Direction to RTL
+      div#tabsHeadersBox
+        div
+          h4 Tabs/Headers
+          div(v-for="(tab, idx) in stressTabs" :key="idx")
+            input.input(type="text" v-model="stressTabs[idx]" @input="e => stressSetTab(idx, e.target.value)")
+            button(@click="stressRemoveTab(idx)") remove
+          button.vue-remove(@click="stressAddTab()") add
       div.columns
         div.left
           div
@@ -60,7 +70,7 @@
               option(value="accordion") Strictly Accordion
               option(value="tabpanel") Strictly TabPanel
           div
-            label(for="vue-heading") Heading (the markup should change but not the styling)
+            label(for="vue-heading") Heading #[br] (the markup should change but not the styling)
             select#vue-style(v-model="stressHeading")
               option(v-for="i in 5" :value="i+1") h{{i+1}}
           div
@@ -95,15 +105,6 @@
               div(:style="{'opacity': stressIconStyle === 'plus-minus' ? 0.5 : 1}")
                 input#vue-icon-animate(type="checkbox" v-model="stressIconAnimate"  :disabled="stressIconStyle === 'plus-minus'")
                 label(for="vue-icon-animate") Animate open/close
-          div
-            input#vue-rtl(type="checkbox" v-model="stressRtl")
-            label#swap(for="vue-rtl") Swap Script Direction to RTL
-          div
-            h4 Tabs/Headers
-            div(v-for="(tab, idx) in stressTabs" :key="idx")
-              input.input(type="text" v-model="stressTabs[idx]" @input="e => stressSetTab(idx, e.target.value)")
-              button(@click="stressRemoveTab(idx)") remove
-            button.vue-remove(@click="stressAddTab()") add
         div.right
           h4 Widget (Vue)
           .m-a(:style="{width: width+'%'}")
@@ -324,6 +325,20 @@
               li
                 code.code tpw-bar
             .tpw-widget.tpw-tabpanel.tpw-bar
+              include ./_vanilla-headings.pug
+          //- tpw-bar + tpw-centered
+          div
+            p Classes applied to the Widget:
+            ul
+              li
+                code.code tpw-widget
+              li
+                code.code tpw-tabpanel
+              li
+                code.code tpw-bar
+              li
+                code.code tpw-centered
+            .tpw-widget.tpw-tabpanel.tpw-bar.tpw-centered
               include ./_vanilla-headings.pug
         h3 "Static" Widgets: Accordions
         div(:style="{width: width+'%'}")
