@@ -4,17 +4,17 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## TODO
 
---[ ] rewrite in typescript?
-- [ ] change heuristic to check biggest tpw-hx height >= tpw-shadow height
+- [ ] rewrite in typescript?
+- [ ] split the stylesheet (to create a base + different "skins") 
 
 ## TOC
 
 * [Vanilla](#vanilla)
 * [Vue](#vue)
 * [React](#react)
+* ["Old School"](#old-school)
 * [ ] [Angular](#angular)
 * [ ] [Ember](#ember)
-* ["Old School"](#old-school)
 * [Usage](#usage)
 * [Development](#development)
 
@@ -152,6 +152,14 @@ Or you may choose to load all files from CDN:
 The above will attach the script to all containers with the class `tpw-widget`.
 
 <small>**Note**: The above examples use version `1.0.0` but you should link to the latest version on CDN</small>
+
+### Angular
+
+Coming soon...
+
+### Ember
+
+Coming soon...
 
 ## Usage
 
