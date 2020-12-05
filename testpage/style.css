@@ -339,7 +339,7 @@ input[type=range]::-moz-range-track {
     width: 100vw;
     position: relative;
     left: 50%;
-    margin-left: -50vw;
+    margin: 1em -50vw 2em;
 }
 h4:not(.tpw-hx),
 label:not(#tk),
