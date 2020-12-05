@@ -21,12 +21,16 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 ### Vanilla
 
 ```js
-import * as Tabpanelwidget from "@tabpanelwidget/tabpanelwidget"
+import * as Tabpanelwidget from "tabpanelwidget"
+import "tabpanelwidget/dist/tabpanelwidget.min.css"
 
+// find all .tpw-widget in page and install them
+Tabpanelwidget.autoinstall()
+
+// or specify element to install (and uninstall)
 const el = document.querySelector('#my-element')
+// keep in mind install completes asynchronously so the uninstall is passed in callback
 let uninstall; Tabpanelwidget.install(el, _uninstall => (uninstall = _uninstall))
-// or Tabpanelwidget.autoinstall()
-
 // later...
 if (uninstall) uninstall()
 ```
@@ -44,8 +48,10 @@ Vue.use(VueTabpanelwidget)
 ```
 
 ```html
-<Tabpanelwidget prop1={} prop2={}>
-	<!-- TODO -->
+<Tabpanelwidget :heading="2" :mode="accordion" :selected-idxs="[1]" :tabs="['a', 'b', 'c']" rtl animate skin="pills" icon-style="fancy" centered disconnected icons-at-the-end rounded>
+  <template v-slot:panel-0="">
+    override content for panel 0
+  </template>
 </Tabpanelwidget>
 ```
 
@@ -55,18 +61,11 @@ Vue.use(VueTabpanelwidget)
 import ReactTabpanelwidget from "tabpanelwidget/react"
 import "tabpanelwidget/dist/tabpanelwidget.min.css"
 
-<ReactTabpanelwidget prop1={} prop2={}>
-	<!-- TODO -->
+<ReactTabpanelwidget heading={2} mode={'accordion'} selected-idxs={[1]} rtl animate skin={'pills'} icon-style={'fancy'} centered disconnected icons-at-the-end rounded>
+  <ReactTabpanelwidget.Heading>heading 1</ReactTabpanelwidget.Heading>
+  <ReactTabpanelwidget.Panel>panel 1</ReactTabpanelwidget.Panel>
 </ReactTabpanelwidget>
 ```
-
-### Angular
-
-Coming soon!
-
-### Ember
-
-Coming soon!
 
 ### Old School
 
