@@ -8,6 +8,7 @@ const configureBabel = () => {
   return babel({
     exclude: "node_modules/**",
     extensions: [".js", ".jsx", ".ts", ".tsx", ".vue"],
+    plugins: ["@babel/plugin-proposal-class-properties"],
   })
 }
 
