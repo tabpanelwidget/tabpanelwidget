@@ -446,7 +446,7 @@ button#unmount {
     padding: 1px 10px !important;
     font-size: .8rem !important;
     height: 2em !important;
-    margin: .8em 0 0 1em;
+    margin: 0 0 0 1em;
     font-weight: 400;
 }
 @media screen and (max-width: 800px) {
