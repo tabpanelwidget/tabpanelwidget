@@ -371,7 +371,9 @@ function _install(orig, automatic, cb) {
   let continuePromise
   if (automatic) {
     const childWidgets = widget.querySelectorAll(".tpw-widget")
-    continuePromise = Promise.all([...childWidgets].map(w => _install(w, true)))
+    const childInstallPromises = []
+    childWidgets.forEach(w => childInstallPromises.push(_install(w, true)))
+    continuePromise = Promise.all(childInstallPromises)
   } else {
     continuePromise = Promise.resolve()
   }
