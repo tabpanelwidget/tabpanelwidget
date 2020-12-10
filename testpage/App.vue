@@ -421,6 +421,7 @@
 import * as Tabpanelwidget from "../src/tabpanelwidget.js"
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
 import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
+import 'regenerator-runtime/runtime'
 
 let _vanillaUnmount
 export default {
@@ -513,14 +514,14 @@ export default {
     },
   },
   methods: {
-    vanillaMount() {
+    async vanillaMount() {
       const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
       const mounted = widget.classList.contains("tpw-js")
       if (!mounted) {
         // if (_vanillaUnmount) console.warn("_vanillaUnmount should not be set")
         // this needs to happen before install because determines dynamic
         this.vanillaApply("mode")
-        Tabpanelwidget.install(widget, _uninstall => (_vanillaUnmount = _uninstall), true)
+        _vanillaUnmount = await Tabpanelwidget.install(widget, true)
         this.vanillaApply()
       }
       this.vanillaMounted = true

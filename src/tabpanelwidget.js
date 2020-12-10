@@ -15,12 +15,12 @@ function _addNoFouc() {
 
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
-function _install(orig, cb = null, automatic = false) {
-  if (orig.classList.contains("tpw-js")) return cb && cb(noop) // already installed
+function _install(orig, automatic, cb) {
+  if (orig.classList.contains("tpw-js")) return cb(noop) // already installed
   if (automatic) {
     // wait for parent to automatically install first
     const parent = orig.parentNode.closest(".tpw-widget")
-    if (parent && !parent.classList.contains("tpw-js")) return cb && cb(noop) // recursion will handle us
+    if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
 
   const origVisibility = orig.style.visibility
@@ -274,7 +274,7 @@ function _install(orig, cb = null, automatic = false) {
   const firstChildTagName = child.tagName
   if (!isDl && !/H[1-6]/.test(firstChildTagName)) {
     console.warn("tabpanelwidget: first child must be heading")
-    return cb && cb(noop)
+    return cb(noop)
   }
   let hx
   while (child) {
@@ -299,7 +299,7 @@ function _install(orig, cb = null, automatic = false) {
       // only allow one element in prevOrigElements for dl
       if (isDl && (prevOrigElements.length || child.tagName !== "DD")) {
         console.warn("tabpanelwidget: dl must have alternating dt, dd")
-        return cb && cb(noop)
+        return cb(noop)
       }
       prevOrigElements.push(child)
     }
@@ -383,7 +383,7 @@ function _install(orig, cb = null, automatic = false) {
 
   // XXX ensure no closure leakagages (even elsewhere)
   let uninstalled
-  return cb && cb(() => {
+  return cb(() => {
     if (uninstalled) return
     childUninstalls.forEach(uninstall => uninstall())
     if (resizeObserver) resizeObserver.disconnect()
@@ -416,9 +416,31 @@ function _runBuffered() {
   }
 }
 
+// install(orig) -> returns promise
+// install(orig, cb)
+// install(orig, cb, automatic)
+// install(orig, automatic) -> returns promise
 function install(...args) {
-  buffered.push(() => _install(...args))
+  const orig = args[0]
+  let cb = null, automatic = false
+  if (typeof args[2] === "undefined") {
+    if (typeof args[1] === "function") {
+      cb = args[1]
+    } else if (typeof args[1] === "boolean") {
+      automatic = args[1]
+    }
+  } else {
+    cb = args[1]
+    automatic = args[2]
+  }
+  let p
+  if (cb) {
+    buffered.push(() => _install(orig, automatic, cb))
+  } else {
+    p = new Promise(resolve => buffered.push(() => _install(orig, automatic, resolve)))
+  }
   _runBuffered()
+  return p
 }
 
 function autoinstall() {

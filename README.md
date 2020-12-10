@@ -5,7 +5,7 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 ## TODO
 
 - [ ] rewrite in typescript?
-- [ ] split the stylesheet (to create a base + different "skins") 
+- [ ] split the stylesheet (to create a base + different "skins")
 
 ## TOC
 
@@ -29,8 +29,10 @@ Tabpanelwidget.autoinstall()
 
 // or specify element to install (and uninstall)
 const el = document.querySelector('#my-element')
-// keep in mind install completes asynchronously so the uninstall is passed in callback
-let uninstall; Tabpanelwidget.install(el, _uninstall => (uninstall = _uninstall))
+// keep in mind install completes asynchronously so uninstall is returned by promise
+const uninstall = await Tabpanelwidget.install(el)
+// or worse, can use a callback as second arg (make sure you don't call uninstall before it's set in this case):
+// let uninstall; Tabpanelwidget.install(el, _uninstall => (uninstall = _uninstall))
 // later...
 if (uninstall) uninstall()
 ```
