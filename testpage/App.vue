@@ -433,9 +433,9 @@ export default {
   name: "App",
   components: {
     VueTabpanelwidget,
-    ReactTabpanelwidget,
-    ReactTabpanelwidgetHeading: ReactTabpanelwidget.Heading,
-    ReactTabpanelwidgetPanel: ReactTabpanelwidget.Panel,
+    // ReactTabpanelwidget,
+    // ReactTabpanelwidgetHeading: ReactTabpanelwidget.Heading,
+    // ReactTabpanelwidgetPanel: ReactTabpanelwidget.Panel,
   },
   data() {
     this.examples = [
