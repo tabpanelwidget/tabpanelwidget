@@ -4,7 +4,7 @@
     link(v-if="stylesheetHref" rel="stylesheet" :href="stylesheetHref")
     link(v-if="customStylesheetHref" rel="stylesheet" :href="customStylesheetHref")
     header
-      h1 
+      h1
         a(title="TabpanelWidget.com" href="https://tabpanelwidget.com")
           img(decoding="async" src="https://tabpanelwidget.com/icon.eff9d2cc.png" alt="TabPanelWidget" width="32" height="32")
         |  &nbsp; TabPanelWidget Test Page
@@ -424,7 +424,8 @@
 import "../src/polyfill"
 import * as Tabpanelwidget from "../src/tabpanelwidget.js"
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
-import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
+// commenting out here because vuera not quite working + Set usage
+// import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
 import 'regenerator-runtime/runtime'
 
 let _vanillaUnmount
