@@ -14,8 +14,10 @@ function _install(orig, automatic, cb) {
   if (orig.classList.contains("tpw-js")) return cb(noop) // already installed
   if (automatic) {
     // wait for parent to automatically install first
-    const parent = orig.parentNode.closest(".tpw-widget")
-    if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
+    if (orig.parentNode) {
+      const parent = orig.parentNode.closest(".tpw-widget")
+      if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
+    }
   }
 
   const origVisibility = orig.style.visibility
