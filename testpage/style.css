@@ -453,7 +453,6 @@ pre code {
     margin: 1em 0 1em 20px;
 }
 button#unmount {
-    display: inline-block; /* IE10 */
     width: auto !important;
     padding: 1px 10px !important;
     font-size: .8rem !important;
