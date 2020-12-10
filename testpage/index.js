@@ -1,14 +1,11 @@
-import { assign } from 'es6-object-assign' // parcel is incorrectly leaving Object.assign in i believe :(
-if (!Object.assign) Object.assign = assign
-
-import Vue from "vue"
-// import * as vuera from "vuera"
-
-import App from "./App.vue"
+// use require instead of import to order polyfill first
+require('es6-object-assign').polyfill() // parcel is incorrectly leaving Object.assign in i believe :(
+const Vue = require('vue').default
+const App = require('./App.vue').default
 
 // Vue.use(vuera.VuePlugin)
 
 new Vue({
-  el: "#app",
+  el: '#app',
   render: h => h(App),
 })

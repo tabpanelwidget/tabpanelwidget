@@ -1,9 +1,12 @@
 // XXX would be better to use core-js / babel to detect which features are needed...
+// XXX also to not polute global namespace maybe better pattern is to ship polyfilled or not and branch to require one or other?
 
 import ResizeObserver from 'resize-observer-polyfill'
 if (!window.ResizeObserver) {
   window.ResizeObserver = ResizeObserver
 }
+
+import 'promise-polyfill/src/polyfill'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach#Polyfill
 if (window.NodeList && !NodeList.prototype.forEach) {
