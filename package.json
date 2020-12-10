@@ -19,6 +19,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
+    "@ungap/set": "^0.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },

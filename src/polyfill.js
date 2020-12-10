@@ -28,6 +28,11 @@ if (!Element.prototype.closest) {
   };
 }
 
+import Set from '@ungap/set'
+if (!window.Set) {
+  window.Set = Set
+}
+
 // https://stackoverflow.com/a/62682524/387413
 function arrayFrom(arr, callbackFn, thisArg)
 {
