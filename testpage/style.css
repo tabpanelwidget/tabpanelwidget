@@ -62,7 +62,7 @@ h3:not(.tpw-hx) {
     text-align: center;
 }
 h3 + div {
-    margin: auto
+    margin: auto;
     overflow: hidden; /* IE 10 */
 }
 
@@ -302,7 +302,7 @@ input[disabled] {
 #controls input[type=range] {
     display: block; /* IE10 */
     margin: 5px auto 10px; /* IE10 */
-    width: auto;
+    width: 80%;
     background: #333;
 }
 
