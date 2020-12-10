@@ -134,7 +134,7 @@
                 ReactTabpanelwidgetPanel hello world
 
           div(ref="vanillaWrapper")
-            div(style="display:flex")
+            div(style="display:flex;clear:both;padding-top:2em;")
               h4 Widget (Vanilla)
               button#unmount(v-if="vanillaMounted" @click="vanillaUnmount") unmount
               button#unmount(v-else @click="vanillaMount") mount
