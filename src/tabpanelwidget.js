@@ -12,12 +12,11 @@ let buffered = []
 // XXX better name for automatic (something about the recursion behavior)
 function _install(orig, automatic, cb) {
   if (orig.classList.contains("tpw-js")) return cb(noop) // already installed
+  if (!orig.parentNode) return cb(noop)
   if (automatic) {
     // wait for parent to automatically install first
-    if (orig.parentNode) {
-      const parent = orig.parentNode.closest(".tpw-widget")
-      if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
-    }
+    const parent = orig.parentNode.closest(".tpw-widget")
+    if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
 
   const origVisibility = orig.style.visibility
@@ -445,7 +444,7 @@ function install(...args) {
 }
 
 function autoinstall() {
-  buffered.push(() => document.querySelectorAll(`.tpw-widget`).forEach(w => _install(w, true)))
+  buffered.push(() => document.querySelectorAll(`.tpw-widget`).forEach(w => _install(w, true, noop)))
   _runBuffered()
 }
 
