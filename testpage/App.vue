@@ -4,7 +4,10 @@
     link(v-if="stylesheetHref" rel="stylesheet" :href="stylesheetHref")
     link(v-if="customStylesheetHref" rel="stylesheet" :href="customStylesheetHref")
     header
-      h1 TabPanelWidget Test Page &middot; #[a(title="TabpanelWidget.com" href="https://tabpanelwidget.com") tabpanelwidget.com]
+      h1 
+        a(title="TabpanelWidget.com" href="https://tabpanelwidget.com")
+          img(decoding="async" src="https://tabpanelwidget.com/icon.eff9d2cc.png" alt="TabPanelWidget" width="32" height="32")
+        |  &nbsp; TabPanelWidget Test Page
       //-p All the widgets below are only styled via #[strong tabpanelwidget.min.css]
       p
         input#normalizeYN.input(type="checkbox" v-model="addNormalize")
