@@ -40,6 +40,7 @@ header,
 }
 header {
     overflow: hidden; /* IE10 */
+    padding: 3px; /* because of box-shadow with the above */
     display: flow-root;
     margin: 30px auto;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
