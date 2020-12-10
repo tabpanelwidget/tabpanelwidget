@@ -473,7 +473,7 @@ export default {
   },
   mounted() {
     this.vanillaMount()
-    this.$refs.showcase.querySelectorAll(".tpw-widget").forEach(widget => Tabpanelwidget.install(widget, () => {}, true))
+    this.$refs.showcase.querySelectorAll(".tpw-widget").forEach(widget => Tabpanelwidget.install(widget, true))
   },
   computed: {
     // not just the true values because then react nextProps doesn't contain the value so it uses previous props

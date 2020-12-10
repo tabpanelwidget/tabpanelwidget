@@ -8,11 +8,6 @@ const debounced = function(fn, ms) {
 const noop = () => {}
 let buffered = []
 
-// this allows us to do FOUC protection html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
-function _addNoFouc() {
-  document.documentElement.classList.add("tpw-!fouc")
-}
-
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
 function _install(orig, automatic, cb) {
@@ -267,8 +262,6 @@ function _install(orig, automatic, cb) {
     shadow.setAttribute("aria-hidden", "true")
   }
 
-  // TODO do we want to start with fresh nodes and carry over only what we need so they don't screw things up?
-  // ... maybe they want an attribute or something to target with so need to figure out best thing
   const isDl = orig.tagName === "DL"
   let child = orig.children[0]
   const firstChildTagName = child.tagName
@@ -374,23 +367,26 @@ function _install(orig, automatic, cb) {
   orig.style.visibility = origVisibility
 
   const childUninstalls = []
+  let continuePromise
   if (automatic) {
     const childWidgets = widget.querySelectorAll(".tpw-widget")
-    childWidgets.forEach(w => childUninstalls.push(install(w, true)))
-    // XXX ideally we want to do this when all widgets have been replaced after first pass
-    _addNoFouc()
+    continuePromise = Promise.all([...childWidgets].map(w => _install(w, true)))
+  } else {
+    continuePromise = Promise.resolve()
   }
 
   // XXX ensure no closure leakagages (even elsewhere)
   let uninstalled
-  return cb(() => {
-    if (uninstalled) return
-    childUninstalls.forEach(uninstall => uninstall())
-    if (resizeObserver) resizeObserver.disconnect()
-    window.removeEventListener("resize", debouncedMaybeRecomputeLayout)
-    eventListeners.forEach(([el, e, handler]) => el.removeEventListener(e, handler))
-    widget.parentNode.replaceChild(orig, widget)
-    uninstalled = true
+  continuePromise.then(() => {
+    cb(() => {
+      if (uninstalled) return
+      childUninstalls.forEach(uninstall => uninstall())
+      if (resizeObserver) resizeObserver.disconnect()
+      window.removeEventListener("resize", debouncedMaybeRecomputeLayout)
+      eventListeners.forEach(([el, e, handler]) => el.removeEventListener(e, handler))
+      widget.parentNode.replaceChild(orig, widget)
+      uninstalled = true
+    })
   })
 }
 
@@ -405,15 +401,18 @@ function _documentReady() {
 
 function _runBuffered() {
   if (_areFeaturesSupported()) {
-    if (_documentReady()) {
-      buffered.forEach(fn => fn())
-      buffered = []
+    if (!_documentReady()) {
+      // we will _runBuffered again when ready
+      return
     }
-  } else {
-    // dont want to end up with visibility:hidden (if they don't load polyfill)
-    // so just disable fouc protection in that case
-    _addNoFouc()
+    buffered.forEach(fn => fn())
+    buffered = []
   }
+  // either we have completed our first pass or they may not have polyfill and we
+  // dont want to end up with visibility:hidden, so just disable fouc protection
+  // XXX in reality we may not wait until all widgets have finished mounting, but should be good enough
+  // usage: html:not(.no-js):not(.tpw-\!fouc) .tpw-widget {visibility:hidden}
+  document.documentElement.classList.add("tpw-!fouc")
 }
 
 // install(orig) -> returns promise
@@ -444,20 +443,16 @@ function install(...args) {
 }
 
 function autoinstall() {
-  buffered.push(() => {
-    document.querySelectorAll(`.tpw-widget`).forEach(w => _install(w, null, true))
-  })
+  buffered.push(() => document.querySelectorAll(`.tpw-widget`).forEach(w => _install(w, true)))
   _runBuffered()
 }
 
 if (document.readyState == 'loading') {
-  document.addEventListener("DOMContentLoaded", () => {
-    _runBuffered()
-  })
+  document.addEventListener("DOMContentLoaded", () => _runBuffered())
 }
 
 export {
-  install, // no longer returns install, but returns promise that resolves to uninstall
+  install,
   autoinstall,
   _runBuffered, // this is exported but just used by polyfill... so we don't have to poll
 }
