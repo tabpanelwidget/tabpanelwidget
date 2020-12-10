@@ -1,7 +1,9 @@
 // XXX would be better to use core-js / babel to detect which features are needed...
 
 import ResizeObserver from 'resize-observer-polyfill'
-window.ResizeObserver = ResizeObserver
+if (!window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserver
+}
 
 // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach#Polyfill
 if (window.NodeList && !NodeList.prototype.forEach) {

@@ -421,6 +421,7 @@
 </template>
 
 <script>
+import "../src/polyfill"
 import * as Tabpanelwidget from "../src/tabpanelwidget.js"
 import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
 import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
