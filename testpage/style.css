@@ -63,6 +63,7 @@ h3:not(.tpw-hx) {
 }
 h3 + div {
     margin: auto
+    overflow: hidden; /* IE 10 */
 }
 
 :invalid {
