@@ -34,10 +34,6 @@ nav a {
     vertical-align: bottom;
     color: #555;
 }
-header,
-.fieldset {
-    width: 72%;
-}
 header {
     overflow: hidden; /* IE10 */
     padding: 3px; /* because of box-shadow with the above */
@@ -338,12 +334,16 @@ input[type=range]::-moz-range-track {
 #tabsHeadersBox > div > div > input {
     margin: 1px;
 }
+header,
+#test-container {
+    max-width: 900px;
+    padding: 0 .5rem 0 1rem;
+}
 #test-container {
     --space: 0;
     line-height: calc(1.4 + var(--space) / 100);
     letter-spacing: calc(1em * (var(--space) / 200));
     word-spacing: calc(1em * (var(--space) / 100));
-    max-width: 900px;
     margin: auto;
 }
 #test-container h3:not(.tpw-hx) {
