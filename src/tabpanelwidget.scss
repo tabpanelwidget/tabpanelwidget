@@ -361,9 +361,11 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 .tpw-rounded.tpw-tabpanel .tpw-shim:not([hidden]) .tpw-panel {
   border-radius: $borderRadius;
 }
-.tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim:not([hidden]) .tpw-panel,
+/*
+:nth-child(3) is the first heading
+*/
 .tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
-.tpw-tabpanel.tpw-rounded :nth-last-child(2).tpw-selected + .tpw-shim .tpw-panel {
+.tpw-tabpanel.tpw-rounded > :nth-child(3).tpw-selected + .tpw-shim .tpw-panel {
   border-radius: 0 $borderRadius $borderRadius $borderRadius;
 }
 .tpw-tabpanel.tpw-bar .tpw-shim:not([hidden]) .tpw-panel {
@@ -371,16 +373,11 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   border: 0; /* reset of all borders to avoid slanted corners */
   border-top: 1px solid $color;
 }
-.tpw-rounded.tpw-tabpanel.tpw-bar .tpw-shim:not([hidden]) .tpw-panel {
-  border-radius: 0 !important;
-}
 /* RTL context */
-[dir=rtl].tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
-[dir=rtl] .tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
-[dir=rtl].tpw-tabpanel.tpw-rounded :nth-last-child(2).tpw-selected + .tpw-shim .tpw-panel,
-[dir=rtl] .tpw-tabpanel.tpw-rounded :nth-last-child(2).tpw-selected + .tpw-shim .tpw-panel,
-[dir=rtl].tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim .tpw-panel,
-[dir=rtl] .tpw-tabpanel.tpw-rounded :nth-child(2).tpw-selected + .tpw-shim .tpw-panel {
+[dir="rtl"].tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
+[dir="rtl"] .tpw-tabpanel.tpw-rounded.tpw-fancy .tpw-shim .tpw-panel,
+[dir="rtl"].tpw-tabpanel.tpw-rounded :nth-child(3).tpw-selected + .tpw-shim .tpw-panel,
+[dir="rtl"] .tpw-tabpanel.tpw-rounded :nth-child(3).tpw-selected + .tpw-shim .tpw-panel {
   border-radius: $borderRadius 0 $borderRadius $borderRadius;
 }
 .tpw-fancy .tpw-shim:not([hidden]) .tpw-panel {
@@ -569,8 +566,15 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 .tpw-tabpanel.tpw-pills .tpw-shim:not([hidden]) .tpw-panel {
   border: none;
 }
+.tpw-rounded.tpw-tabpanel.tpw-centered .tpw-shim:not([hidden]) .tpw-panel,
 .tpw-rounded.tpw-tabpanel.tpw-pills .tpw-shim:not([hidden]) .tpw-panel {
-  border-radius: $borderRadius;
+  border-radius: $borderRadius !important;
+}
+/*
+no border-radius for .tpw-bar
+*/
+.tpw-rounded.tpw-tabpanel.tpw-bar .tpw-shim:not([hidden]) .tpw-panel {
+  border-radius: 0 !important;
 }
 
 /**
