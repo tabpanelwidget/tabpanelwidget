@@ -162,7 +162,7 @@ export default class ReactTabpanelwidget extends React.Component {
   renderSkipLink() {
     return (
       <a ref={this.refSkipLink} href={`#${this.tabId(0)}`} tabIndex={-1} className="tpw-skip">
-        <b>Tab through to leave this widget<br/>or<br/> Click to go back to the first {this.isAccordion ? "header" : "tab"}</b>
+        <b>Tab through to leave this widget<br/>or<br/> follow this link to go back to the first {this.isAccordion ? "header" : "tab"}</b>
       </a>
     )
   }

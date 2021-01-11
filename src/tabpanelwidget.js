@@ -52,7 +52,7 @@ function _install(orig, automatic, cb) {
   let accordion
   function setAccordion(v, resizeCheck) {
     accordion = v
-    skipB.innerHTML = `Tab through to leave this widget <br />or<br /> Click to go back to the first ${accordion ? "header" : "tab"}`
+    skipB.innerHTML = `Tab through to leave this widget <br />or<br /> follow this link to go back to the first ${accordion ? "header" : "tab"}`
     if (v) {
       widget.classList.remove("tpw-tabpanel")
       widget.classList.add("tpw-accordion")

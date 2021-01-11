@@ -172,7 +172,7 @@ const Tabpanelwidget = {
           h("br"),
           "or",
           h("br"),
-          ` Click to go back to the first ${this.isAccordion ? "header" : "tab"}`,
+          ` follow this link to go back to the first ${this.isAccordion ? "header" : "tab"}`,
         ]),
       ])
     },
