@@ -63,13 +63,22 @@ export default class ReactTabpanelwidget extends React.Component {
     const tabs = []
     const panels = []
     // XXX this assumes proper ordering of children... should be improved but el.type, etc. doesn't help
-    React.Children.forEach(props.children, (el, idx) => {
-      if (idx % 2 == 0) {
-        tabs.push(el)
+    let idx = 0
+    const processNode = el => {
+      if (el.type === React.Fragment) {
+        React.Children.forEach(el.props.children, subel => {
+          processNode(subel)
+        })
       } else {
-        panels.push(el)
+        idx += 1
+        if (idx % 2 === 0) {
+          tabs.push(el)
+        } else {
+          panels.push(el)
+        }
       }
-    })
+    }
+    React.Children.forEach(props.children, processNode)
     return [tabs, panels]
   }
 
