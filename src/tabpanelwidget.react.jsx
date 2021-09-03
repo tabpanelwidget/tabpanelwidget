@@ -340,7 +340,7 @@ export default class ReactTabpanelwidget extends React.Component {
     this.el = el
   }
 
-  accordionKeyDown(e) {
+  tabpanelKeyDown(e) {
     switch (e.which) {
       case 27: // escape
         if (document.activeElement === this.refSkipLink.current) {
@@ -370,7 +370,7 @@ export default class ReactTabpanelwidget extends React.Component {
     if (this.props.iconStyle) className += ` tpw-${this.props.iconStyle}`
     if (this.props.rounded) className += " tpw-rounded"
     return (
-      <div ref={el => this.setEl(el)} key={this.state.key} className={className} dir={this.props.rtl ? "rtl" : null} onKeyDown={this.isAccordion ? null : e => this.accordionKeyDown(e)}>
+      <div ref={el => this.setEl(el)} key={this.state.key} className={className} dir={this.props.rtl ? "rtl" : null} onKeyDown={this.isAccordion ? null : e => this.tabpanelKeyDown(e)}>
         {this.isDynamic && this.renderShadow()}
         {this.isAccordion ? this.renderAccordion() : this.renderTabpanel()}
       </div>
