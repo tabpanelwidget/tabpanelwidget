@@ -145,7 +145,7 @@
                 template(v-for="(tab, idx) in initialStressTabs")
                   h2 {{tab}}
                   div
-                    p Panel {{idx}}
+                    p Panel {{idx}} -- #[span.click-alert click should alert('hello')]
                     p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                     small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
       h2#vanilla.c-l Showcase
@@ -477,6 +477,8 @@ export default {
     }
   },
   mounted() {
+    // used to check for preservation of event listeners
+    document.querySelectorAll('.click-alert').forEach(el => el.addEventListener('click', () => alert('hello')))
     this.vanillaMount()
     this.$refs.showcase.querySelectorAll(".tpw-widget").forEach(widget => Tabpanelwidget.install(widget, true))
   },

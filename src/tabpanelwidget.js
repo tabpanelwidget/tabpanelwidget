@@ -206,6 +206,21 @@ function _install(orig, automatic, cb) {
     }
   }
 
+  let movedNodes = [] // [node, oldParent, nextSibling]
+  function moveNode(node, newParent) {
+    movedNodes.push([node, node.parentNode, node.nextSibling])
+    node.parentNode.removeChild(node)
+    newParent.appendChild(node)
+  }
+  function unmoveNodes() {
+    for (let i = movedNodes.length - 1; i >= 0; i--) {
+      const [node, oldParent, oldNextSibling] = movedNodes[i]
+      node.parentNode.removeChild(node)
+      oldParent.insertBefore(node, oldNextSibling)
+    }
+    movedNodes = []
+  }
+
   let prevOrigElements = []
   function makeShim(hx, last = false) {
     if (!hx) return
@@ -222,9 +237,11 @@ function _install(orig, automatic, cb) {
     panel.classList.add("tpw-panel")
     prevOrigElements.forEach(prevElement => {
       if (prevElement.tagName === "DD") {
-        panel.innerHTML = prevElement.innerHTML
+        for (const node of prevElement.childNodes) {
+          moveNode(node, panel)
+        }
       } else {
-        panel.appendChild(prevElement.cloneNode(true))
+        moveNode(prevElement, panel)
       }
     })
     if (last) {
@@ -254,7 +271,9 @@ function _install(orig, automatic, cb) {
     }
     const span = document.createElement("span")
     spans.push(span)
-    span.innerHTML = origHx.innerHTML
+    for (const node of origHx.childNodes) {
+      moveNode(node, span)
+    }
     hx.appendChild(span)
     span.setAttribute("id", `tpw-${id}-${hxIdx}-t`)
     span.setAttribute("tabindex", "-1")
@@ -430,6 +449,7 @@ function _install(orig, automatic, cb) {
       if (resizeObserver) resizeObserver.disconnect()
       window.removeEventListener("resize", debouncedMaybeRecomputeLayout)
       eventListeners.forEach(([el, e, handler]) => el.removeEventListener(e, handler))
+      unmoveNodes()
       widget.parentNode.replaceChild(orig, widget)
       uninstalled = true
     })
