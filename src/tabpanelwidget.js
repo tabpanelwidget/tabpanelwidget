@@ -87,6 +87,7 @@ function _install(orig, automatic, cb) {
         }
         span.setAttribute("tabindex", "0")
         shim.setAttribute("role", "region")
+        hx.removeAttribute("role")
       } else {
         span.classList.remove("tpw-header")
         span.classList.add("tpw-tab")
@@ -103,6 +104,7 @@ function _install(orig, automatic, cb) {
         }
         span.setAttribute("tabindex", selectedTabIdx === idx ? "0" : "-1")
         shim.setAttribute("role", "tabpanel")
+        hx.setAttribute("role", "presentation")
       }
       if ((v && expandedTabIdxs[idx]) || (!v && selectedTabIdx === idx)) {
         shim.removeAttribute("hidden")

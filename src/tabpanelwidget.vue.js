@@ -241,6 +241,9 @@ const Tabpanelwidget = {
           "tpw-hx": true,
           "tpw-selected": this.selectedTabIdx === idx,
         },
+        attrs: {
+          role: "presentation",
+        },
       }
       const spanOptions = {
         class: "tpw-tab",
