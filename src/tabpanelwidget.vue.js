@@ -66,7 +66,6 @@ const Tabpanelwidget = {
       selectedTabIdx: this.selectedIdxs ? Math.min(this.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
       expandedTabsIdx: {},
       internalMode: this.mode || null,
-      tabFocused: false,
     }
   },
   beforeDestroy() {
@@ -220,24 +219,6 @@ const Tabpanelwidget = {
                 this.$refs[`span-0`].focus()
             }
           },
-          // handle webkit aria-owns issue (https://github.com/tabpanelwidget/tabpanelwidget/issues/9)
-          focusin: e => {
-            if (this.setTabFocusedTimeout) {
-              clearTimeout(this.setTabFocusedTimeout)
-              this.setTabFocusedTimeout = null
-            }
-            for (const key in this.$refs) {
-              if (!key.startsWith("hx-")) continue
-              const ref = this.$refs[key]
-              if (ref.contains(e.target)) {
-                return this.tabFocused = true
-              }
-            }
-            this.tabFocused = false
-          },
-          focusout: e => {
-            this.setTabFocusedTimeout = setTimeout(() => this.tabFocused = false, 0)
-          },
         },
       }, children)
     },
@@ -260,9 +241,6 @@ const Tabpanelwidget = {
           "tpw-hx": true,
           "tpw-selected": this.selectedTabIdx === idx,
         },
-        attrs: {
-          "role": "presentation",
-        },
       }
       const spanOptions = {
         class: "tpw-tab",
@@ -270,7 +248,6 @@ const Tabpanelwidget = {
       if (shadow) {
         hxOptions.ref = `shadowHx-${idx}`
       } else {
-        hxOptions.ref = `hx-${idx}`
         const panelId = this.panelId(idx)
         const tabId = this.tabId(idx)
         spanOptions.attrs = {
@@ -294,12 +271,10 @@ const Tabpanelwidget = {
     renderTabpanelShim(h, idx) {
       const tabId = this.tabId(idx)
       const panelId = this.panelId(idx)
-      const hidden = this.selectedTabIdx !== idx
       return h("div", {
         attrs: {
           "aria-labelledby": tabId,
-          hidden,
-          "aria-hidden": this.tabFocused && !hidden,
+          hidden: this.selectedTabIdx !== idx,
           id: panelId,
           role: "tabpanel",
           tabindex: "0",

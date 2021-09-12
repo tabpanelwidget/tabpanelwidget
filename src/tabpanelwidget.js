@@ -49,33 +49,6 @@ function _install(orig, automatic, cb) {
   const tablist = document.createElement("div")
   tablist.setAttribute("role", "tablist")
 
-  // handle webkit aria-owns issue (https://github.com/tabpanelwidget/tabpanelwidget/issues/9)
-  let setTabFocusedTimeout = null
-  function setTabFocused(tabFocused) {
-    for (const shim of shims) {
-      if (tabFocused && !shim.hasAttribute("hidden")) {
-        shim.setAttribute("aria-hidden", "true")
-      } else {
-        shim.removeAttribute("aria-hidden")
-      }
-    }
-  }
-  function onWidgetFocusin(e) {
-    if (setTabFocusedTimeout) {
-      clearTimeout(setTabFocusedTimeout)
-      setTabFocusedTimeout = null
-    }
-    for (const hx of hxs) {
-      if (hx.contains(e.target)) {
-        return setTabFocused(true)
-      }
-    }
-    setTabFocused(false)
-  }
-  function onWidgetFocusout(e) {
-    setTabFocusedTimeout = setTimeout(() => setTabFocused(false), 0)
-  }
-
   let accordion
   function setAccordion(v, resizeCheck) {
     accordion = v
@@ -86,8 +59,6 @@ function _install(orig, automatic, cb) {
       if (tablist.parentNode) {
         tablist.parentNode.removeChild(tablist)
       }
-      removeEventListener(widget, "focusin", onWidgetFocusin)
-      removeEventListener(widget, "focusout", onWidgetFocusout)
     } else {
       widget.classList.remove("tpw-accordion")
       widget.classList.add("tpw-tabpanel")
@@ -96,8 +67,6 @@ function _install(orig, automatic, cb) {
         expandedTabIdxs[selectedTabIdx] = true
       }
       widget.insertBefore(tablist, hxs[0]) // so that tpw-shadow stays first
-      addEventListener(widget, "focusin", onWidgetFocusin)
-      addEventListener(widget, "focusout", onWidgetFocusout)
     }
     for (let idx = 0; idx < hxs.length; idx++) {
       const hx = hxs[idx]
@@ -118,8 +87,6 @@ function _install(orig, automatic, cb) {
         }
         span.setAttribute("tabindex", "0")
         shim.setAttribute("role", "region")
-        hx.removeAttribute("role")
-        shim.removeAttribute("aria-hidden")
       } else {
         span.classList.remove("tpw-header")
         span.classList.add("tpw-tab")
@@ -136,7 +103,6 @@ function _install(orig, automatic, cb) {
         }
         span.setAttribute("tabindex", selectedTabIdx === idx ? "0" : "-1")
         shim.setAttribute("role", "tabpanel")
-        hx.setAttribute("role", "presentation")
       }
       if ((v && expandedTabIdxs[idx]) || (!v && selectedTabIdx === idx)) {
         shim.removeAttribute("hidden")
@@ -195,15 +161,6 @@ function _install(orig, automatic, cb) {
   function addEventListener(el, e, handler) {
     el.addEventListener(e, handler)
     eventListeners.push([el, e, handler])
-  }
-  function removeEventListener(el, e, handler) {
-    for (let i = 0; i < eventListeners.length; i++) {
-      const [_el, _e, _handler] = eventListeners[i];
-      if (_el === el && _e === e && _handler === handler) {
-        eventListeners.splice(i, 1)
-        return
-      }
-    }
   }
 
   let movedNodes = [] // [node, oldParent, nextSibling]

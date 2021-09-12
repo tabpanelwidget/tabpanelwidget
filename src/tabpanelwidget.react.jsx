@@ -48,7 +48,6 @@ export default class ReactTabpanelwidget extends React.Component {
     // these are used in resize observer computation.. can just access .current and be okay
     this.shadowRef = createRef()
     this.shadowHxRefs = this.tabs.map(tab => createRef())
-    this.hxRefs = this.tabs.map(tab => createRef())
 
     this.refSkipLink = createRef()
     this.state = {
@@ -56,7 +55,6 @@ export default class ReactTabpanelwidget extends React.Component {
       selectedTabIdx: props.selectedIdxs ? Math.min(props.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
       expandedTabsIdx: {},
       internalMode: props.mode || null,
-      tabFocused: false,
     }
   }
 
@@ -122,13 +120,9 @@ export default class ReactTabpanelwidget extends React.Component {
     const [newTabs, newPanels] = this.computeTabsAndPanels(nextProps)
     const tabLengthDiff = newTabs.length - this.tabs.length
     if (tabLengthDiff > 0) {
-      for (let i = 0; i < tabLengthDiff; i++) {
-        this.shadowHxRefs.push(createRef())
-        this.hxRefs.push(createRef())
-      }
+      for (let i = 0; i < tabLengthDiff; i++) this.shadowHxRefs.push(createRef())
     } else if (tabLengthDiff < 0) {
       this.shadowHxRefs.splice(0, -tabLengthDiff)
-      this.hxRefs.splice(0, -tabLengthDiff)
     }
     this.tabs = newTabs
     this.panels = newPanels
@@ -301,9 +295,8 @@ export default class ReactTabpanelwidget extends React.Component {
     const tabId = this.tabId(idx)
     let hxClassName = "tpw-hx"
     if (this.state.selectedTabIdx === idx) hxClassName += " tpw-selected"
-    const hxRole = "presentation"
     return (
-      <CustomHeadingTag key={idx} ref={shadow ? this.shadowHxRefs[idx] : this.hxRefs[idx]} className={hxClassName} role={hxRole}>
+      <CustomHeadingTag key={idx} ref={shadow ? this.shadowHxRefs[idx] : null} className={hxClassName}>
         <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-tab" role="tab" tabIndex={this.state.selectedTabIdx === idx ? 0 : -1} aria-controls={panelId} aria-selected={this.state.selectedTabIdx === idx} onClick={shadow ? null : () => this.spanClick(idx)} onFocus={shadow ? null : () => this.spanClick(idx)} onKeyDown={shadow ? null : e => this.spanKeyDown(e, idx)}>
           {this.tabs[idx]}
         </span>
@@ -314,10 +307,8 @@ export default class ReactTabpanelwidget extends React.Component {
   renderTabpanelShim(idx) {
     const tabId = this.tabId(idx)
     const panelId = this.panelId(idx)
-    const hidden = this.state.selectedTabIdx !== idx
-    const ariaHidden = (this.state.tabFocused && !hidden) || null
     return (
-      <div id={panelId} className="tpw-shim" role="tabpanel" tabIndex={0} aria-labelledby={tabId} hidden={hidden} aria-hidden={ariaHidden}>
+      <div id={panelId} className="tpw-shim" role="tabpanel" tabIndex={0} aria-labelledby={tabId} hidden={this.state.selectedTabIdx !== idx}>
         <div className="tpw-panel">{this.panels[idx]}</div>
       </div>
     )
@@ -368,25 +359,6 @@ export default class ReactTabpanelwidget extends React.Component {
     }
   }
 
-  tabpanelFocus(e) {
-    if (this.setTabFocusedTimeout) {
-      clearTimeout(this.setTabFocusedTimeout)
-      this.setTabFocusedTimeout = null
-    }
-    for (const hxRef of this.hxRefs) {
-      if (!hxRef.current) return
-      if (hxRef.current.contains(e.target)) {
-        return this.setState({tabFocused: true})
-      }
-    }
-    // TODO see if parent of e.target is an hx
-    this.setState({tabFocused: false})
-  }
-
-  tabpanelBlur(e) {
-    this.setTabFocusedTimeout = setTimeout(() => this.setState({tabFocused: false}), 0)
-  }
-
   render() {
     let className = "tpw-widget tpw-js"
     className += ` ${this.isAccordion ? "tpw-accordion" : "tpw-tabpanel"}`
@@ -397,15 +369,8 @@ export default class ReactTabpanelwidget extends React.Component {
     if (this.props.iconsAtTheEnd) className += " tpw-icons-at-the-end"
     if (this.props.iconStyle) className += ` tpw-${this.props.iconStyle}`
     if (this.props.rounded) className += " tpw-rounded"
-    let onKeyDown, onFocus, onBlur
-    if (!this.isAccordion) {
-      onKeyDown = e => this.tabpanelKeyDown(e)
-      // handle webkit aria-owns issue (https://github.com/tabpanelwidget/tabpanelwidget/issues/9)
-      onFocus = e => this.tabpanelFocus(e)
-      onBlur = e => this.tabpanelBlur(e)
-    }
     return (
-      <div ref={el => this.setEl(el)} key={this.state.key} className={className} dir={this.props.rtl ? "rtl" : null} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur}>
+      <div ref={el => this.setEl(el)} key={this.state.key} className={className} dir={this.props.rtl ? "rtl" : null} onKeyDown={this.isAccordion ? null : e => this.tabpanelKeyDown(e)}>
         {this.isDynamic && this.renderShadow()}
         {this.isAccordion ? this.renderAccordion() : this.renderTabpanel()}
       </div>
