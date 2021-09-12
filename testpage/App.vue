@@ -478,7 +478,10 @@ export default {
   },
   mounted() {
     // used to check for preservation of event listeners
-    document.querySelectorAll('.click-alert').forEach(el => el.addEventListener('click', () => alert('hello')))
+    document.querySelectorAll('.click-alert').forEach(el => el.addEventListener('click', e => {
+      e.preventDefault()
+      alert('hello')
+    }))
     this.vanillaMount()
     this.$refs.showcase.querySelectorAll(".tpw-widget").forEach(widget => Tabpanelwidget.install(widget, true))
   },
