@@ -147,7 +147,7 @@
                   div
                     p Panel {{idx}}
                     p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
-                    small This #[a.click-alert(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation and event listeners.
+                    small This #[a.click-alert(href="#" title="Link used to test keyboard navigation and event listeners within the widget") link] is here to test keyboard navigation and event listeners.
       h2#vanilla.c-l Showcase
       div(ref="showcase")
         h3 "Dynamic" Widgets with default Accordion Styling
