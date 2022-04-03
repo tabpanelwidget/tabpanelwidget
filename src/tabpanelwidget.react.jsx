@@ -243,7 +243,7 @@ export default class ReactTabpanelwidget extends React.Component {
           return (
             <React.Fragment key={idx}>
               <CustomHeadingTag className={className} dir={this.props.rtl ? "rtl" : null}>
-                <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-header" aria-controls={panelId} aria-expanded={this.state.expandedTabsIdx[idx]} role="button" tabIndex={0} onClick={() => this.spanClick(idx)} onKeyDown={e => this.spanKeyDown(e, idx)}>
+                <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-header" aria-controls={panelId} aria-expanded={this.state.expandedTabsIdx[idx] ? "true" : "false"} role="button" tabIndex={0} onClick={() => this.spanClick(idx)} onKeyDown={e => this.spanKeyDown(e, idx)}>
                   {this.tabs[idx]}
                 </span>
               </CustomHeadingTag>
