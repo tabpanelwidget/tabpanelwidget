@@ -309,7 +309,7 @@ const Tabpanelwidget = {
           h("span", {
             attrs: {
               "aria-controls": panelId,
-              "aria-expanded": this.expandedTabsIdx[idx],
+              "aria-expanded": this.expandedTabsIdx[idx] ? "true" : "false",
               id: tabId,
               role: "button",
               tabindex: "0",

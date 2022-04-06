@@ -84,6 +84,7 @@ function _install(orig, automatic, cb) {
           span.setAttribute("aria-expanded", "true")
         } else {
           hx.classList.remove("tpw-selected")
+          span.setAttribute("aria-expanded", "false")
         }
         span.setAttribute("tabindex", "0")
         shim.setAttribute("role", "region")
@@ -154,7 +155,7 @@ function _install(orig, automatic, cb) {
       shims[idx].removeAttribute("hidden")
     } else {
       hxs[idx].classList.remove("tpw-selected")
-      spans[idx].removeAttribute("aria-expanded")
+      spans[idx].setAttribute("aria-expanded", "false")
       shims[idx].setAttribute("hidden", "")
     }
   }
