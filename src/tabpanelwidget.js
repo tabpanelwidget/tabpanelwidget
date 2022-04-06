@@ -82,9 +82,9 @@ function _install(orig, automatic, cb) {
         if (expandedTabIdxs[idx]) {
           hx.classList.add("tpw-selected")
           span.setAttribute("aria-expanded", "true")
-          span.setAttribute("aria-expanded", "false")
         } else {
           hx.classList.remove("tpw-selected")
+          span.setAttribute("aria-expanded", "false")
         }
         span.setAttribute("tabindex", "0")
         shim.setAttribute("role", "region")
