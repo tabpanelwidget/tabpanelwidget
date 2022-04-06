@@ -15,7 +15,7 @@ jobs:
         with:
           persist-credentials: false
       - run: |
-          npm install
+          npm install --unsafe-perm
           npm run build
         working-directory: testpage
       - uses: JamesIves/github-pages-deploy-action@3.7.1
