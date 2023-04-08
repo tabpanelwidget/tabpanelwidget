@@ -58,13 +58,19 @@ const Tabpanelwidget = {
     iconsAtTheEnd: Boolean,
     rounded: Boolean,
   },
+  emits: ["update:selectedIdxs"],
   data() {
     if (!window.tpwId) window.tpwId = 0
     this.id = window.tpwId++
     this.debouncedMaybeRecomputeLayout = debounced(this.maybeRecomputeLayout, 100)
+    const selectedTabIdx = this.computeSelectedTabIdx(this.selectedIdxs)
+    const expandedTabsIdx = {}
+    for (const idx of this.selectedIdxs || []) {
+      expandedTabsIdx[idx] = true
+    }
     return {
-      selectedTabIdx: this.selectedIdxs ? Math.min(this.selectedIdxs[0] || 0, this.tabs.length - 1) : 0,
-      expandedTabsIdx: {},
+      selectedTabIdx,
+      expandedTabsIdx,
       internalMode: this.mode || null,
     }
   },
@@ -98,8 +104,20 @@ const Tabpanelwidget = {
       if (this.rounded) ret.push("tpw-rounded")
       return ret
     },
+    selectedIdxsFromExpandedTabsIdx() {
+      const ret = []
+      for (const idx in this.expandedTabsIdx) {
+        if (this.expandedTabsIdx[idx]) {
+          ret.push(parseInt(idx))
+        }
+      }
+      return ret
+    },
   },
   methods: {
+    computeSelectedTabIdx(selectedIdxs) {
+      return selectedIdxs ? Math.min(selectedIdxs[0] || 0, this.tabs.length - 1) : 0
+    },
     maybeRecomputeLayout() {
       const { shadow } = this.$refs
       if (!shadow) return
@@ -126,12 +144,21 @@ const Tabpanelwidget = {
       }
       this.$refs[`span-${idx}`].focus()
     },
-    spanClick(idx) {
+    toggle(idx) {
+      let selectedIdxs
       if (this.isAccordion) {
         this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+        selectedIdxs = this.selectedIdxsFromExpandedTabsIdx
+        this.selectedTabIdx = this.computeSelectedTabIdx(selectedIdxs)
       } else {
         this.selectedTabIdx = idx
+        selectedIdxs = [idx]
+        this.expandedTabsIdx = { [idx] : true }
       }
+        this.$emit("update:selectedIdxs", selectedIdxs)
+    },
+    spanClick(idx) {
+      this.toggle(idx)
     },
     spanKeydown(e, idx) {
       switch (e.which) {
@@ -139,7 +166,7 @@ const Tabpanelwidget = {
         case 32: // space
           if (this.isAccordion) {
             e.preventDefault()
-            this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+            this.toggle(idx)
           }
           break
         case 37: // arrow left

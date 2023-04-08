@@ -118,9 +118,10 @@
                 pre
                   code {{vueCode}}
               //- XXX include html of the vue section below above automatically
-              VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps")
+              VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps" :selectedIdxs="selectedIdxs" @update:selectedIdxs="selectedIdxs = $event")
                 template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
                   p Panel {{i-1}}
+                  p Last #[code @update:selectedIdxs {{ selectedIdxs }}]
                   p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                   small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
 
@@ -474,6 +475,8 @@ export default {
       stressRtl: false,
       stressTabs: [...this.initialStressTabs],
       // XXX some way to customize the panels
+
+      selectedIdxs: [1],
     }
   },
   mounted() {
