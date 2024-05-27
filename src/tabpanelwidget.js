@@ -197,7 +197,7 @@ function _install(orig, automatic, cb) {
     panel.classList.add("tpw-panel")
     prevOrigElements.forEach(prevElement => {
       if (prevElement.tagName === "DD") {
-        for (const node of prevElement.childNodes) {
+        for (const node of [...prevElement.childNodes]) {
           moveNode(node, panel)
         }
       } else {
@@ -231,7 +231,7 @@ function _install(orig, automatic, cb) {
     }
     const span = document.createElement("span")
     spans.push(span)
-    for (const node of origHx.childNodes) {
+    for (const node of [...origHx.childNodes]) {
       moveNode(node, span)
     }
     hx.appendChild(span)
