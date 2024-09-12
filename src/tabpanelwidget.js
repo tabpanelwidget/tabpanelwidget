@@ -7,6 +7,9 @@ const debounced = function(fn, ms) {
 }
 const noop = () => {}
 let buffered = []
+let popstateDispose
+let hist
+const applyHistByKey = {}
 
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
@@ -18,6 +21,8 @@ function _install(orig, automatic, cb) {
     const parent = orig.parentNode.closest(".tpw-widget")
     if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
+
+  const { tpwHk: histKey } = orig.dataset
 
   const origVisibility = orig.style.visibility
   orig.style.visibility = "hidden"
@@ -119,7 +124,50 @@ function _install(orig, automatic, cb) {
   let selectedTabIdx
   let expandedTabIdxs = {}
 
-  function setSelectedTabIdx(idx) {
+  let maybeUpdateHist = () => {}
+  if (histKey) {
+    if (!hist) {
+      const url = new URL(window.location)
+      const queryTpw = url.searchParams.get("_tpw")
+      if (queryTpw) {
+        try {
+          hist = JSON.parse(atob(queryTpw))
+        } catch (e) {}
+      }
+      hist = hist || {}
+    }
+
+    maybeUpdateHist = (idx) => {
+      hist[histKey] = idx
+      const url = new URL(window.location)
+      url.searchParams.set("_tpw", btoa(JSON.stringify(hist)).replace(/=*$/, ""))
+      window.history.pushState({tpwHist: hist}, "", url.toString())
+    }
+
+    applyHistByKey[histKey] = (idx) => setSelectedTabIdx(idx, false)
+    if (hist[histKey] != null) {
+      selectedTabIdx = hist[histKey]
+    }
+
+    if (!popstateDispose) {
+      const onPopstate = (e) => {
+        if (!e.state?.tpwHist) {
+          return
+        }
+        hist = e.state.tpwHist
+        for (const k in hist) {
+          applyHistByKey[k]?.(hist[k])
+        }
+      }
+      window.addEventListener("popstate", onPopstate)
+      popstateDispose = () => window.removeEventListener("popstate", onPopstate)
+    }
+  }
+
+  function setSelectedTabIdx(idx, updateHist = true) {
+    if (selectedTabIdx === idx) {
+      return
+    }
     if (selectedTabIdx != null) {
       spans[selectedTabIdx].setAttribute("tabindex", "-1")
       spans[selectedTabIdx].removeAttribute("aria-selected")
@@ -133,6 +181,9 @@ function _install(orig, automatic, cb) {
     if (shadow) shadowHxs[idx].classList.add("tpw-selected")
     shims[idx].removeAttribute("hidden")
     selectedTabIdx = idx
+    if (updateHist) {
+      maybeUpdateHist(idx)
+    }
   }
 
   function wrapFocusTabIdx(idx) {
