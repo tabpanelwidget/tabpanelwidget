@@ -1,0 +1,8 @@
+*
+!src
+!testpage
+testpage/.cache
+testpage/dist
+testpage/node_modules
+!package-lock.json
+!package.json
