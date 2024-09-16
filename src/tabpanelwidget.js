@@ -22,7 +22,7 @@ function _install(orig, automatic, cb) {
     if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
 
-  const { tpwHk: histKey } = orig.dataset
+  const { tpwId: histKey, tpwPush } = orig.dataset
 
   const origVisibility = orig.style.visibility
   orig.style.visibility = "hidden"
@@ -141,7 +141,7 @@ function _install(orig, automatic, cb) {
       hist[histKey] = idx
       const url = new URL(window.location)
       url.searchParams.set("_tpw", btoa(JSON.stringify(hist)).replace(/=*$/, ""))
-      window.history.pushState({tpwHist: hist}, "", url.toString())
+      window.history[tpwPush ? "pushState" : "replaceState"]({tpwHist: hist}, "", url.toString())
     }
 
     applyHistByKey[histKey] = (idx) => setSelectedTabIdx(idx, false)
