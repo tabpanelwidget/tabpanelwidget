@@ -22,7 +22,7 @@ function _install(orig, automatic, cb) {
     if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
 
-  const { tpwId: histKey, tpwPush } = orig.dataset
+  const { tpwId: histKey, tpwHist } = orig.dataset
 
   const origVisibility = orig.style.visibility
   orig.style.visibility = "hidden"
@@ -141,7 +141,8 @@ function _install(orig, automatic, cb) {
       hist[histKey] = idx
       const url = new URL(window.location)
       url.searchParams.set("_tpw", btoa(JSON.stringify(hist)).replace(/=*$/, ""))
-      window.history[tpwPush ? "pushState" : "replaceState"]({tpwHist: hist}, "", url.toString())
+      const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
+      window.history[m]({tpwHist: hist}, "", url.toString())
     }
 
     applyHistByKey[histKey] = (idx) => setSelectedTabIdx(idx, false)
@@ -275,10 +276,12 @@ function _install(orig, automatic, cb) {
     widget.appendChild(hx)
     hxs.push(hx)
     hx.classList.add("tpw-hx")
-    // XXX should we recal initial position of tpw-selected and restore it on uninstall?
-    if (origHx.classList.contains("tpw-selected")) {
-      selectedTabIdx = hxIdx
-      expandedTabIdxs[hxIdx] = true
+    if (histKey && hist[histKey] == null) {
+      // XXX should we recall initial position of tpw-selected and restore it on uninstall?
+      if (origHx.classList.contains("tpw-selected")) {
+        selectedTabIdx = hxIdx
+        expandedTabIdxs[hxIdx] = true
+      }
     }
     const span = document.createElement("span")
     spans.push(span)
