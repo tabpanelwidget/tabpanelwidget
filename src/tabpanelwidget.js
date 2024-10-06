@@ -140,14 +140,19 @@ function _install(orig, automatic, cb) {
     maybeUpdateHist = (idx) => {
       hist[histKey] = idx
       const url = new URL(window.location)
-      url.searchParams.set(`tpw.${encodeURIComponent(histKey)}`, idx)
+      const key = `tpw.${encodeURIComponent(histKey)}`
+      if (idx == null) {
+        url.searchParams.delete(key)
+      } else {
+        url.searchParams.set(key, idx)
+      }
       const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
       window.history[m]({tpwHist: hist}, "", url.toString())
     }
 
-    applyHistByKey[histKey] = (idx) => setSelectedTabIdx(idx, false)
-    if (hist[histKey] != null) {
-      selectedTabIdx = hist[histKey]
+    // XXX can probably clean up the next blocks
+    applyHistByKey[histKey] = (idx) => {
+      accordion ? toggleExpandedIdx(idx, false) : setSelectedTabIdx(idx, false)
     }
 
     if (!popstateDispose) {
@@ -198,17 +203,25 @@ function _install(orig, automatic, cb) {
 
   // XXX what is aria-hidden... should we be setting aria-expanded to false instead of removing attribute?
   // ... remove when switch accordion status
-  function toggleExpandedIdx(idx) {
+  function toggleExpandedIdx(idx, updateHist = true) {
     expandedTabIdxs[idx] = !expandedTabIdxs[idx]
     if (expandedTabIdxs[idx]) {
       selectedTabIdx = idx // remember last expanded for converting back to tabpanel
       hxs[idx].classList.add("tpw-selected")
       spans[idx].setAttribute("aria-expanded", "true")
       shims[idx].removeAttribute("hidden")
+      if (updateHist) {
+        maybeUpdateHist(idx)
+      }
     } else {
       hxs[idx].classList.remove("tpw-selected")
       spans[idx].setAttribute("aria-expanded", "false")
       shims[idx].setAttribute("hidden", "")
+      if (updateHist && hist[histKey] === idx) {
+        // this seems like good behavior to clear, but if there is another one still open
+        // it almost feels like ideally it should store that
+        maybeUpdateHist(null)
+      }
     }
   }
 
@@ -276,7 +289,7 @@ function _install(orig, automatic, cb) {
     widget.appendChild(hx)
     hxs.push(hx)
     hx.classList.add("tpw-hx")
-    if (histKey && hist[histKey] == null) {
+    if (!histKey || hist[histKey] == null) {
       // XXX should we recall initial position of tpw-selected and restore it on uninstall?
       if (origHx.classList.contains("tpw-selected")) {
         selectedTabIdx = hxIdx
@@ -468,6 +481,10 @@ function _install(orig, automatic, cb) {
       uninstalled = true
     })
   })
+
+  if (hist[histKey] != null) {
+    applyHistByKey[histKey](hist[histKey])
+  }
 }
 
 function _areFeaturesSupported() {
