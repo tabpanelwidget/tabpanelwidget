@@ -128,19 +128,19 @@ function _install(orig, automatic, cb) {
   if (histKey) {
     if (!hist) {
       const url = new URL(window.location)
-      const queryTpw = url.searchParams.get("_tpw")
-      if (queryTpw) {
-        try {
-          hist = JSON.parse(atob(queryTpw))
-        } catch (e) {}
+      hist = {}
+      for (const [key, value] of url.searchParams) {
+        if (key.startsWith("tpw.")) {
+          const tpwId = decodeURIComponent(key.substr(4))
+          hist[tpwId] = parseInt(value) // XXX be safer?
+        }
       }
-      hist = hist || {}
     }
 
     maybeUpdateHist = (idx) => {
       hist[histKey] = idx
       const url = new URL(window.location)
-      url.searchParams.set("_tpw", btoa(JSON.stringify(hist)).replace(/=*$/, ""))
+      url.searchParams.set(`tpw.${encodeURIComponent(histKey)}`, idx)
       const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
       window.history[m]({tpwHist: hist}, "", url.toString())
     }
