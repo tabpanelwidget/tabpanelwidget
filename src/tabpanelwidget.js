@@ -124,35 +124,60 @@ function _install(orig, automatic, cb) {
   let selectedTabIdx
   let expandedTabIdxs = {}
 
-  let maybeUpdateHist = () => {}
+  let histUpdate, histSet, histAdd, histRemove
   if (histKey) {
     if (!hist) {
-      const url = new URL(window.location)
       hist = {}
+      const url = new URL(window.location)
       for (const [key, value] of url.searchParams) {
         if (key.startsWith("tpw.")) {
           const tpwId = decodeURIComponent(key.substr(4))
-          hist[tpwId] = parseInt(value) // XXX be safer?
+          hist[tpwId] = value.split(".").map((s) => parseInt(s)) // XXX be safer?
         }
       }
     }
-
-    maybeUpdateHist = (idx) => {
-      hist[histKey] = idx
+    const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
+    histUpdate = () => {
       const url = new URL(window.location)
       const key = `tpw.${encodeURIComponent(histKey)}`
-      if (idx == null) {
+      const vs = hist[histKey]
+      if (!vs?.length) {
         url.searchParams.delete(key)
       } else {
-        url.searchParams.set(key, idx)
+        url.searchParams.set(key, vs.join("."))
       }
-      const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
       window.history[m]({tpwHist: hist}, "", url.toString())
     }
+    histSet = (idx) => {
+      hist[histKey] = [idx]
+      histUpdate()
+    }
+    histAdd = (idx) => {
+      const prev = hist[histKey] || []
+      const prevIdx = prev.findIndex((p) => p === idx)
+      if (prevIdx < 0)  {
+        prev.push(idx)
+        hist[histKey] = prev
+        histUpdate()
+      }
+    }
+    histRemove = (idx) => {
+      const prev = hist[histKey] || []
+      const prevIdx = prev.findIndex((p) => p === idx)
+      if (prevIdx >= 0)  {
+        prev.splice(prevIdx, 1)
+        histUpdate()
+      }
+    }
 
-    // XXX can probably clean up the next blocks
-    applyHistByKey[histKey] = (idx) => {
-      accordion ? toggleExpandedIdx(idx, false) : setSelectedTabIdx(idx, false)
+    applyHistByKey[histKey] = (idxs) => {
+      if (accordion) {
+        for (const idx of idxs) {
+          toggleExpandedIdx(idx, false)
+        }
+      } else {
+        setSelectedTabIdx(idxs[0], false)
+      }
     }
 
     if (!popstateDispose) {
@@ -188,7 +213,7 @@ function _install(orig, automatic, cb) {
     shims[idx].removeAttribute("hidden")
     selectedTabIdx = idx
     if (updateHist) {
-      maybeUpdateHist(idx)
+      histSet?.(idx)
     }
   }
 
@@ -211,16 +236,14 @@ function _install(orig, automatic, cb) {
       spans[idx].setAttribute("aria-expanded", "true")
       shims[idx].removeAttribute("hidden")
       if (updateHist) {
-        maybeUpdateHist(idx)
+        histAdd?.(idx)
       }
     } else {
       hxs[idx].classList.remove("tpw-selected")
       spans[idx].setAttribute("aria-expanded", "false")
       shims[idx].setAttribute("hidden", "")
-      if (updateHist && hist[histKey] === idx) {
-        // this seems like good behavior to clear, but if there is another one still open
-        // it almost feels like ideally it should store that
-        maybeUpdateHist(null)
+      if (updateHist) {
+        histRemove?.(idx)
       }
     }
   }
