@@ -138,10 +138,11 @@
               h4(style="display:inline-block;") Widget (Vanilla)
               button#unmount(v-if="vanillaMounted" @click="vanillaUnmount") unmount
               button#unmount(v-else @click="vanillaMount") mount
+            p This widget demos the use of #[code tpw-hist]. Using the back and forward buttons of the browser should navigate through the history of the open/close panels.
             .m-a(:style="{width: width+'%'}")
               //- un-mount and re-mount means we can't use vue to keep classes on here via template and instead need to use watchers
               //- ... looking up the node at that moment
-              .tpw-widget(data-tpw-id="vanilla")
+              .tpw-widget(data-tpw-id="vanilla" data-tpw-hist="push")
                 template(v-for="(tab, idx) in initialStressTabs")
                   h2 {{tab}}
                   div
