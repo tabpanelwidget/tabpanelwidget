@@ -7,6 +7,9 @@ const debounced = function(fn, ms) {
 }
 const noop = () => {}
 let buffered = []
+let popstateDispose
+let hist
+const applyHistByKey = {}
 
 // must alternate heading element(div) heading element.. etc
 // XXX better name for automatic (something about the recursion behavior)
@@ -18,6 +21,8 @@ function _install(orig, automatic, cb) {
     const parent = orig.parentNode.closest(".tpw-widget")
     if (parent && !parent.classList.contains("tpw-js")) return cb(noop) // recursion will handle us
   }
+
+  const { tpwId: histKey, tpwHist } = orig.dataset
 
   const origVisibility = orig.style.visibility
   orig.style.visibility = "hidden"
@@ -119,7 +124,81 @@ function _install(orig, automatic, cb) {
   let selectedTabIdx
   let expandedTabIdxs = {}
 
-  function setSelectedTabIdx(idx) {
+  let histUpdate, histSet, histAdd, histRemove
+  if (histKey) {
+    if (!hist) {
+      hist = {}
+      const url = new URL(window.location)
+      for (const [key, value] of url.searchParams) {
+        if (key.startsWith("tpw.")) {
+          const tpwId = decodeURIComponent(key.substr(4))
+          hist[tpwId] = value.split(".").map((s) => parseInt(s)) // XXX be safer?
+        }
+      }
+    }
+    const m = tpwHist === "push" ? "pushState" : "replaceState" // XXX error on bad value?
+    histUpdate = () => {
+      const url = new URL(window.location)
+      const key = `tpw.${encodeURIComponent(histKey)}`
+      const vs = hist[histKey]
+      if (!vs?.length) {
+        url.searchParams.delete(key)
+      } else {
+        url.searchParams.set(key, vs.join("."))
+      }
+      window.history[m]({tpwHist: hist}, "", url.toString())
+    }
+    histSet = (idx) => {
+      hist[histKey] = [idx]
+      histUpdate()
+    }
+    histAdd = (idx) => {
+      const prev = hist[histKey] || []
+      const prevIdx = prev.findIndex((p) => p === idx)
+      if (prevIdx < 0)  {
+        prev.push(idx)
+        hist[histKey] = prev
+        histUpdate()
+      }
+    }
+    histRemove = (idx) => {
+      const prev = hist[histKey] || []
+      const prevIdx = prev.findIndex((p) => p === idx)
+      if (prevIdx >= 0)  {
+        prev.splice(prevIdx, 1)
+        histUpdate()
+      }
+    }
+
+    applyHistByKey[histKey] = (idxs) => {
+      if (accordion) {
+        for (const idx of idxs) {
+          toggleExpandedIdx(idx, false)
+        }
+      } else {
+        setSelectedTabIdx(idxs[0], false)
+      }
+    }
+
+    if (!popstateDispose) {
+      const onPopstate = (e) => {
+        if (!e.state?.tpwHist) {
+          return
+        }
+        hist = e.state.tpwHist
+        for (const k in hist) {
+          applyHistByKey[k]?.(hist[k])
+        }
+      }
+      window.addEventListener("popstate", onPopstate)
+      popstateDispose = () => window.removeEventListener("popstate", onPopstate)
+    }
+  }
+
+  function setSelectedTabIdx(idx, updateHist = true) {
+    if (selectedTabIdx === idx) {
+      return
+    }
     if (selectedTabIdx != null) {
       spans[selectedTabIdx].setAttribute("tabindex", "-1")
       spans[selectedTabIdx].removeAttribute("aria-selected")
@@ -133,6 +212,9 @@ function _install(orig, automatic, cb) {
     if (shadow) shadowHxs[idx].classList.add("tpw-selected")
     shims[idx].removeAttribute("hidden")
     selectedTabIdx = idx
+    if (updateHist) {
+      histSet?.(idx)
+    }
   }
 
   function wrapFocusTabIdx(idx) {
@@ -146,17 +228,23 @@ function _install(orig, automatic, cb) {
 
   // XXX what is aria-hidden... should we be setting aria-expanded to false instead of removing attribute?
   // ... remove when switch accordion status
-  function toggleExpandedIdx(idx) {
+  function toggleExpandedIdx(idx, updateHist = true) {
     expandedTabIdxs[idx] = !expandedTabIdxs[idx]
     if (expandedTabIdxs[idx]) {
       selectedTabIdx = idx // remember last expanded for converting back to tabpanel
       hxs[idx].classList.add("tpw-selected")
       spans[idx].setAttribute("aria-expanded", "true")
       shims[idx].removeAttribute("hidden")
+      if (updateHist) {
+        histAdd?.(idx)
+      }
     } else {
       hxs[idx].classList.remove("tpw-selected")
       spans[idx].setAttribute("aria-expanded", "false")
       shims[idx].setAttribute("hidden", "")
+      if (updateHist) {
+        histRemove?.(idx)
+      }
     }
   }
 
@@ -224,10 +312,12 @@ function _install(orig, automatic, cb) {
     widget.appendChild(hx)
     hxs.push(hx)
     hx.classList.add("tpw-hx")
-    // XXX should we recal initial position of tpw-selected and restore it on uninstall?
-    if (origHx.classList.contains("tpw-selected")) {
-      selectedTabIdx = hxIdx
-      expandedTabIdxs[hxIdx] = true
+    if (!histKey || hist[histKey] == null) {
+      // XXX should we recall initial position of tpw-selected and restore it on uninstall?
+      if (origHx.classList.contains("tpw-selected")) {
+        selectedTabIdx = hxIdx
+        expandedTabIdxs[hxIdx] = true
+      }
     }
     const span = document.createElement("span")
     spans.push(span)
@@ -414,6 +504,10 @@ function _install(orig, automatic, cb) {
       uninstalled = true
     })
   })
+
+  if (hist[histKey] != null) {
+    applyHistByKey[histKey](hist[histKey])
+  }
 }
 
 function _areFeaturesSupported() {

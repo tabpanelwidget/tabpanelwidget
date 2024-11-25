@@ -141,7 +141,7 @@
             .m-a(:style="{width: width+'%'}")
               //- un-mount and re-mount means we can't use vue to keep classes on here via template and instead need to use watchers
               //- ... looking up the node at that moment
-              .tpw-widget
+              .tpw-widget(data-tpw-id="vanilla")
                 template(v-for="(tab, idx) in initialStressTabs")
                   h2 {{tab}}
                   div
