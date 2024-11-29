@@ -475,8 +475,10 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   background: url($chevron) 50% 50% no-repeat;
   mask-image: url($chevron);
   background-size: contain;
+  display: -ms-inline-flexbox;
   display: inline-flex;
-  flex-shrink: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   position: relative;
   margin-right: $ICON-marginRight;
   transform: rotate(180deg);
@@ -523,8 +525,10 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
     Using the class: "tpw-icons-at-the-end" (on the widget wrapper)
 */
 .tpw-accordion.tpw-icons-at-the-end .tpw-header {
-  flex-direction: row-reverse;
-  justify-content: space-between;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
 }
 .tpw-js.tpw-accordion.tpw-icons-at-the-end .tpw-header::before {
   margin-right: 0;
@@ -623,8 +627,10 @@ no border-radius for .tpw-bar
   width: 100%;
   box-sizing: border-box;
   display: inline-block;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -ms-flex-align: center;
+      align-items: center;
 }
 /**
     "SKIP BOX"
@@ -634,8 +640,10 @@ no border-radius for .tpw-bar
  */
 html:not(#tpw-booster) .tpw-skip {
   all: unset;
-  align-items: center;
-  justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
   position: absolute;
   z-index: 3;
   top: 0;
@@ -650,6 +658,7 @@ html:not(#tpw-booster) .tpw-skip {
 }
 /* This should be self explanatory */
 html:not(#tpw-booster) .tpw-skip:focus {
+  display: -ms-flexbox;
   display: flex;
   padding: .5rem 1rem;
   height: auto;

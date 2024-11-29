@@ -1,3 +1,5 @@
+import { h } from "vue"
+
 const ACCORDION = "accordion"
 const TABPANEL = "tabpanel"
 
@@ -158,7 +160,7 @@ const Tabpanelwidget = {
           break
       }
     },
-    renderSkipLink(h) {
+    renderSkipLink() {
       return h("a", {
         attrs: {
           href: `#${this.tabId(0)}`,
@@ -176,7 +178,7 @@ const Tabpanelwidget = {
         ]),
       ])
     },
-    renderTablist(h) {
+    renderTablist() {
       return h("div", {
         attrs: {
           role: "tablist",
@@ -184,17 +186,17 @@ const Tabpanelwidget = {
         },
       })
     },
-    renderTabpanel(h) {
+    renderTabpanel() {
       const children = []
       if (this.isDynamic) {
-        children.push(this.renderShadow(h))
+        children.push(this.renderShadow())
       }
-      children.push(this.renderTablist(h))
+      children.push(this.renderTablist())
       for (let idx = 0; idx < this.tabs.length; idx++) {
         children.push(this.renderTabpanelHx(h, idx))
         children.push(this.renderTabpanelShim(h, idx))
       }
-      children.push(this.renderSkipLink(h))
+      children.push(this.renderSkipLink())
       return h("div", {
         class: ["tpw-widget", "tpw-js", "tpw-tabpanel"].concat(this.classes),
         attrs: {
@@ -222,7 +224,7 @@ const Tabpanelwidget = {
         },
       }, children)
     },
-    renderShadow(h) {
+    renderShadow() {
       const children = []
       for (let idx = 0; idx < this.tabs.length; idx++) {
         children.push(this.renderTabpanelHx(h, idx, true))
@@ -289,10 +291,10 @@ const Tabpanelwidget = {
         }, this.$slots[`panel-${idx}`]),
       ])
     },
-    renderAccordion(h) {
+    renderAccordion() {
       const children = []
       if (this.isDynamic) {
-        children.push(this.renderShadow(h))
+        children.push(this.renderShadow())
       }
       for (let idx = 0; idx < this.tabs.length; idx++) {
         const tabId = this.tabId(idx)
@@ -336,14 +338,14 @@ const Tabpanelwidget = {
           }, this.$slots[`panel-${idx}`]),
         ]))
       }
-      children.push(this.renderSkipLink(h))
+      children.push(this.renderSkipLink())
       return h("div", {
         class: ["tpw-widget", "tpw-js", "tpw-accordion"].concat(this.classes),
       }, children)
     },
   },
-  render(h) {
-    return this.isAccordion ? this.renderAccordion(h) : this.renderTabpanel(h)
+  render() {
+    return this.isAccordion ? this.renderAccordion() : this.renderTabpanel()
   },
   watch: {
     mode(v) {
