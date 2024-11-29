@@ -1,7 +1,6 @@
-const cp = require("child_process")
-
+import cp from "child_process"
 // this happens after:bump by release-it so we know the version has been changed
-const pkg  = require("../package.json")
+import pkg from "../package.json" assert {type: "json"}
 
 const distFiles = [
   "tabpanelwidget.min.js",
