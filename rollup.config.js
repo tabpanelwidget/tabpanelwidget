@@ -119,6 +119,7 @@ builds.push({
     format: "esm",
     exports: "named",
   },
+  external: ["vue"],
   plugins: [
     configureReplace(true),
     configureBabel(),

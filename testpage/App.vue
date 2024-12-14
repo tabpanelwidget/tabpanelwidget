@@ -119,7 +119,7 @@ div
                 code {{vueCode}}
             //- XXX include html of the vue section below above automatically
             VueTabpanelwidget(:mode="stressMode" :tabs="stressTabs" v-bind="stressProps")
-              template(v-for="i in stressTabs.length" v-slot:[`panel-${i-1}`]="")
+              template(v-for="i in stressTabs.length" #[`panel-${i-1}`])
                 p Panel {{i-1}}
                 p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.
                 small This #[a(href="#" title="Link used to test keyboard navigation within the widget") link] is here to test keyboard navigation.
@@ -159,7 +159,7 @@ div
             li
               code.code tpw-widget
           .tpw-widget
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-rounded
         div
           p Classes applied to the Widget:
@@ -169,7 +169,7 @@ div
             li
               code.code tpw-rounded
           .tpw-widget.tpw-rounded
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-fancy
         div
           p Classes applied to the Widget:
@@ -181,7 +181,7 @@ div
             li
               code.code tpw-fancy
           .tpw-widget.tpw-rounded.tpw-fancy
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-pills
         div
           p Classes applied to the Widget:
@@ -193,7 +193,7 @@ div
             li
               code.code tpw-pills
           .tpw-widget.tpw-rounded.tpw-pills
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-bar
         div
           p Classes applied to the Widget:
@@ -203,7 +203,7 @@ div
             li
               code.code tpw-bar
           .tpw-widget.tpw-bar
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-bar, tpw-centered
         div
           p Classes applied to the Widget:
@@ -215,7 +215,7 @@ div
             li
               code.code tpw-centered
           .tpw-widget.tpw-bar.tpw-centered
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
       h3 "Dynamic" Widgets with custom Accordion Styling
       div(:style="{width: width+'%'}")
         div
@@ -226,7 +226,7 @@ div
             li
               code.code tpw-chevrons-east-south
           .tpw-widget.tpw-chevrons-east-south
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-plus-minus
         div
           p Classes applied to the Widget:
@@ -236,7 +236,7 @@ div
             li
               code.code tpw-plus-minus
           .tpw-widget.tpw-plus-minus
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-disconnected
         div
           p Classes applied to the Widget:
@@ -246,7 +246,7 @@ div
             li
               code.code tpw-disconnected
           .tpw-widget.tpw-disconnected
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-animate
         div
           p Classes applied to the Widget:
@@ -256,7 +256,7 @@ div
             li
               code.code tpw-animate
           .tpw-widget.tpw-animate
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-icons-at-the-end
         div
           p Classes applied to the Widget:
@@ -266,7 +266,7 @@ div
             li
               code.code tpw-icons-at-the-end
           .tpw-widget.tpw-icons-at-the-end
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
       h3 "Static" Widgets: TabPanels
       div(:style="{width: width+'%'}")
         div
@@ -277,7 +277,7 @@ div
             li
               code.code tpw-tabpanel
           .tpw-widget.tpw-tabpanel
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-rounded
         div
           p Classes applied to the Widget:
@@ -289,7 +289,7 @@ div
             li
               code.code tpw-rounded
           .tpw-widget.tpw-tabpanel.tpw-rounded
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-fancy
         div
           p Classes applied to the Widget:
@@ -303,7 +303,7 @@ div
             li
               code.code tpw-fancy
           .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-fancy
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-pills
         div
           p Classes applied to the Widget:
@@ -317,7 +317,7 @@ div
             li
               code.code tpw-pills
           .tpw-widget.tpw-tabpanel.tpw-rounded.tpw-pills
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-bar
         div
           p Classes applied to the Widget:
@@ -329,7 +329,7 @@ div
             li
               code.code tpw-bar
           .tpw-widget.tpw-tabpanel.tpw-bar
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-bar + tpw-centered
         div
           p Classes applied to the Widget:
@@ -343,7 +343,7 @@ div
             li
               code.code tpw-centered
           .tpw-widget.tpw-tabpanel.tpw-bar.tpw-centered
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
       h3 "Static" Widgets: Accordions
       div(:style="{width: width+'%'}")
         div
@@ -356,7 +356,7 @@ div
             li
               code.code tpw-chevrons-east-south
           .tpw-widget.tpw-accordion.tpw-chevrons-east-south
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-plus-minus
         div
           p Classes applied to the Widget:
@@ -368,7 +368,7 @@ div
             li
               code.code tpw-plus-minus
           .tpw-widget.tpw-accordion.tpw-plus-minus
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-disconnected
         div
           p Classes applied to the Widget:
@@ -380,7 +380,7 @@ div
             li
               code.code tpw-disconnected
           .tpw-widget.tpw-accordion.tpw-disconnected
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-animate
         div
           p Classes applied to the Widget:
@@ -392,7 +392,7 @@ div
             li
               code.code tpw-animate
           .tpw-widget.tpw-accordion.tpw-animate
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-icons-at-the-end
         div
           p Classes applied to the Widget:
@@ -404,7 +404,7 @@ div
             li
               code.code tpw-icons-at-the-end
           .tpw-widget.tpw-accordion.tpw-icons-at-the-end
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
         //- tpw-icons-at-the-end
         div
           p Classes applied to the Widget:
@@ -418,13 +418,14 @@ div
             li
               code.code tpw-animate
           .tpw-widget.tpw-accordion.tpw-icons-at-the-end.tpw-animate
-            //-include ./_vanilla-headings.pug
+            VanillaHeadings
 </template>
 
 <script>
 import "../src/polyfill"
-import * as Tabpanelwidget from "../src/tabpanelwidget.js"
-import VueTabpanelwidget from "../src/tabpanelwidget.vue.js"
+import * as Tabpanelwidget from "tabpanelwidget"
+import VueTabpanelwidget from "./tabpanelwidget.vue"
+import VanillaHeadings from "./VanillaHeadings.vue"
 // commenting out here because vuera not quite working + Set usage
 // import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
 
@@ -432,6 +433,7 @@ let _vanillaUnmount
 export default {
   name: "App",
   components: {
+    VanillaHeadings,
     VueTabpanelwidget,
     // ReactTabpanelwidget,
     // ReactTabpanelwidgetHeading: ReactTabpanelwidget.Heading,
@@ -459,6 +461,9 @@ export default {
       stylesheetHref: "",
       tpwOff: false,
       width: 100,
+
+      vanillaWrapper: null,
+      showcase: null,
 
       vanillaMounted: false,
       vueShowCode: false,
@@ -505,7 +510,7 @@ export default {
       const props = keys.filter(k => this.stressProps[k]).join(" ")
       return `<template>
   <VueTabpanelwidget ${this.stressMode ? `mode="${this.stressMode}" ` : ''}:tabs="${JSON.stringify(this.stressTabs)}"${props ? ` ${props}` : ''}>
-    <template v-for="i in stressTabs.length" v-slot:[\`panel-${i-1}\`]="">
+    <template v-for="i in stressTabs.length" #[\`panel-${i-1}\`]>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus felis id urna vulputate maximus. Aliquam vitae arcu id nulla convallis aliquam. Vivamus at nisl semper, sagittis lectus eu, fringilla nisl.<p>
       <small>This <a href="#" title="Link used to test keyboard navigation within the widget">link</a> is here to test keyboard navigation.</small>
     </template>

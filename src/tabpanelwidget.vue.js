@@ -1,4 +1,4 @@
-import { h } from "vue"
+import { h, ref } from "vue"
 
 const ACCORDION = "accordion"
 const TABPANEL = "tabpanel"
@@ -103,11 +103,11 @@ const Tabpanelwidget = {
   },
   methods: {
     maybeRecomputeLayout() {
-      const { shadow } = this.$refs
+      const shadow = this.refShadow?.value
       if (!shadow) return
       let maxShadowHxHeight = 0
       for (let idx = 0; idx < this.tabs.length; idx++) {
-        const shadowHx = this.$refs[`shadowHx-${idx}`]
+        const shadowHx = this.refShadowHxs[idx]?.value
         if (maxShadowHxHeight < shadowHx.clientHeight) {
           maxShadowHxHeight = shadowHx.clientHeight
         }
@@ -126,11 +126,11 @@ const Tabpanelwidget = {
       } else if (idx >= this.tabs.length) {
         idx = 0
       }
-      this.$refs[`span-${idx}`].focus()
+      this.refSpans[idx]?.value?.focus()
     },
     spanClick(idx) {
       if (this.isAccordion) {
-        this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+        this.expandedTabsIdx[idx] = !this.expandedTabsIdx[idx]
       } else {
         this.selectedTabIdx = idx
       }
@@ -141,7 +141,7 @@ const Tabpanelwidget = {
         case 32: // space
           if (this.isAccordion) {
             e.preventDefault()
-            this.$set(this.expandedTabsIdx, idx, !this.expandedTabsIdx[idx])
+            this.expandedTabsIdx[idx] = !this.expandedTabsIdx[idx]
           }
           break
         case 37: // arrow left
@@ -162,12 +162,10 @@ const Tabpanelwidget = {
     },
     renderSkipLink() {
       return h("a", {
-        attrs: {
-          href: `#${this.tabId(0)}`,
-          tabindex: "-1",
-        },
+        href: `#${this.tabId(0)}`,
+        tabindex: "-1",
         class: "tpw-skip",
-        ref: "skip",
+        ref: this.refSkip,
       }, [
         h("b", {}, [
           "Tab through to leave this widget ",
@@ -180,10 +178,8 @@ const Tabpanelwidget = {
     },
     renderTablist() {
       return h("div", {
-        attrs: {
-          role: "tablist",
-          "aria-owns": this.tabIds.join(" "),
-        },
+        role: "tablist",
+        "aria-owns": this.tabIds.join(" "),
       })
     },
     renderTabpanel() {
@@ -193,47 +189,44 @@ const Tabpanelwidget = {
       }
       children.push(this.renderTablist())
       for (let idx = 0; idx < this.tabs.length; idx++) {
+        this.refSpans[idx] = ref()
         children.push(this.renderTabpanelHx(h, idx))
         children.push(this.renderTabpanelShim(h, idx))
       }
       children.push(this.renderSkipLink())
       return h("div", {
         class: ["tpw-widget", "tpw-js", "tpw-tabpanel"].concat(this.classes),
-        attrs: {
-          "dir": this.rtl ? "rtl" : undefined,
-        },
-        on: {
-          keydown: e => {
-            switch (e.which) {
-              case 27: // escape
-                if (document.activeElement === this.$refs.skip) {
-                  ;(this.prevFocused || this.$el).focus()
-                } else {
-                  this.prevFocused = document.activeElement
-                  this.$refs.skip.focus()
-                }
-                break
-              case 35: // end
-                e.preventDefault()
-                this.$refs[`span-${this.tabs.length - 1}`].focus()
-              case 36: // home
-                e.preventDefault()
-                this.$refs[`span-0`].focus()
-            }
-          },
+        dir: this.rtl ? "rtl" : undefined,
+        ref: this.refRoot,
+        onKeydown: e => {
+          switch (e.which) {
+            case 27: // escape
+              if (document.activeElement === this.refSkip?.value) {
+                ;(this.prevFocused || this.$el).focus()
+              } else {
+                this.prevFocused = document.activeElement
+                this.refSkip?.value?.focus()
+              }
+              break
+            case 35: // end
+              e.preventDefault()
+              this.refSpans[this.tabs.length - 1]?.value?.focus()
+            case 36: // home
+              e.preventDefault()
+              this.refSpans[0]?.value?.focus()
+          }
         },
       }, children)
     },
     renderShadow() {
       const children = []
+      this.refShadowHxs = []
       for (let idx = 0; idx < this.tabs.length; idx++) {
         children.push(this.renderTabpanelHx(h, idx, true))
       }
       return h("div", {
-        attrs: {
-          "aria-hidden": true,
-        },
-        ref: "shadow",
+        "aria-hidden": true,
+        ref: this.refShadow,
         class: "tpw-shadow",
       }, children)
     },
@@ -243,52 +236,45 @@ const Tabpanelwidget = {
           "tpw-hx": true,
           "tpw-selected": this.selectedTabIdx === idx,
         },
-        attrs: {
-          role: "presentation",
-        },
+        role: "presentation",
       }
       const spanOptions = {
         class: "tpw-tab",
       }
       if (shadow) {
-        hxOptions.ref = `shadowHx-${idx}`
+        this.refShadowHxs[idx] = ref()
+        hxOptions.ref = this.refShadowHxs[idx]
       } else {
         const panelId = this.panelId(idx)
         const tabId = this.tabId(idx)
-        spanOptions.attrs = {
-          "aria-controls": panelId,
-          "aria-selected": this.selectedTabIdx === idx,
-          id: tabId,
-          role: "tab",
-          tabindex: this.selectedTabIdx === idx ? "0" : "-1",
-        }
-        spanOptions.ref = `span-${idx}`
-        spanOptions.on = {
-          click: () => this.spanClick(idx),
-          focus: () => this.spanClick(idx),
-          keydown: e => this.spanKeydown(e, idx),
-        }
+        spanOptions["aria-controls"] = panelId
+        spanOptions["aria-selected"] = this.selectedTabIdx === idx
+        spanOptions.id = tabId
+        spanOptions.role = "tab"
+        spanOptions.tabindex = this.selectedTabIdx === idx ? "0" : "-1"
+        spanOptions.ref = this.refSpans[idx]
+        spanOptions.onClick = () => this.spanClick(idx)
+        spanOptions.onFocus = () => this.spanClick(idx)
+        spanOptions.onKeydown = e => this.spanKeydown(e, idx)
       }
       return h(`h${this.heading}`, hxOptions, [
-        h("span", spanOptions, this.$slots[`tab-${idx}`] || this.tabs[idx]),
+        h("span", spanOptions, this.$slots[`tab-${idx}`]?.() || this.tabs[idx]),
       ])
     },
     renderTabpanelShim(h, idx) {
       const tabId = this.tabId(idx)
       const panelId = this.panelId(idx)
       return h("div", {
-        attrs: {
-          "aria-labelledby": tabId,
-          hidden: this.selectedTabIdx !== idx,
-          id: panelId,
-          role: "tabpanel",
-          tabindex: "0",
-        },
+        "aria-labelledby": tabId,
+        hidden: this.selectedTabIdx !== idx,
+        id: panelId,
+        role: "tabpanel",
+        tabindex: "0",
         class: "tpw-shim",
       }, [
         h("div", {
           class: "tpw-panel",
-        }, this.$slots[`panel-${idx}`]),
+        }, this.$slots[`panel-${idx}`]?.()),
       ])
     },
     renderAccordion() {
@@ -299,53 +285,52 @@ const Tabpanelwidget = {
       for (let idx = 0; idx < this.tabs.length; idx++) {
         const tabId = this.tabId(idx)
         const panelId = this.panelId(idx)
+        this.refSpans[idx] = ref()
         children.push(h(`h${this.heading}`, {
           class: {
             "tpw-hx": true,
             "tpw-selected": this.expandedTabsIdx[idx],
           },
-          attrs: {
-            "dir": this.rtl ? "rtl" : undefined,
-          },
+          dir: this.rtl ? "rtl" : undefined,
         }, [
           h("span", {
-            attrs: {
-              "aria-controls": panelId,
-              "aria-expanded": this.expandedTabsIdx[idx] ? "true" : "false",
-              id: tabId,
-              role: "button",
-              tabindex: "0",
-            },
+            "aria-controls": panelId,
+            "aria-expanded": this.expandedTabsIdx[idx] ? "true" : "false",
+            id: tabId,
+            role: "button",
+            tabindex: "0",
             class: "tpw-header",
-            on: {
-              click: () => this.spanClick(idx),
-              keydown: e => this.spanKeydown(e, idx),
-            },
-            ref: `span-${idx}`,
-          }, this.$slots[`tab-${idx}`] || this.tabs[idx]),
+            onClick: () => this.spanClick(idx),
+            onKeydown: e => this.spanKeydown(e, idx),
+            ref: this.refSpans[idx],
+          }, this.$slots[`tab-${idx}`]?.() || this.tabs[idx]),
         ]))
         children.push(h("div", {
-          attrs: {
-            "aria-labelledby": tabId,
-            hidden: !this.expandedTabsIdx[idx],
-            id: panelId,
-            role: "region",
-          },
+          "aria-labelledby": tabId,
+          hidden: !this.expandedTabsIdx[idx],
+          id: panelId,
+          role: "region",
           class: "tpw-shim",
         }, [
           h("div", {
             class: "tpw-panel",
-          }, this.$slots[`panel-${idx}`]),
+          }, this.$slots[`panel-${idx}`]?.()),
         ]))
       }
       children.push(this.renderSkipLink())
       return h("div", {
         class: ["tpw-widget", "tpw-js", "tpw-accordion"].concat(this.classes),
+        ref: this.refRoot,
       }, children)
     },
   },
   render() {
-    return this.isAccordion ? this.renderAccordion() : this.renderTabpanel()
+    this.refRoot = ref()
+    this.refSkip = ref()
+    this.refShadow = ref()
+    this.refSpans = []
+    const ret = this.isAccordion ? this.renderAccordion() : this.renderTabpanel()
+    return ret
   },
   watch: {
     mode(v) {
@@ -363,9 +348,14 @@ const Tabpanelwidget = {
             this.resizeObserver = new window.ResizeObserver(this.debouncedMaybeRecomputeLayout)
           }
           this.$nextTick(() => {
-            this.resizeObserver.observe(this.$el, {box: "border-box"})
+            if (this.refRoot.value) {
+              this.resizeObserver.observe(this.refRoot.value, {box: "border-box"})
+            }
             for (let idx = 0; idx < this.tabs.length; idx++) {
-              this.resizeObserver.observe(this.$refs[`span-${idx}`], {box: "border-box"})
+              const ref = this.refSpans[idx]
+              if (ref?.value) {
+                this.resizeObserver.observe(ref.value, {box: "border-box"})
+              }
             }
           })
         }
