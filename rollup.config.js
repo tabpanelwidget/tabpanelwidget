@@ -1,6 +1,6 @@
-import babel from "rollup-plugin-babel"
+import babel from "@rollup/plugin-babel"
 import jsx from "rollup-plugin-jsx"
-import { terser } from "rollup-plugin-terser"
+import terser from "@rollup/plugin-terser"
 import replace from "@rollup/plugin-replace"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 
