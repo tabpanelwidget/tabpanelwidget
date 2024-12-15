@@ -171,6 +171,13 @@ Coming soon...
 
 All classes are meant to be applied to the Widget (the wrapper) with the exception of `tpw-selected` which, applied to a "heading" (or multiple headings in the case of an Accordion), will let you arbitrary choose which panel(s) to open by default (the one(s) associated with that/those heading(s)).
 
+### Data attributes
+
+These attributes are meant to make the widget "bookmark-friendly". This means users will be able to bookmark a page, or share a URL, and have the state of the panels saved at the same time .
+
+* `data-tpw-id`: the value of this attribute must be unique
+* `data-tpw-hist`: if the value of this attribute is **push** (i.e. `data-tpw-hist="push"`) then using the browser's forward/back buttons will navigate through the panels as they have been opened and closed by the user.
+
 ### "Variables"
 
 **tabpanelwidget.min.css** is the *output* of **tabpanelwidget.scss**. The latter contains variables that will let you customize the Widget's tabs, its headers, and its panels (their color, background, border, border-radius, padding, margin, etc.).
