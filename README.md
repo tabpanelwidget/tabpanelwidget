@@ -4,7 +4,7 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 
 ## TODO
 
-- [ ] rewrite in typescript?
+- [ ] port to mitosis
 - [ ] split the stylesheet (to create a base + different "skins")
 
 ## TOC
@@ -13,8 +13,6 @@ This module contains the [standalone (vanilla) script](#vanilla), a [Vue compone
 * [Vue](#vue)
 * [React](#react)
 * ["Old School"](#old-school)
-* [ ] [Angular](#angular)
-* [ ] [Ember](#ember)
 * [Usage](#usage)
 * [Development](#development)
 
@@ -154,14 +152,6 @@ Or you may choose to load all files from CDN:
 The above will attach the script to all containers with the class `tpw-widget`.
 
 <small>**Note**: The above examples use version `1.0.0` but you should link to the latest version on CDN</small>
-
-### Angular
-
-Coming soon...
-
-### Ember
-
-Coming soon...
 
 ## Usage
 
