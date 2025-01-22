@@ -195,6 +195,9 @@ function _install(orig, automatic, cb) {
   }
 
   function setSelectedTabIdx(idx, updateHist = true) {
+    if (!spans[idx]) {
+      return
+    }
     if (selectedTabIdx === idx) {
       return
     }
@@ -228,6 +231,9 @@ function _install(orig, automatic, cb) {
   // XXX what is aria-hidden... should we be setting aria-expanded to false instead of removing attribute?
   // ... remove when switch accordion status
   function toggleExpandedIdx(idx, updateHist = true) {
+    if (!hxs[idx]) {
+      return
+    }
     expandedTabIdxs[idx] = !expandedTabIdxs[idx]
     if (expandedTabIdxs[idx]) {
       selectedTabIdx = idx // remember last expanded for converting back to tabpanel
