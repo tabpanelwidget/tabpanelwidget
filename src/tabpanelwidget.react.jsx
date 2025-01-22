@@ -296,7 +296,7 @@ export default class ReactTabpanelwidget extends React.Component {
     let hxClassName = "tpw-hx"
     if (this.state.selectedTabIdx === idx) hxClassName += " tpw-selected"
     return (
-      <CustomHeadingTag key={idx} ref={shadow ? this.shadowHxRefs[idx] : null} className={hxClassName} role="presentation">
+      <CustomHeadingTag key={idx} ref={shadow ? this.shadowHxRefs[idx] : null} className={hxClassName}>
         <span ref={el => this.setSpanEl(idx, el)} id={tabId} className="tpw-tab" role="tab" tabIndex={this.state.selectedTabIdx === idx ? 0 : -1} aria-controls={panelId} aria-selected={this.state.selectedTabIdx === idx} onClick={shadow ? null : () => this.spanClick(idx)} onFocus={shadow ? null : () => this.spanClick(idx)} onKeyDown={shadow ? null : e => this.spanKeyDown(e, idx)}>
           {this.tabs[idx]}
         </span>
