@@ -134,10 +134,10 @@ $padding-tabs: .5rem 1rem .5rem !default; /* padding for tabs */
 $padding-headers: $padding-tabs !default; /* padding for headers */
 $padding-panel: 1rem !default;            /* padding for panels (for both tabpanel and accordion) */
 $color: currentColor !default;            /* color for active tab, non active headers, and "down" icon (accordion) */
-$accentColor: #0367d2 !default;           /* color for non-active tabs and pill's background-color */
-$complimentaryColor: #ffffff !default;    /* color for the pill and border-color for all pills's (via :focus) */
-$backgroundColor: #fff !default;          /* background color for tabs, headers, and panels */
-$borderColor: #ccc !default;              /* border color of tabs, headers, and panel */
+$accentColor: #0367d2 !default;         /* color for non-active tabs and pill's background-color */
+$complimentaryColor: #ffffff !default;  /* color for the pill and border-color for all pills's (via :focus) */
+$backgroundColor: #fff !default;        /* background color for tabs, headers, and panels */
+$borderColor: #ccc !default;            /* border color of tabs, headers, and panel */
 $borderRadius: .25rem !default;           /* for tabs, pills, and panel */
 $fancyYoffset: -.25rem !default;          /* vertical offset of the active tab for the "fancy" tabs skin */
 $fancyXoffset: .05rem !default;           /* horizontal offset to create space between the "fancy" tabs */
@@ -227,16 +227,16 @@ html:not(#tpw-booster) .tpw-hx {
     :FOCUS
     Styling all nested DIVs meant to receive focus (mostly for keyboard navigation)
  */
+ .tpw-js .tpw-shim:focus {
+  box-shadow: none !important;
+}
 .tpw-js .tpw-shim:focus .tpw-panel {
   outline: none;
   box-shadow: $PANEL-boxShadow;
 }
-.tpw-js .tpw-shim:focus {
-  box-shadow: none !important;
-}
 /*
     We remove potential focus styling from rules like [tabindex]:focus
-    We can do this because we are styling the state of these via text-shadow
+    We can do this because we are styling the state of these via pseudo-elements
     We change the cursor so it behaves as if we're dealing with real buttons
 */
 .tpw-header,
@@ -297,6 +297,26 @@ html:not(#tpw-booster) .tpw-hx {
   margin-left: $fancyXoffset;
 }
 /**
+    PSEUDO-ELEMENTS (creation and positioning) TO BE USED IN LIEU OF OUTLINE/FOCUS
+*/
+.tpw-widget.tpw-tabpanel .tpw-selected > span {
+  position: relative;
+}
+html:not(#tpw-booster) .tpw-widget:not(.tpw-bar):not(.tpw-accordion):not(.tpw-pills) .tpw-selected > span::before {
+  content: "";
+  position: absolute;
+  height: 3px;
+  background: #0367d2;
+  inset: -2px -1px;
+}
+.tpw-widget .tpw-tab,
+.tpw-widget .tpw-header {
+  white-space: nowrap;
+  transition-duration: .1s;
+  outline-offset: 0;
+  outline: 4px solid transparent;
+}
+/**
     ACTIVE TAB
     (the one associated to the visible panel)
 */
@@ -328,26 +348,21 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   padding-right: 0; /* reset */
   padding-left: 1rem;
 }
-.tpw-widget.tpw-bar .tpw-selected .tpw-tab {
-  background: transparent;
-}
 .tpw-widget.tpw-bar .tpw-tab {
   border-color: transparent;
   border-style: solid;
   border-width: 1px 1px .2rem;
-  padding-left: 0;
-  padding-right: 0;
-  margin-bottom: 0; /* reset of the margin for when those as styled as tabs */
+  margin-bottom: -1px; /* reset of the margin for when those as styled as tabs */
 }
 .tpw-widget.tpw-bar .tpw-selected .tpw-tab {
-  border-color: transparent transparent $color;
+  background: transparent;
 }
-/**
-    "outline" has been unset so we need to style the active TAB when its gets focus
-    font-weight would create a similar (slightly better) effect but it would also change the layout
-*/
-.tpw-tabpanel .tpw-tab:focus {
-  text-shadow: 0 0 1px currentColor;
+.tpw-widget.tpw-bar .tpw-selected .tpw-tab::before {
+  content: "";
+  position: absolute;
+  height: 3px;
+  background: $accentColor;
+  inset: 100% -1px;
 }
 /**
     PANEL
@@ -360,6 +375,9 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 }
 .tpw-rounded.tpw-tabpanel .tpw-shim:not([hidden]) .tpw-panel {
   border-radius: $borderRadius;
+}
+html:not(#tpw-booster) .tpw-widget.tpw-rounded .tpw-selected > span::before {
+  border-radius: $borderRadius $borderRadius 0 0;
 }
 /*
 :nth-child(3) is the first heading
@@ -425,11 +443,27 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
 .tpw-disconnected .tpw-selected .tpw-header {
   border-radius: $borderRadius $borderRadius 0 0;
 }
-.tpw-accordion .tpw-header:focus {
-  text-shadow: 0 0 1px currentColor;
+/**
+    :FOCUS AND :HOVER
+*/
+.tpw-widget.tpw-accordion .tpw-header:focus,
+.tpw-widget.tpw-accordion .tpw-header:hover {
+  outline-offset: -.3em;
 }
 .tpw-accordion [aria-expanded=true] {
   color: $accentColor;
+}
+.tpw-widget.tpw-pills .tpw-tab:hover,
+.tpw-widget:not(.tpw-pills) .tpw-tab:focus,
+.tpw-widget:not(.tpw-pills) .tpw-header:focus,
+.tpw-widget:not(.tpw-pills) .tpw-tab:hover,
+.tpw-widget:not(.tpw-pills) .tpw-header:hover {
+  outline-offset: -.4em;
+  outline: 2px solid $accentColor;
+  text-shadow: none !important;
+}
+.tpw-widget.tpw-bar .tpw-header:hover {
+  outline-offset: -.55em;
 }
 /**
     PANEL
@@ -559,13 +593,13 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   padding: $PILLS-padding;
   margin-bottom: .3rem;
   text-shadow: none;
-  border: .15rem double transparent;
+  border: .5rem double transparent;
 }
 .tpw-rounded.tpw-tabpanel.tpw-pills .tpw-tab {
   border-radius: $borderRadius;
 }
 .tpw-tabpanel.tpw-pills .tpw-tab:focus {
-  box-shadow: 0 0 0 1px $accentColor;
+  border-color: #fff;
 }
 .tpw-tabpanel.tpw-pills .tpw-shim:not([hidden]) .tpw-panel {
   border: none;
