@@ -311,10 +311,12 @@ html:not(#tpw-booster) .tpw-widget:not(.tpw-bar):not(.tpw-accordion):not(.tpw-pi
 }
 .tpw-widget .tpw-tab,
 .tpw-widget .tpw-header {
-  white-space: nowrap;
   transition-duration: .1s;
   outline-offset: 0;
   outline: 4px solid transparent;
+}
+.tpw-widget .tpw-tab {
+  white-space: nowrap;
 }
 /**
     ACTIVE TAB
