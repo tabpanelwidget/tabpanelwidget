@@ -1,8 +1,12 @@
 # Changelog
 
+## [3.0.1]
+
+- FIXED: don't break accordion headings on long strings
+
 ## [3.0.0]
 
-- ADDED: New CSS rules mostly related to focus state (criterion 1.4)
+- CHANGED: New CSS rules mostly related to focus state (criterion 1.4)
 
 ## [2.0.1]
 
