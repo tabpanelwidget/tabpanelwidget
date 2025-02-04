@@ -2,9 +2,11 @@ PARCEL=node_modules/.bin/parcel
 LOCAL_TPW_JS=tabpanelwidget.vue.js
 
 default: $(LOCAL_TPW_JS)
+	npm i
 	$(PARCEL) --port 1237 index.pug
 
 build: $(LOCAL_TPW_JS)
+	npm i
 	$(PARCEL) build index.pug
 
 # this is because parcel duplicates vue dep in parent dir and causes issues
