@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.2]
+
+- FIXED: Include dist/tabpanelwidget.min.css again
+
+> Was caused by build error from upgrading sass and no pipefail in build:css command, this is now caught
+
 ## [3.0.1]
 
 - FIXED: don't break accordion headings on long strings

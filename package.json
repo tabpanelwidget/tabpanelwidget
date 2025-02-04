@@ -1,7 +1,7 @@
 {
   "name": "tabpanelwidget",
   "type": "module",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "",
   "main": "dist/tabpanelwidget.mjs",
   "exports": {
@@ -13,8 +13,8 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:css && npm run build:js && node scripts/addLicenses.js",
-    "build:css": "sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --output-style compressed --omit-source-map-url | postcss dist/tabpanelwidget.min.css --no-map --use autoprefixer --replace src/tabpanelwidget.scss && mkdir -p dist && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
+    "build": "npm run clean && npm run build:js && npm run build:css && node scripts/addLicenses.js",
+    "build:css": "set -o pipefail && mkdir -p dist && sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --style compressed --no-source-map | postcss dist/tabpanelwidget.min.css --no-map --use autoprefixer --replace src/tabpanelwidget.scss && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "clean": "rm -rf dist",
     "prepare": "npm run build"
