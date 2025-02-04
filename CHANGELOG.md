@@ -4,7 +4,7 @@
 
 - FIXED: Include dist/tabpanelwidget.min.css again
 
-> Was caused by build error from upgrading sass and no pipefail in build:css command, this is now caught
+> Was caused by build error from upgrading sass and no pipefail in build:css command, ~this is now caught~ (fix npm script sh pipefail illegal)
 
 ## [3.0.1]
 

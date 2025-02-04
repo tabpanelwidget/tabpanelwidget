@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:js && npm run build:css && node scripts/addLicenses.js",
-    "build:css": "set -o pipefail && mkdir -p dist && sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --style compressed --no-source-map | postcss dist/tabpanelwidget.min.css --no-map --use autoprefixer --replace src/tabpanelwidget.scss && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
+    "build:css": "mkdir -p dist && sass src/tabpanelwidget.scss dist/tabpanelwidget.min.css --style compressed --no-source-map | postcss dist/tabpanelwidget.min.css --no-map --use autoprefixer --replace src/tabpanelwidget.scss && cp src/tabpanelwidget.scss dist/tabpanelwidget.scss",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "clean": "rm -rf dist",
     "prepare": "npm run build"
