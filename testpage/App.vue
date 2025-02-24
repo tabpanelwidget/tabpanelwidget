@@ -424,7 +424,7 @@ div
 <script>
 import "../src/polyfill"
 import * as Tabpanelwidget from "tabpanelwidget"
-import VueTabpanelwidget from "./tabpanelwidget.vue"
+import VueTabpanelwidget from "../src/tabpanelwidget.vue"
 import VanillaHeadings from "./VanillaHeadings.vue"
 // commenting out here because vuera not quite working + Set usage
 // import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
