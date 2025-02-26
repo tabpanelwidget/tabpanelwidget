@@ -229,10 +229,11 @@ html:not(#tpw-booster) .tpw-hx {
  */
  .tpw-js .tpw-shim:focus {
   box-shadow: none !important;
+  outline: none;
 }
 .tpw-js .tpw-shim:focus .tpw-panel {
-  outline: none;
-  box-shadow: $PANEL-boxShadow;
+  outline: 2px solid $accentColor;
+  outline-offset: -.4em;
 }
 /*
     We remove potential focus styling from rules like [tabindex]:focus
@@ -373,7 +374,6 @@ html:not(#tpw-booster) [dir=rtl].tpw-bar:not(.tpw-accordion) .tpw-hx:not(:last-o
   padding: $padding-panel;
   border: 1px solid $borderColor;
   background-color: $backgroundColor;
-  outline: none;
 }
 .tpw-rounded.tpw-tabpanel .tpw-shim:not([hidden]) .tpw-panel {
   border-radius: $borderRadius;
