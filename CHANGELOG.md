@@ -1,6 +1,10 @@
 # Changelog
 
-## [3.0.2]
+## [3.0.4]
+
+- CHANGED: Replaced box-shadow focus styling with outline
+
+## [3.0.3]
 
 - FIXED: Include dist/tabpanelwidget.min.css again
 
