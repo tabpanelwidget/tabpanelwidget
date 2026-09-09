@@ -1,6 +1,6 @@
 import cp from "child_process"
 // this happens after:bump by release-it so we know the version has been changed
-import pkg from "../package.json" assert {type: "json"}
+import pkg from "../package.json" with {type: "json"}
 
 const distFiles = [
   "tabpanelwidget.min.js",

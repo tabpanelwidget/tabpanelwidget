@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import ReactTabpanelwidget from "../src/tabpanelwidget.react.jsx"
+import "../src/tabpanelwidget.scss"
 
 const jsx1 =
   <ReactTabpanelwidget>

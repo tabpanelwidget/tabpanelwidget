@@ -11,5 +11,9 @@
     "tabpanelwidget": "file:..",
     "vite": "^6.1.1",
     "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "pug": "^3.0.4",
+    "sass": "^1.104.0"
   }
 }

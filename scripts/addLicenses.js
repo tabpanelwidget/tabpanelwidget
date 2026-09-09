@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
-import pkg from "../package.json" assert {type: "json"}
+import pkg from "../package.json" with {type: "json"}
 
 const licenseText = `/*!
  * TABPANELWIDGET v${pkg.version}
