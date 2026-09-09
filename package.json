@@ -2,7 +2,23 @@
   "name": "tabpanelwidget",
   "type": "module",
   "version": "3.0.4",
-  "description": "",
+  "description": "Responsive & versatile all-in-one solution tabpanel and accordion widget",
+  "keywords": [
+    "tabs",
+    "accordion",
+    "tabpanel",
+    "accessibility",
+    "a11y",
+    "aria",
+    "responsive",
+    "vue",
+    "react",
+    "widget"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tabpanelwidget/tabpanelwidget.git"
+  },
   "main": "dist/tabpanelwidget.mjs",
   "exports": {
     ".": "./dist/tabpanelwidget.mjs",
