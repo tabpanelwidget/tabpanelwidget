@@ -1,7 +1,7 @@
 {
   "name": "tabpanelwidget",
   "type": "module",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "Responsive & versatile all-in-one solution tabpanel and accordion widget",
   "keywords": [
     "tabs",
