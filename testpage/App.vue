@@ -28,7 +28,7 @@ div
     p.oh
       label(for="url") Add a Stylesheet
       input#url.input(inputmode="url" type="url" v-model="editCustomStylesheetHref" placeholder="https://example.com/styles.min.css" pattern="https://.*.css" size="30")
-      button(type="button" @click="customStylesheetHref = editCustomStylesheetHref") Insert
+      button(type="button" @click="setCustomStylesheetHref") Insert
 
   #controls
     h2.v-h Controls (options to style the widgets)
@@ -529,6 +529,11 @@ export default {
     },
   },
   methods: {
+    setCustomStylesheetHref() {
+      if (/^https:\/\/[\w.-]+(?:\/[\w.\-\/%]*)*\.css$/i.test(this.editCustomStylesheetHref)) {
+        this.customStylesheetHref = this.editCustomStylesheetHref
+      }
+    },
     async vanillaMount() {
       const widget = this.$refs.vanillaWrapper.querySelector(".tpw-widget")
       const mounted = widget.classList.contains("tpw-js")
